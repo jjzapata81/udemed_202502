@@ -2,6 +2,9 @@ body {
     padding: 0px;
     margin: 0px;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -9,6 +12,7 @@ header {
     margin-bottom: 0px;
     color: white;
     padding: 3px;
+    text-align: center;
 }
 
 h2 {
@@ -16,22 +20,36 @@ h2 {
 }
 
 h3 {
+    margin-top: 5px;
     font-size: 20px;
 }
 
 main {
-    justify-items: center;
-    border-style: solid;
-    border-color: rgb(194, 103, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: 100%;
+    box-sizing: border-box;
+    flex-grow: 1;
+}
+
+.menu {
+    border: solid rgb(194, 103, 255);
     border-radius: 10px;
-    margin-top: 30px;
-    display: grid;
-    padding-bottom: 20px;
-    max-width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 🔽 Esto alinea el contenido hacia abajo */
+    align-items: center;
+    padding: 45px;
+    height: 350px; /* o el alto que tú desees */
+    box-sizing: border-box;
 }
 
 a {
     text-decoration: none;
+    text-align: center;
     color: black;
     padding: 8px;
     border-radius: 10px;
@@ -53,7 +71,6 @@ input {
 
 footer {
     background-color: blueviolet;
-    margin-top: 100px;
     color: white;
     padding: 30px;
     display: flex;
