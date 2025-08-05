@@ -13,19 +13,21 @@ header{
     font-size: 30px;
     padding: 25px;
     font-weight: 900;
+    display:flex;
+    justify-content:space-between;
+    border-radius: 15px;
 }
 
 a {
-    display: inline-block; /* Necesario para que funcione margin-bottom */
-    background-color: #ffb703;
     color: white;
     text-decoration: none;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px; /* Ajusta el espacio que desees */
+
 }
 
+.carrusel { 
+    display:flex;
+    justify-content: space-around;
+}
 
 footer{
     margin-top: 100px;
@@ -35,4 +37,20 @@ footer{
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.galeria img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
 }
