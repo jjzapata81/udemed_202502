@@ -1,52 +1,79 @@
-<html>
-
-<head></head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
 
 <body>
+    <header class="header">
+        <div class="header-content">
+            <h1>InstaPIC</h1>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active">Inicio</a>
+                <a href="#" class="nav-link">Perfil</a>
+                <a href="#" class="nav-link">Buscar</a>
+                <a href="#" class="nav-link">Subir</a>
+            </nav>
+            <a href="index.html">
+                <button class="btn btn-secondary">Cerrar sesión</button>
+            </a>
+        </div>
+    </header>
 
-  <head>
-    <p>InstaPIC</p>
-    <div>
-      <p>Inicio</p>
-      <p>Perfil</p>
-      <p>Buscar</p>
-      <p>Subir</p>
-    </div>
-    <div>Cerrar sesión</div>
-  </head>
-  <main>
-    <div>
-      <div>
-        <img src="defautl_image.jpg" />
-        Juan Pérez
-      </div>
-      <div>
-        <div>
-          <p>20</p>
-          <p>Posts</p>
+    <main class="main-content">
+        <div class="profile-section">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="../assets/defautl_image.jpg" alt="Foto de perfil de Juan Pérez" />
+                    <h2>Juan Pérez</h2>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <p class="stat-number">20</p>
+                        <p class="stat-label">Posts</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-number">20</p>
+                        <p class="stat-label">Seguidores</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-number">20</p>
+                        <p class="stat-label">Solicitudes</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-          <p>20</p>
-          <p>seguidores</p>
+
+        <div class="gallery-section">
+            <div class="image-gallery">
+                <div class="gallery-item">
+                    <img src="../assets/gnu-linux.jpg" alt="Imagen de GNU Linux" />
+                </div>
+                <div class="gallery-item">
+                    <img src="../assets/gnu-linux.jpg" alt="Imagen de GNU Linux" />
+                </div>
+                <div class="gallery-item">
+                    <img src="../assets/gnu-linux.jpg" alt="Imagen de GNU Linux" />
+                </div>
+                <div class="gallery-item">
+                    <img src="../assets/gnu-linux.jpg" alt="Imagen de GNU Linux" />
+                </div>
+            </div>
         </div>
-        <div>
-          <p>20</p>
-          <p>Solicitudes</p>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Instagram</a>
+                <a href="#" class="social-link">WhatsApp</a>
+            </div>
         </div>
-      </div>
-    </div>
-    <div>
-      <img src="gnu-linux.jpg" />
-      <img src="gnu-linux.jpg" />
-      <img src="gnu-linux.jpg" />
-      <img src="gnu-linux.jpg" />
-    </div>
-  </main>
-  <footer>
-    <div>facebook</div>
-    <div>instagram</div>
-    <div>whatsapp</div>
-  </footer>
+    </footer>
 </body>
-
 </html>
