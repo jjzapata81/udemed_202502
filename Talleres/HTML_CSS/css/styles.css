@@ -40,10 +40,10 @@ main {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* 🔽 Esto alinea el contenido hacia abajo */
+    justify-content: flex-end;
     align-items: center;
     padding: 45px;
-    height: 350px; /* o el alto que tú desees */
+    height: 350px; 
     box-sizing: border-box;
 }
 
@@ -76,8 +76,84 @@ footer {
     display: flex;
     justify-content: space-around;
 }
+.h3Profile {
+    font-size: 40px;
+    margin-block-start: 0px !important;
+    margin-block-end: 0px !important;
+}
+
+.profileImg {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
 
 .icons {
     width: 50px;
     height: auto;
+}
+
+.topnav {
+    display: flex;
+    justify-content: space-between;
+    background-color: blueviolet;
+    padding: 10px;
+    align-items: center;
+}
+
+.options {
+    display: flex;
+    justify-content: space-around;
+    background-color: blueviolet;
+    align-items: center;
+}
+
+.options h5 {
+    margin: 20px;
+}
+
+.options a {
+    color: white;
+    border: none;
+    width: auto;
+}
+
+.characteristics {
+    display: flex;
+    margin: 30px;
+    padding: 40px;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    border: solid rgb(194, 103, 255);
+}
+
+.topnavProfile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    
+}
+
+.imgProfile {
+    width: 180px;
+    height: 180px;
+    margin: 5px;
+}
+
+.signUp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    flex-grow: 1;
+    border: solid rgb(194, 103, 255);
+    width: 25rem;
+    height: auto;
+    margin: 50px;
+    border-radius: 10px;
+
 }
