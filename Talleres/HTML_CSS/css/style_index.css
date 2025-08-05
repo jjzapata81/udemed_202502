@@ -1,0 +1,99 @@
+*{
+    padding:0%;
+    margin: 0%;
+    }
+    
+    header{
+    font-family: 'Courier New';;
+    background-color: rgb(21, 119, 126);
+    color: white;
+    padding: 30px 0px 30px 0px;
+    font-size: 20px;
+    text-align: center;
+    }
+    
+    .form{position: absolute;
+    top: 23%;
+    left: 40%;
+    width: 400px;
+    height: 430px;
+    border: solid;
+    border-radius: 7%;}
+    
+    .form h2{position: absolute;
+    top: 10%;
+    left: 24%;
+    font-family: 'Courier New';
+    color: rgb(23, 52, 54);
+    font-weight: bold;}
+    
+    .form label {
+      position: relative;
+      top: 20%;
+      display: block;
+      font-family: 'Courier New';
+      color: rgb(21, 119, 126);
+      margin-top: 7px;
+      margin-left: 15%;
+    }
+    
+    .form input {
+      position: relative;
+      top: 20%;
+      display: block;
+      width: 70%;
+      height: 35px;
+      margin-top: 7px;
+      margin-left: 15%;
+      border: solid;
+      border-radius: 7px;
+      border-color: rgb(21, 119, 126);
+      font-family: 'Courier New';
+      padding-left: 5px;
+    }
+    
+    .btnRegistrarse{position: absolute;
+    top: 63%;
+    left: 15%;
+    border: solid;
+    border-radius: 7px;
+    font-family: 'Courier New';
+    color: rgb(255, 174, 0);
+    padding: 6px 5px;
+    width: 270px;
+    height: 25px;
+    text-decoration: None;
+    text-align: center;}
+    
+    .btnIngresar{position: absolute;
+    top: 78%;
+    left: 15%;
+    border: solid;
+    border-radius: 7px;
+    font-family: 'Courier New';
+    color: rgb(255, 0, 0);
+    padding: 6px 5px;
+    width: 270px;
+    height: 25px;
+    text-decoration: None;
+    text-align: center;}
+    
+    footer{
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    text-align: center;
+    font: sans-serif;
+    background-color:rgb(21, 119, 126);
+    color: white;
+    padding: 30px 0px 30px 0px;
+    font-size: 20px;
+    justify-content: space-between;
+    }
+    
+    footer div{
+    display: inline;
+    text-align: center;
+    }
+    
+    footer div img{width: 50px;}
