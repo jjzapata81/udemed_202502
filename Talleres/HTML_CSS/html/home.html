@@ -3,36 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <h1>InstaPIC</h1>
-    Inicio
-    Perfil
-    Buscar
-    Subir
-    Cerrar Sesión
-
-    <br>
-    <br>
-    <br>
-
-    <div class="container-perfil">
-        <img src="photo.png" width="100" height="100" alt="Foto de perfil">
-        20 Posts
-        150 Seguidores
-        35 Solicitudes
-        <h3>Juan Perez</h3>
+    <div class="header-home">
+        <div class="navbar">
+            <h1>InstaPIC</h1>
+            <a class="a-home" href="home.html">Inicio</a>
+            <a class="a-home" href="profile.html">Perfil</a>
+            <a class="a-home" href="search.html">Buscar</a>
+            <a class="a-home" href="upload.html">Subir</a>
+        </div>
+        <div class="cerrar-sesion">
+            <a class="a-home-cerrar-sesion" href="index.html">Cerrar Sesión</a>
+        </div>
     </div>
 
-    <div class="container-imagenes">
-        <img src="img1.jpg" width="350" height="200" alt="Imagen 1">
-        <img src="img2.jpg" width="350" height="200" alt="Imagen 2">
-        <img src="img3.jpg" width="350" height="200" alt="Imagen 3">
+    <br>
+    <br>
+    <br>
+
+
+    <div class="container-home">
+        <div class="container-perfil">
+            <div class="usuario">
+                <img src="../media/photo.png" width="100" height="100" alt="Foto de perfil">
+                <h3>Juan Perez</h3>
+            </div>
+            <div class="posts">
+                <h2 class="h2">20</h2>
+                <p>Posts</p>
+            </div>
+            <div class="seguidores">
+                <h2 class="h2">150</h2>
+                <p>Seguidores</p>
+            </div>
+            <div class="solicitudes">
+                <h2 class="h2">35</h2>
+                <p>Solicitudes</p>
+            </div>
+        </div>
+    
+        <div class="container-imagenes">
+            <img src="../media/img1.jpg" width="350" height="200" alt="Imagen 1">
+            <img src="../media/img2.jpg" width="350" height="200" alt="Imagen 2">
+            <img src="../media/img3.jpg" width="350" height="200" alt="Imagen 3">
+        </div>
     </div>
 
-    <div>facebook</div>
-    <div>instagram</div>
-    <div>whatsapp</div>
+    <div class="footer">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-whatsapp"></i>
+    </div>
 </body>
 </html>
