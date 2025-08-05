@@ -4,24 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ejercicio 1</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <head>
-        <h1>InstaPIC</h1>
-    </head>
+    <header class="header">
+        InstaPIC
+    </header>
     <main>
-        <section>Iniciar sesión</section>
-        <form>
-            <input type="text" placeholder="Nombre de usuario" required>
-            <input type="password" placeholder="Contraseña" required>
-            <a href="home.html">Ingresar</a>
-            <a href="singUp.html">Registrarse</a>
-        </form>
+        <section class="login-section">
+            <h2>INICIO DE SESIÓN</h2>
+            
+            <form class="login-form">
+                <div class="username-container">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" required>
+                </div>
+
+                <div class="password-container">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" required>
+                </div>
+                
+
+                <a href="home.html" class="first-btn">Ingresar</a>
+                <a href="singUp.html" class="second-btn">Registrarse</a>
+            </form>
+        </section>
+        
     </main>
     <footer>
-        <div>facebook</div>
-        <div>Instagram</div>
-        <div>Whatsapp</div>
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-whatsapp"></i>
     </footer>
 </body>
 </html>

@@ -4,32 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ejercicio 1</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <head>
-        <div>
+    <header class="header-home">
+        <div class="header-title">
             <h1>InstaPIC</h1>
-            <a href="index.html">Cerrar sesion</a>
+            <label>Inicio</label>
+            <label>Perfil</label>
+            <label>Buscar</label>
+            <label>Subir</label>
         </div>
-    </head>
+        <div class="header-user">
+            <a class="cerrar-sesion" href="index.html">Cerrar sesion</a>
+        </div>
+    </header>
     <main>
+        <div class="container-home">
+            <div class="container-perfil">
+                <div class="usuario">
+                    <img src="../Images/Usuario.jpeg" width="80" height="80">
+                    <p>Juan Perez</p>
+                </div>
+                <div class="posts">
+                    <h2 class="h2">20</h2>
+                    <p>Posts</p>
+                </div>
+                <div class="seguidores">
+                    <h2 class="h2">150</h2>
+                    <p>Seguidores</p>
+                </div>
+                <div class="solicitudes">
+                    <h2 class="h2">35</h2>
+                    <p>Solicitudes</p>
+                </div>
+            </div>
+        </div>
         <section>
-            <img src="../Images/Usuario.jpeg" alt="Andino Forest" width="200">
-            20 posts
-            150 Seguidores
-            35 Solicitudes
-        </section>
-        <section>
-            <img src="../Images/OIP.jpeg" alt="Andino Forest" width="200">
-            <img src="../Images/paisajeDos.jpeg" alt="Humid Forest" width="200">
-            <img src="../Images/PaisajeTres.jpeg" alt="Andino Forest" width="200">
-            <img src="../Images/PaisajeCuatro.jpeg" alt="Humid Forest" width="200">
+            <div class="image-section1">
+                <img src="../Images/OIP.jpeg" alt="Andino Forest" width="180">
+                <img src="../Images/paisajeDos.jpeg" alt="Humid Forest" width="200">
+                <img src="../Images/PaisajeCuatro.jpeg" alt="Andino Forest" width="200">
+            </div>
         </section>
     </main>
     <footer>
-        <div>facebook</div>
-        <div>Instagram</div>
-        <div>Whatsapp</div>
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-whatsapp"></i>
     </footer>
 </body>
 </html>
