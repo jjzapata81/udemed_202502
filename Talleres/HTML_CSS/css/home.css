@@ -34,7 +34,7 @@
     border: 2px solid rgb(115, 186, 252, 0.95);
     border-radius: 10px;
     padding: 1rem;
-    width: 50%;
+    width: 80%;
 }
 
 .profile-header {
@@ -91,7 +91,7 @@
 
 .gallery-section {
     padding: 1rem;
-    width: 80%;
+    width: 70%;
 }
 
 .image-gallery {
