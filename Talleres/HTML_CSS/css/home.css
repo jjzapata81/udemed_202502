@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #023047;
+    background-color: #f8f9fa;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #FFF;
+    background: #219ebc;
+    font-size: 30px;
+    padding: 25px;
+    font-weight: 900;
+}
+
+.navegador1{
+     color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+}
+
+#cerrar_sesion{
+    color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+}
+
+main{
+    flex: 1;
+}
+
+
+section{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #999;
+    border-radius: 15px;
+    padding: 30px;
+    background-color: white;
+}
+
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+input{
+    margin: 10px 0 5px;
+    padding: 8px;    
+    border-radius: 6px;
+}
+
+
+
+a {
+    background-color: #fff3e0;
+    color: #ff6f00;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 5px;
+}
+
+#primary{
+    background-color:#fff3e0 ;
+    color: red;
+}
+
+footer{
+    background-color: #023047;
+    color: #FFF;
+    padding: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+footer>i{
+    font-size: 35px;
+}
