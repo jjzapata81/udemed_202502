@@ -20,6 +20,20 @@ header {
     width: 100%;
 }
 
+.home-header{
+    background:  #023047;
+    color: white;
+    padding: 15px;
+    font-size: 15px;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
 main {
     flex: 1;
     display: flex;
@@ -27,7 +41,7 @@ main {
     align-items: center;
     }
 
-.container {
+.form-container {
     margin-top: 50px; 
     display: flex;
     flex-direction: column;
@@ -38,10 +52,28 @@ main {
     background-color: #fff; 
 }
 
+.home-container {
+    margin-top: 50px; 
+    display: flex;
+    flex-direction:row;
+    align-items:center;
+    border: 2px solid #ccc; 
+    border-radius: 10px; 
+    padding: 20px 40px; 
+    background-color: #fff; 
+}
 
+
+.info{
+    text-align: left;
+    padding: 10px;
+    color: rgb(127, 159, 255);
+    
+}
 
 .login form {
-    text-align: center;
+        text-align: left;
+        padding: 10px;
 }
 
 .buttons {
@@ -72,6 +104,17 @@ main {
     cursor: pointer;
 }
 
+.btn-logout {
+    font-family: Verdana, Tahoma, sans-serif;
+    background-color: white;
+    border-style: groove;
+    border-color: #f34e38;
+    color: #f34e38;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 .titles {
     font-size: 28px;
     margin-bottom: 20px;
@@ -87,4 +130,8 @@ footer{
     font-size: 14px;
     align-items: center;
     justify-content: space-around;
+}
+
+footer>i{
+    font-size: 35px;
 }
