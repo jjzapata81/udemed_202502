@@ -1,9 +1,13 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Ubuntu", Arial, Helvetica, sans-serif;
     color: #023047;
     background-color: #f8f9fa;
     padding: 0px;
     margin: 0px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
 }
 
 header{
@@ -14,18 +18,53 @@ header{
     padding: 25px;
     font-weight: 900;
 }
-
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+}
+input{
+    border: 2px solid #ffb703;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+i{
+    font-size: 50px;
+}
 a {
-    display: inline-block; /* Necesario para que funcione margin-bottom */
-    background-color: #ffb703;
-    color: white;
+    display: inline-block; 
+    background-color: transparent;
+    border: 2px solid #ffb703;
+    color: #ffb703;
     text-decoration: none;
     padding: 5px;
     border-radius: 5px;
     margin-top: 10px;
-    margin-bottom: 10px; /* Ajusta el espacio que desees */
+    margin-bottom: 10px; 
+    text-align: center;
 }
 
+.login{
+    text-align: center;
+    font-weight:bolder;
+    color: blue;
+}
+section{
+    display: flex;
+    flex-direction: column;
+    color: #ffb703;
+    border: 2px solid #ffb703;
+    padding: 20px ; 
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
 footer{
     margin-top: 100px;
