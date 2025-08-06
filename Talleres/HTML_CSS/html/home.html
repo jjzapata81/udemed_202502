@@ -3,24 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <button>Inicio</button>
-        <button>Perfil</button>
-        <button>Buscar</button>
-        <button>Subir</button>
-        <button onclick="window.location.href='index.html'">Cerrar sesión</button>
-    </nav>
+    <div class="header">
+        <span class="logo">InstaPIC</span>
+        <span class="nav">Inicio&nbsp;    Perfil&nbsp;   Buscar&nbsp;   Subir</span>
+        <span class="logout" onclick="window.location.href='index.html'" style="cursor:pointer;">Cerrar sesión</span>
+    </div>
     <div class="profile-box">
-        <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-image">
-        <div class="profile-name">Nombre de Usuario:Juan Perez</div>
-        <div class="profile-stats">
-            <span>Seguidores:40</span>
-            <span>Seguidos:30</span>
-            <span>Solicitudes:35</span>
+        <div class="profile-user">
+            <i class="fa-regular fa-user"></i>
+            <div class="profile-name">Juan Pérez</div>
         </div>
+        <div class="profile-stats">
+            <div>
+                <div class="stat-num">20</div>
+                <div class="stat-label">Posts</div>
+            </div>
+            <div>
+                <div class="stat-num">150</div>
+                <div class="stat-label">Seguidores</div>
+            </div>
+            <div>
+                <div class="stat-num">35</div>
+                <div class="stat-label">Solicitudes</div>
+            </div>
+        </div>
+    </div>
+    <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80">
+        <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=400&q=80">
+        <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=400&q=80">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80">
+    </div>
+    <div style="height: 60px;"></div>
+    <div class="footer">
+      <div class="footer-icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-whatsapp"></i>
+      </div>
     </div>
 </body>
 </html>
