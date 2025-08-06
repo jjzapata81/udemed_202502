@@ -1,0 +1,37 @@
+header{
+    font-family: 'Courier New';;
+    background-color: rgb(21, 119, 126);
+    color: white;
+    padding: 50px 0px 50px 0px;
+    justify-content: center;
+    font-size: 20px;
+    display: flex;
+    gap: 60px;
+}
+
+header h1{
+    display: block;
+    margin-left: 80px;
+    width: 100%;
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font: sans-serif;
+    background-color:rgb(21, 119, 126);
+    color: white;
+    padding: 30px 0px 30px 0px;
+    font-size: 20px;
+    justify-content: space-between;
+}
+
+footer div{
+    display: inline;
+    text-align: center;
+}
+
+footer div img{width: 50px;}
