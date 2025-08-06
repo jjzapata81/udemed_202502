@@ -6,29 +6,103 @@ body {
     margin: 0px;
 }
 
-header{
+/* Encabezado */
+header {
     color: #FFF;
     background: #219ebc;
     text-align: center;
     font-size: 30px;
     padding: 25px;
     font-weight: 900;
+    border-radius: 0 0 20px 20px;
 }
 
-a {
-    background-color: #ffb703;
-    color: white;
-    text-decoration: none;
-    padding: 5px;
+/* Caja de login */
+.login-box {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    text-align: center;
+    background-color: white;
+}
+
+/* Título del formulario */
+.login-box .login-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Etiquetas */
+label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Campos de texto */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 2px solid #219ebc;
     border-radius: 5px;
 }
 
-footer{
-    margin-top: 100px;
+/* Botón Ingresar */
+.btn-login {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #ffb703;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Botón Registrarse */
+.btn-register {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    background-color: white;
+    color: red;
+    border: 2px solid red;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
     background-color: #023047;
     color: #FFF;
-    padding: 38px;
+    padding: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 30px;
+    border-radius: 20px 20px 0 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Íconos en el footer */
+footer a {
+    color: white;
+    font-size: 1.5em;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ffcc00;
 }
