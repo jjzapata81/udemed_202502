@@ -1,0 +1,107 @@
+header {
+background-color: #007C91;
+color: white;
+padding: 20px;
+text-align: center;
+font-size: 24px;
+font-weight: bold;
+border-radius: 0 0 20px 20px;
+}
+
+main {
+flex-grow: 1;
+flex-direction: column;
+display: flex;
+gap: 20px;  
+justify-content: center;
+align-items: center;
+padding: 40px 0;
+
+}
+
+
+section {
+border: 2px solid #999;
+border-radius: 20px;
+padding: 30px;
+width: 300px;
+text-align: center;
+}
+
+section.perfil,
+section.images{
+width: fit-content;
+margin: 20px auto;
+padding: 20px;
+border: 2px solid #ccc;
+border-radius: 15px;
+box-shadow: 2px 2px 8px;
+background-color: white;
+}
+
+
+section.perfil>div {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+section.perfil>div>div:last-child {
+display: flex;
+gap: 30px;
+}
+
+section.images {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 20px;
+justify-items: center;
+}
+
+section.images> div > img{
+width:250px;
+height:250px;
+}
+
+section.perfil> div > img{
+width:100px;
+height:100px; 
+}
+
+button {
+width: 95%;
+padding: 10px;
+margin-bottom: 12px;
+border-radius: 5px;
+font-weight: bold;
+cursor: pointer;
+border: 2px solid transparent;
+}
+
+button[type="button"] {
+background-color: white;
+border: 2px solid #000;
+color: #007C91;
+width: 200px;
+}
+
+button[type="button"].cerrar_sesion {
+background-color: red;
+color:#000
+}
+
+
+footer {
+background-color: #007C91;
+padding: 15px;
+display: flex;
+justify-content: center;
+gap: 40px;
+border-radius: 20px 20px 0 0;
+}
+
+footer img {
+width: 50px;
+height: 50px;
+}
+

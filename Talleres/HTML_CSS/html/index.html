@@ -1,33 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>InstaPIC - Inicio de Sesión</title>
+    <link rel="stylesheet" href="../css/style_cuestionarios.css">
 </head>
 <body>
-    <div class="block">
-        <h1>InstaPIC</h1>
-    </div>
 
-    <div>
-        <h2>Inicio de sesion</h2>
-        <form action="get information">
-            <label for="usuario">Usuario</label>
-            <textarea class="barra dentro" cols="10" rows="10"></textarea>
-            <label for="contraseña">contraseña</label>
-            <textarea class="barra dentro" cols="10" rows="10"></textarea>
-            <button>Ingresar</button>
-            <button>Registrarse</button>
-        </form>
-        <footer>
-            <div class="block">
-                <img src="udemed_202502\Talleres\HTML_CSS\html\Capture.PNG" alt="Descripción de la imagen">
-                <img src="udemed_202502\Talleres\HTML_CSS\html\Capture_2.PNG" alt="Descripción de la imagen">
-                <img src="udemed_202502\Talleres\HTML_CSS\html\Capture_3.PNG" alt="Descripción de la imagen">
-            </div>
-        </footer>
+<header>
+    <div class="block">
+    <h1>InstaPIC</h1>
     </div>
+</header>
+
+<main>
+    <section>
+    <h2>Inicio de sesión</h2>
+    <form action="get_information" method="POST">
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario" name="usuario" class="barra dentro" required>
+
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" name="contrasena" class="barra dentro" required>
+
+        <button type="submit" onclick="window.location.href='home.html'" >Ingresar</button>
+        <button type="button" onclick="window.location.href='registro.html'">Registrarse</button>
+    </form>
+    </section>
+</main>
+
+<footer>
+    <div class="block">
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" width="20" alt="Facebook"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20" alt="Instagram"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" alt="Twitter"></a>
+    </div>
+</footer>
+
 </body>
 </html>

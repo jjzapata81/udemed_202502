@@ -3,37 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>InstaPIC - Perfil</title>
+    <link rel="stylesheet" href="../css/style_home.css">
 </head>
 <body>
 
+<header>
     <h1>InstaPIC</h1>
-    <p>
-        <a href="#">Inicio</a> |
-        <a href="#">Perfil</a> |
-        <a href="#">Buscar</a> |
-        <a href="#">Subir</a> |
-        <a href="#">Cerrar sesión</a>
-    </p>
+    <button type="button">Inicio</button>
+    <button type="button">Perfil</button>
+    <button type="button">Buscar</button>
+    <button type="button">Subir</button>
+    <button type="button" class="cerrar_sesion" onclick="window.location.href='index.html'">Cerrar sesión</button>
+</header>
 
+<main>
+    <section class="perfil">
+    <div>
+        <div>
+        <div>
+            <img src="../images/npc.jpeg" alt="avatar">
+        <h2>Juan Pérez</h2>
+        </div>
+        
+        <div>
+            <strong>20</strong>
+            <p>Posts</p>
+        </div>
+        <div>
+            <strong>150</strong>
+            <p>Seguidores</p>
+        </div>
+        <div>
+            <strong>35</strong>
+            <p>Solicitudes</p>
+        </div>
+        </div>
+    </div>
+    </section>
 
-    <h2>Juan Pérez</h2>
-    <p><strong>Posts:</strong> 20</p>
-    <p><strong>Seguidores:</strong> 150</p>
-    <p><strong>Solicitudes:</strong> 35</p>
+    <section class="images">
+    <div> <img src="../images/descarga1.jpeg" alt="paisaje 1" width="300"> </div>
+    <div><img src="../images/descarga2.jpeg" alt="paisaje 2" width="300"> </div>
+    <div><img src="../images/descarga3.jpeg" alt="paisaje 3" width="300"> </div>
+    <div><img src="../images/images.jpeg" alt="paisaje" width="300"> </div>
+    </section>
+</main>
 
-
-    <h3>Fotos</h3>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Volc%C3%A1n_de_Agua_Guatemala.jpg" width="200"><br>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Tour_Eiffel_Wikimedia_Commons.jpg" width="200"><br>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Eiffel_Tower_from_Pont_de_Bir-Hakeim_2014.jpg" width="200"><br>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Waikiki_Beach_Honolulu.jpg" width="200"><br>
-
-    <p>
-        Redes sociales:
-        <img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" width="20">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20">
-    </p>
+<footer>
+    <div class="block">
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" width="20" alt="Facebook"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20" alt="Instagram"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" alt="Twitter"></a>
+    </div>
+</footer>
 
 </body>
 </html>
