@@ -1,0 +1,81 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+section {
+    display: flex;
+    justify-content: space-around;
+    background-color: #001f33;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 30px;
+    width: 45rem !important;
+    
+}
+
+img {
+    width: 100px;
+    height: auto;
+    margin: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: black;
+    font-family:sans-serif;
+    font-size: 3rem;
+}
+
+.PlayerName {
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.PlayerData {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.attackButton {
+    background-color: #a40000;
+    color: white;
+    border: none;
+    width: 8rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.defendButton {
+    background-color: #0f5fd7;
+    color: white;
+    border: none;
+    width: 8rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.healthSection {
+    width: 150px;
+    height: 20px;
+    background-color: #555;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.healthBar {
+    height: 100%;
+    width: 100%;
+    background-color: green;
+    transition: width 0.3s ease;
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>juego</title>
+    <link rel="stylesheet" href="./../css/styles.css"/>
+</head>
+<body>
+    <header>
+            <h1 id="turn">Turno de </h1>
+    </header>
+    <main>
+        <section>
+            <div class="PlayerData">
+                <p id="name1" class="PlayerName"> Jugador 1 </p>
+                <div class="healthSection">
+                    <div id="healthBar1" class="healthBar"></div>
+                </div>
+                <img src="dracula.png" alt="dracula"/>
+                <button id="attackButton1" class="attackButton" onclick="attack(1)">
+                    Atacar
+                </button>
+                <button id="defendButton1" class="defendButton" onclick="defend(1)">
+                    Defender
+                </button>
+            </div>
+            <div class="PlayerData">
+                <p id="name2" class="PlayerName"> Jugador 2 </p>
+                <div class="healthSection">
+                    <div id="healthBar2" class="healthBar"></div>
+                </div>
+                <img src="frankenstein.png" alt="frankenstein"/>
+                <button id="attackButton2" class="attackButton" onclick="attack(2)">
+                    Atacar
+                </button>
+                <button id="defendButton2" class="defendButton" onclick="defend(2)">
+                    Defender
+                </button>
+            </div>
+        </section>
+    </main>
+    <script>
+        let turn = 1;
+        
+        let player1 = {
+            name: '',
+            health: 100,
+            defend: false,
+            continue: false,
+        }
+        let player2 = {
+            name: '',
+            health: 100,
+            defend: false,
+            continue: false,
+        }
+
+        // player1.name = prompt('Ingrese el nombre del jugador 1')
+        // player2.name = prompt('Ingrese el nombre del jugador 2')
+
+        player1.name = 'Drácula';
+        player2.name = 'Frankenstein';
+
+        document.getElementById("name1").textContent = player1.name;
+        document.getElementById("name2").textContent = player2.name;
+
+        document.getElementById("turn").textContent = "Turno de " + player1.name;
+        document.getElementById("attackButton2").disabled = true;
+        document.getElementById("defendButton2").disabled = true;
+        document.getElementById("attackButton2").style.backgroundColor = "grey";
+        document.getElementById("defendButton2").style.backgroundColor = "grey";
+        document.getElementById("attackButton2").style.cursor = "not-allowed";
+        document.getElementById("defendButton2").style.cursor = "not-allowed";
+        document.getElementById("attackButton1").disabled = false;
+        document.getElementById("defendButton1").disabled = false;
+
+
+        function attack(player) {
+            if (player == 1) {
+                if (player2.defend) {
+                    alert(player2.name + " se ha defendido del ataque de " + player1.name + ". No se ha perdido salud.");
+                    player2.defend = false;
+                } else {
+                    if (player2.health == 10) {
+                        player2.health -= 10;
+                        updateHealthBar(2);
+                        alert(player1.name + " ha atacado a " + player2.name + ". Salud restante de " + player2.name + ": " + player2.health);
+                        alert(player1.name + " ha ganado el juego!");
+                        document.getElementById("turn").textContent = player1.name + " ha ganado el juego!";
+                        document.getElementById("attackButton1").disabled = true;
+                        document.getElementById("defendButton1").disabled = true;
+                        document.getElementById("attackButton2").disabled = true;
+                        document.getElementById("defendButton2").disabled = true;
+                        document.getElementById("attackButton1").style.backgroundColor = "grey";
+                        document.getElementById("defendButton1").style.backgroundColor = "grey";
+                        document.getElementById("attackButton2").style.backgroundColor = "grey";
+                        document.getElementById("defendButton2").style.backgroundColor = "grey";
+                        document.getElementById("attackButton1").style.cursor = "not-allowed";
+                        document.getElementById("defendButton1").style.cursor = "not-allowed";
+                        document.getElementById("attackButton2").style.cursor = "not-allowed";
+                        document.getElementById("defendButton2").style.cursor = "not-allowed";
+                        return;
+                    }
+                    player2.health -= 10;
+                    updateHealthBar(2);
+                    alert(player1.name + " ha atacado a " + player2.name + ". Salud restante de " + player2.name + ": " + player2.health);
+                }
+
+                if (player1.continue) {
+                    player1.continue = false;
+                }
+
+                turn = 2;
+                
+            } else {
+                if(player1.defend) {
+                    alert(player1.name + " se ha defendido del ataque de " + player2.name + ". No se ha perdido salud.");
+                    player1.defend = false;
+                } else {
+                    if (player1.health == 10) {
+                        player1.health -= 10;
+                        updateHealthBar(1);
+                        updateTurn();
+                        alert(player2.name + " ha atacado a " + player1.name + ". Salud restante de " + player1.name + ": " + player1.health);
+                        alert(player2.name + " ha ganado el juego!");
+                        document.getElementById("turn").textContent = player2.name + " ha ganado el juego!";
+                        document.getElementById("attackButton1").disabled = true;
+                        document.getElementById("defendButton1").disabled = true;
+                        document.getElementById("attackButton2").disabled = true;
+                        document.getElementById("defendButton2").disabled = true;
+                        document.getElementById("attackButton1").style.backgroundColor = "grey";
+                        document.getElementById("defendButton1").style.backgroundColor = "grey";
+                        document.getElementById("attackButton2").style.backgroundColor = "grey";
+                        document.getElementById("defendButton2").style.backgroundColor = "grey";
+                        document.getElementById("attackButton1").style.cursor = "not-allowed";
+                        document.getElementById("defendButton1").style.cursor = "not-allowed";
+                        document.getElementById("attackButton2").style.cursor = "not-allowed";
+                        document.getElementById("defendButton2").style.cursor = "not-allowed";
+                        return;
+                    }
+                    player1.health -= 10;
+                    updateHealthBar(1);
+                    alert(player2.name + " ha atacado a " + player1.name + ". Salud restante de " + player1.name + ": " + player1.health);  
+                }
+
+                if (player2.continue) {
+                    player2.continue = false;
+                }
+
+                turn = 1;
+            }
+            updateTurn();
+        }
+
+        function defend(player) {
+            if (player == 1 && !player1.continue) {
+                player1.defend = true;
+                player1.continue = true;
+                alert(player1.name + " se ha defendido. No perderá salud en el próximo ataque.");
+                turn = 2;
+            } else if (player == 2 && !player2.continue) {
+                player2.defend = true;
+                player2.continue = true;
+                alert(player2.name + " se ha defendido. No perderá salud en el próximo ataque.");
+                turn = 1;
+            } else {
+                alert("Ya has usado tu defensa en el anterior turno. No puedes defenderte de nuevo.");
+            }
+            updateTurn();
+        }
+
+        function updateTurn() {
+            if (turn == 1) {
+                document.getElementById("turn").textContent = "Turno de " + player1.name;
+
+                document.getElementById("attackButton2").disabled = true;
+                document.getElementById("defendButton2").disabled = true;
+                document.getElementById("attackButton2").style.backgroundColor = "grey";
+                document.getElementById("defendButton2").style.backgroundColor = "grey";
+                document.getElementById("attackButton2").style.cursor = "not-allowed";
+                document.getElementById("defendButton2").style.cursor = "not-allowed";
+
+                document.getElementById("attackButton1").disabled = false;
+                document.getElementById("defendButton1").disabled = false;
+                document.getElementById("attackButton1").style.backgroundColor = "";
+                document.getElementById("defendButton1").style.backgroundColor = "";
+                document.getElementById("attackButton1").style.cursor = "pointer";
+                document.getElementById("defendButton1").style.cursor = "pointer";
+
+            } else {
+                document.getElementById("turn").textContent = "Turno de " + player2.name;
+
+                document.getElementById("attackButton1").disabled = true;
+                document.getElementById("defendButton1").disabled = true;
+                document.getElementById("attackButton1").style.backgroundColor = "grey";
+                document.getElementById("defendButton1").style.backgroundColor = "grey";
+                document.getElementById("attackButton1").style.cursor = "not-allowed";
+                document.getElementById("defendButton1").style.cursor = "not-allowed";
+
+                document.getElementById("attackButton2").disabled = false;
+                document.getElementById("defendButton2").disabled = false;
+                document.getElementById("attackButton2").style.backgroundColor = "";
+                document.getElementById("defendButton2").style.backgroundColor = "";
+                document.getElementById("attackButton2").style.cursor = "pointer";
+                document.getElementById("defendButton2").style.cursor = "pointer";
+            }
+        }
+
+        function updateHealthBar(player) {
+            let healthPercent;
+            if (player == 1) {
+                document.getElementById("healthBar1").style.width = player1.health + "%";
+            } else {
+                document.getElementById("healthBar2").style.width = player2.health + "%";
+            }
+        }
+
+    </script>
+</body>
+</html>
