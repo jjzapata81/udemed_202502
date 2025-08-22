@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Duelo por Turnos (Simple)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Duelo por Turnos (Simple)</h1>
+  <p class="muted">Introduce los nombres, pulsa <b>Comenzar</b> y ataca por turnos. Daño aleatorio 2–6.</p>
+
+  <div class="row" style="margin-bottom:12px;">
+    <div class="panel">
+      <label>Nombre Jugador 1<br>
+        <input id="n1" type="text" placeholder="Jugador 1" />
+      </label>
+      <p>HP: <span id="hp1" class="hp">20</span></p>
+    </div>
+    <div class="panel">
+      <label>Nombre Jugador 2<br>
+        <input id="n2" type="text" placeholder="Jugador 2" />
+      </label>
+      <p>HP: <span id="hp2" class="hp">20</span></p>
+    </div>
+  </div>
+
+  <div class="row" style="grid-template-columns: auto auto auto; align-items: center;">
+    <button id="btnStart">Comenzar</button>
+    <button id="btnAttack" disabled>Atacar</button>
+    <button id="btnReset">Reiniciar</button>
+  </div>
+
+  <p id="turno" class="muted" style="margin-top:10px;">Turno: —</p>
+  <p id="log"></p>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
