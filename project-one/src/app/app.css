@@ -1,0 +1,18 @@
+.container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin-top: 30px;
+}
+
+.jugadores {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.jugador {
+  border: 2px solid #333;
+  padding: 10px;
+  border-radius: 10px;
+  width: 150px;
+}

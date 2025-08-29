@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>Juego de Turnos</h1>
+
+  <div class="jugadores">
+    <div *ngFor="let j of jugadores; let i = index" class="jugador">
+      <h2>{{ j.nombre }}</h2>
+      <p>Vida: {{ j.vida > 0 ? j.vida : 0 }}</p>
+      <p *ngIf="turno === i && !ganador"> Turno de {{ j.nombre }}</p>
+    </div>
+  </div>
+
+  <button (click)="atacar()" [disabled]="ganador">Atacar</button>
+  <button (click)="reiniciar()">Reiniciar</button>
+
+  <h2 *ngIf="ganador"> ¡{{ ganador }} ha ganado! </h2>
+</div>
