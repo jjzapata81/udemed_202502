@@ -1,16 +1,13 @@
 <main>
-  <section>
-    <div>Iniciar sesión</div>
-    <div>
-      <form>
-        <label for="username">Nombre de usuario</label>
-        <input type="text" id="username"/>
-        <label for="password">Contraseña</label>
-        <input type="password" id="password"/>
-        <a routerLink="home">Ingresar</a>
-        <a routerLink="sign-up">Registrarse</a>
-      </form>
-    </div>
-  </section>
-
+    <section id="login-box">
+        <h2>Inicio de sesión</h2>
+        <form>
+            <label>Nombre de usuario</label>
+            <input type="text" id="username" />
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="Ingrese contraseña" />
+        </form>
+        <a class="primary">Iniciar sesión</a>
+        <a class="secondary" routerLink="/sign-up">Registrarse</a>
+    </section>
 </main>

@@ -1,21 +1,17 @@
 <main>
-
-  <section>
-    <div>Registrar usuario</div>
-    <div>
-      <form>
-        <label for="username">Nombre de usuario</label>
-        <input type="text" id="username"/>
-        <label for="email">Email</label>
-        <input type="text" id="email"/>
-        <label for="password">Contraseña</label>
-        <input type="password" id="password"/>
-        <label for="rePassword">Confirmar contraseña</label>
-        <input type="password" id="rePassword"/>
-        <a href="#">Crear</a>
-        <a>Regresar</a>
-      </form>
-    </div>
-  </section>
-
+    <section id="login-box">
+        <h2>{{title}}</h2>
+        <form [formGroup]="signUpForm">
+            <label>Nombre de usuario</label>
+            <input type="text" id="username" formControlName="username" />
+            <label>Email</label>
+            <input type="text" id="email" formControlName="email"/>
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="Ingrese contraseña" formControlName="password"/>
+            <label>Confirmar contraseña</label>
+            <input type="password" id="rePassword" placeholder="Confirme contraseña" formControlName="rePassword"/>
+        </form>
+        <a class="primary" (click)="onSignUp()">Crear usuario</a>
+        <a class="secondary" routerLink="ruta">Regresar</a>
+    </section>
 </main>
