@@ -1,12 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
 })
 export class Login {
+  formBuilder = inject(FormBuilder);
 
+  LogInForm = this.formBuilder.group({
+    username: ['', [Validators.required, Validators.minLength(2)]],
+    password: ['', [Validators.required, Validators.minLength(2)]],
+  });
+
+  onLogin() {
+    const { username: inputUsername, password: inputPassword } = this.LogInForm.value;
+
+    if (!this.LogInForm.valid) {
+      alert('Faltan campos por diligenciar mi papacho');
+      return;
+    }
+    const credentialsString = localStorage.getItem(inputUsername!);
+    if (!credentialsString) {
+      alert('Usuario no encontrado');
+      return;
+    }
+    if (credentialsString) {
+      const credentials = JSON.parse(credentialsString);
+
+      const isValidPassword = inputPassword === credentials.password;
+      if (isValidPassword) {
+        alert('Inicio de sesión exitoso');
+      } else {
+        alert('Las credenciales son incorrectas mi papá');
+      }
+    }
+  }
 }

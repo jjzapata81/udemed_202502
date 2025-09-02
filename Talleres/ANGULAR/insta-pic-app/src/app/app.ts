@@ -5,9 +5,9 @@ import { Header } from './shared/components/header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Footer, Header, RouterLink],
+  imports: [RouterOutlet, Footer, Header],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('insta-pic-app');
