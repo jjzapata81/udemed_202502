@@ -40,6 +40,7 @@ export class SignUp {
     }
 
     localStorage.setItem(user.username!, JSON.stringify(user));
+    alert('Usuario registrado con exito');
 
     //let user2 = JSON.parse(JSON.stringify(user))
 
