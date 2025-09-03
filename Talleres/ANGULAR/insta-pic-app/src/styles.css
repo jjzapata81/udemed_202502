@@ -11,11 +11,7 @@ body, instapic-app{
 
 main{
   flex:1;
-  padding: 10px 20px;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 #login-box{
@@ -46,7 +42,7 @@ input[type="text"], input[type="password"]{
   margin-bottom: 20px;
 }
 input[type="text"]:focus,  input[type="password"]:focus{
-  border-color: #fb8500;
+  border-color: #d00000;
   outline: none;
 }
 
@@ -82,12 +78,23 @@ a.secondary:hover {
 
 /* Footer */
 footer {
-    background-color: #023047;
-    color: #FFF;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    color: white;
-    font-size: 35px;
+  background-color: #023047;
+  color: #FFF;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+  font-size: 35px;
+  margin-top: auto;
+}
+
+header{
+  display: flex;
+  background-color: #023047;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
 }

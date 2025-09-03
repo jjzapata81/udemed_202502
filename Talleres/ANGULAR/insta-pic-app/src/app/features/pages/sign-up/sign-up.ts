@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,6 +12,7 @@ import { RouterLink } from '@angular/router';
 export class SignUp {
 
   fb = inject(FormBuilder);
+  router = inject(Router);
 
   ruta = '';
 
@@ -19,30 +21,43 @@ export class SignUp {
   validators = [Validators.required, Validators.minLength(4)];
 
   signUpForm = this.fb.group({
-    username:['jjzapata', [Validators.required]],
-    email:['', [Validators.required]],
+    username:['', [Validators.required]],
+    email:['', [Validators.required, Validators.email]],
     password:['', this.validators],
     rePassword:['',  this.validators],
-  })
+  });
+
 
 
   onSignUp(){
     if(!this.signUpForm.valid){
-      alert('Faltan campos por diligenciar');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Faltan campos por diligenciar',
+      });
       return;
     }
+
     let user = this.signUpForm.value;
-    console.log(user);
 
     if(localStorage.getItem(user.username!)){
-      alert('Usuario ya existe');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'El usuario ya existe',
+      });
       return;
     }
 
     localStorage.setItem(user.username!, JSON.stringify(user));
+    Swal.fire({
+      icon: 'success',
+      title: 'Éxito',
+      text: 'Usuario registrado exitosamente',
+    });
 
-    //let user2 = JSON.parse(JSON.stringify(user))
-
+    this.router.navigate(['/login']);
   }
 
 }
