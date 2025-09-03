@@ -1,13 +1,13 @@
 <main>
     <section id="login-box">
-        <h2>Inicio de sesión</h2>
-        <form>
+        <h2>{{title}}</h2>
+        <form [formGroup]="LoginForm">
             <label>Nombre de usuario</label>
-            <input type="text" id="username" />
+            <input type="text" id="username" formControlName="username"/>
             <label>Contraseña</label>
-            <input type="password" id="password" placeholder="Ingrese contraseña" />
+            <input type="password" id="password" formControlName="password" placeholder="Ingrese contraseña" />
         </form>
-        <a class="primary">Iniciar sesión</a>
+        <a class="primary" (click)="onLogin()">Iniciar sesión</a>
         <a class="secondary" routerLink="/sign-up">Registrarse</a>
     </section>
 </main>

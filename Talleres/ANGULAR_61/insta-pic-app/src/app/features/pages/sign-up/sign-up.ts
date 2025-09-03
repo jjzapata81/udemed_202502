@@ -27,12 +27,19 @@ export class SignUp{
             alert('Formulario no es valido');
             return;
         }
+
         let user = this.signUpForm.value
         console.log(user)
-
         let userStr = JSON.stringify(user)
 
-        localStorage.setItem(user.username!, userStr);    
+        if(user.username! !== localStorage.getItem(user.username!)){
+
+            alert('Ingreso fallido')
+            
+            return;
+        }
+        
+        localStorage.setItem(user.username!, userStr);
 
 
     }
