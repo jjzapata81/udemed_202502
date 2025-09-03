@@ -16,10 +16,11 @@ export class SignUp{
 
     signUpForm = this.fb.group({
         username:['', [Validators.required]],
-        email:['', [Validators.required]],
+        email:['', [Validators.required, Validators.email]],
         password:['', [Validators.required, Validators.minLength(4)]],
         rePassword:['', [Validators.required, Validators.minLength(4)]]
     })
+
 
 
     onSignUp(){
@@ -27,14 +28,16 @@ export class SignUp{
             alert('Formulario no es valido');
             return;
         }
-        let user = this.signUpForm.value
-        console.log(user)
+        let user = this.signUpForm.value;
+    
+        if (localStorage.getItem(user.username!)) {
+            alert('El nombre de usuario ya está registrado');
+            return;
+        }
 
-        let userStr = JSON.stringify(user)
-
+        let userStr = JSON.stringify(user);
         localStorage.setItem(user.username!, userStr);    
-
-
     }
+
 
 }
