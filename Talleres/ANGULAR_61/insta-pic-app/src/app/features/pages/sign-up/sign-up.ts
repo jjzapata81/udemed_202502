@@ -15,10 +15,10 @@ export class SignUp{
     fb = inject(FormBuilder);
 
     signUpForm = this.fb.group({
-        username:['', [Validators.required]],
-        email:['', [Validators.required]],
-        password:['', [Validators.required, Validators.minLength(4)]],
-        rePassword:['', [Validators.required, Validators.minLength(4)]]
+        username:['usuario', [Validators.required]],
+        email:['edada@gmail.com', [Validators.required]],
+        password:['1234', [Validators.required, Validators.minLength(4)]],
+        rePassword:['1234', [Validators.required, Validators.minLength(4)]]
     })
 
 
@@ -29,6 +29,12 @@ export class SignUp{
         }
         let user = this.signUpForm.value
         console.log(user)
+        
+        let existingUser = localStorage.getItem(user.username!);
+        if (existingUser) {
+            alert('El usuario ya existe');
+            return; 
+        }
 
         let userStr = JSON.stringify(user)
 
