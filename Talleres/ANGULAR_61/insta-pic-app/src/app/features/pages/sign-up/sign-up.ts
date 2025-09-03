@@ -27,8 +27,15 @@ export class SignUp{
             alert('Formulario no es valido');
             return;
         }
+        
         let user = this.signUpForm.value
         console.log(user)
+
+        // verificar que el usuario no esté registrado antes de crear
+        if(localStorage.getItem(user.username!)){
+            alert('Usuario registrado');
+            return;
+        }
 
         let userStr = JSON.stringify(user)
 
