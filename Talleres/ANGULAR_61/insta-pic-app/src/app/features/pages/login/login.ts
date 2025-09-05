@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Component, inject } from "@angular/core";
+import { RouterLink, Router } from "@angular/router";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 
 @Component({
@@ -11,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 export class Login{
 
     fb = new FormBuilder();
+    router = inject(Router);
 
     loginForm = this.fb.group({
         username: ['', Validators.required],
@@ -30,7 +31,11 @@ export class Login{
         }
         const user = JSON.parse(userStr);
         if (user.password === password) {
+            // Guardar el usuario actual en localStorage para la sesión
+            localStorage.setItem('currentUser', JSON.stringify({ username: username, isLoggedIn: true }));
             alert('Sesión iniciada correctamente');
+            // Navegar al home
+            this.router.navigate(['/home']);
         } else {
             alert('No se inició sesión');
         }

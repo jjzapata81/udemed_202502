@@ -1,0 +1,97 @@
+<main>
+    <section id="home-container">
+        <div class="welcome-section">
+            <h1>{{title}}</h1>
+            
+            <div style="background: #f0f0f0; padding: 1rem; margin: 1rem 0; border-radius: 5px;">
+                <strong>Debug Info:</strong><br>
+                Usuario logueado: {{user.isLoggedIn}}<br>
+                Nombre de usuario: {{user.username}}<br>
+                <button (click)="testLogin()" style="margin-top: 0.5rem;">Simular Login</button>
+            </div>
+
+            <div *ngIf="user.isLoggedIn" class="user-section">
+                <h2>Hola, {{user.username}}!</h2>
+                <p>Disfruta compartiendo tus mejores momentos.</p>
+            </div>
+            
+
+            <div *ngIf="!user.isLoggedIn" class="guest-section">
+                <h2>Comparte tus mejores momentos</h2>
+                <p>Únete a nuestra comunidad y comparte fotos increíbles con el mundo.</p>
+                
+                <div class="action-buttons">
+                    <a class="primary" routerLink="/login">Iniciar sesión</a>
+                    <a class="secondary" routerLink="/sign-up">Registrarse</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Galería de fotos simuladas -->
+        <div *ngIf="user.isLoggedIn" class="gallery-section">
+            <h3>Tu Galería</h3>
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://picsum.photos/300/300?random=1" alt="Foto 1" />
+                    <div class="photo-info">
+                        <p>Parque Central</p>
+                        <span>45 likes</span>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://picsum.photos/300/300?random=2" alt="Foto 2" />
+                    <div class="photo-info">
+                        <p>Atardecer en la playa</p>
+                        <span>78 likes</span>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://picsum.photos/300/300?random=3" alt="Foto 3" />
+                    <div class="photo-info">
+                        <p>Café favorito</p>
+                        <span>23 likes</span>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://picsum.photos/300/300?random=4" alt="Foto 4" />
+                    <div class="photo-info">
+                        <p>Montañas</p>
+                        <span>92 likes</span>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://picsum.photos/300/300?random=5" alt="Foto 5" />
+                    <div class="photo-info">
+                        <p>Ciudad nocturna</p>
+                        <span>56 likes</span>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://picsum.photos/300/300?random=6" alt="Foto 6" />
+                    <div class="photo-info">
+                        <p>Comida deliciosa</p>
+                        <span>34 likes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h3>¿Por qué elegir InstaPic?</h3>
+            <div class="features-grid">
+                <div class="feature">
+                    <h4>Fácil de usar</h4>
+                    <p>Interfaz simple y intuitiva para compartir fotos al instante.</p>
+                </div>
+                <div class="feature">
+                    <h4>Alta calidad</h4>
+                    <p>Mantén la calidad original de tus fotos favoritas.</p>
+                </div>
+                <div class="feature">
+                    <h4>Comunidad</h4>
+                    <p>Conecta con otros usuarios y descubre contenido increíble.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
