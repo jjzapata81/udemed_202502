@@ -31,10 +31,8 @@ export class Login{
         }
         const user = JSON.parse(userStr);
         if (user.password === password) {
-            // Guardar el usuario actual en localStorage para la sesión
             localStorage.setItem('currentUser', JSON.stringify({ username: username, isLoggedIn: true }));
             alert('Sesión iniciada correctamente');
-            // Navegar al home
             this.router.navigate(['/home']);
         } else {
             alert('No se inició sesión');
