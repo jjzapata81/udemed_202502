@@ -4,12 +4,19 @@
         <form [formGroup]="signUpForm">
             <label>Nombre de usuario</label>
             <input type="text" id="username" formControlName="username"/>
+            
             <label>Email</label>
             <input type="text" id="email" formControlName="email" />
+            
             <label>Contraseña</label>
             <input type="password" id="password" formControlName="password" placeholder="Ingrese contraseña" />
+            
             <label>Confirmar contraseña</label>
             <input type="password" id="rePassword" formControlName="rePassword" placeholder="Confirme contraseña" />
+            
+            <div *ngIf="passwordMismatch" id="error-message">
+                Las contraseñas no coinciden
+            </div>
         </form>
         <a class="primary" (click)="onSignUp()">Crear usuario</a>
         <a class="secondary" routerLink="">Regresar</a>
