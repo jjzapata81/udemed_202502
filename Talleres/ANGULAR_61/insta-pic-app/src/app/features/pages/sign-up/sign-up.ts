@@ -16,7 +16,6 @@ export class SignUp{
     fb = inject(FormBuilder);
     router = inject(Router);
 
-    // Validador personalizado para verificar que las contraseñas coincidan
     passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
         const password = control.get('password');
         const rePassword = control.get('rePassword');
