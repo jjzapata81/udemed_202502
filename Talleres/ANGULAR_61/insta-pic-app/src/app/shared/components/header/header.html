@@ -1,13 +1,13 @@
 <header>
-  @if(true){
+  @if(isLogged()){
   <nav>
     <ul>
       <li>InstaPIC</li>
-      <li><a href="">Inicio</a></li>
+      <li><a routerLink="home">Inicio</a></li>
       <li><a href="">Mi perfil</a></li>
       <li><a href="">Buscar</a></li>
-      <li><a href="">Nueva publicación</a></li>
-      <li><a href="">Cerrar sesión</a></li>
+      <li><a routerLink="upload">Nueva publicación</a></li>
+      <li><a (click)="onLogout()">Cerrar sesión</a></li>
     </ul>
   </nav>
   }@else{

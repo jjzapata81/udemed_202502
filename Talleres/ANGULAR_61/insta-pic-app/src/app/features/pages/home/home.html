@@ -1,11 +1,11 @@
 <section id="profile">
   <div>
     <img src="/assets/batman_avatar.webp" />
-    <span id="userName">jjzapata</span>
+    <span id="userName">{{username}}</span>
   </div>
-  <div>
+  <div (click)="onUpload()">
     <span>
-      {{posts}}
+      {{galleryItems().length}}
     </span>
     <span>Publicaciones</span>
   </div>
@@ -19,14 +19,11 @@
   </div>
 </section>
 <section id="gallery">
-  <img [src]="galleryItems()[0].url" />
-  <img [src]="galleryItems()[1].url" />
-  <img [src]="galleryItems()[2].url" />
-  <img [src]="galleryItems()[3].url" />
-  <img [src]="galleryItems()[4].url" />
-  <img [src]="galleryItems()[5].url" />
-  <img [src]="galleryItems()[6].url" />
-  <img [src]="galleryItems()[7].url" />
-  <img [src]="galleryItems()[8].url" />
-  <img [src]="galleryItems()[9].url" />
+
+
+  @for(image of galleryItems(); track image.id){
+    <img [src]="image.url"/>
+  }
+  
+  
 </section>

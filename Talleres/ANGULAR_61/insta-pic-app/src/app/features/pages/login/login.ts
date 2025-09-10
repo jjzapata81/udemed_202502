@@ -40,7 +40,11 @@ export class Login {
             this.router.navigate(['home'])
             return;
         }
-        alert(response.message);
+        Swal.fire({
+            title: "Ops!",
+            text: response.message,
+            icon: "error"
+        });
 
     }
 
