@@ -1,0 +1,1 @@
+export const SUPABASE_KEY = 'clase para la conexion con supabase'
