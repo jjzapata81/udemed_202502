@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { Storage } from '../shared'
+import { Component, inject } from '@angular/core';
+import { StorageService } from '../../../shared/services/storage';
+import { Auth } from '../../../shared/services/auth';
+
 
 @Component({
   selector: 'app-upload',
@@ -8,7 +10,7 @@ import { Storage } from '../shared'
   styleUrl: './upload.css'
 })
 export class Upload {
-  storageService = inject(Storage);
+  storageService = inject(StorageService);
   authService = inject(Auth);
 
   onUploadImage(event: Event){
