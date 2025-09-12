@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { createClient } from '@supabase/supabase-js'
-import { SUPABASE_KEY } from '../../../environments/environment';
-import { v4 as uuidv4 } from 'uuid';
+import { createClient } from '@supabase/supabase-sc'
+import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment';
+
 
 
 @Injectable({
@@ -9,16 +9,14 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class Storage {
 
-  supabaseUrl = 'https://aobwxdnbjmttbynbnguv.supabase.co'
-  supabase = createClient(this.supabaseUrl, SUPABASE_KEY)
+  supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-  async uploadFile(imageFile: File, username: string) {
-    
+  async uploadFile(imagefile:File, username:string) {
+    //const file = event.target,files[0];
     const fileName = uuidv4();
     const { data, error } = await this.supabase.storage
       .from('instapic')
-      .upload(`${username}/${fileName}`, imageFile);
-
+      .upload(`${username}/avatar1.png`, imagefile)
     console.log(data);
     console.log(error);
   }
