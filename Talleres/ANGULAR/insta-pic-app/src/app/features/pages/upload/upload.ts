@@ -16,7 +16,7 @@ export class Upload {
 
   onUploadImage(event:Event){
 
-    let inputFile = event.target as HTMLInputElement;
+    const inputFile = event.target as HTMLInputElement;
     if(!inputFile.files || inputFile.files.length <= 0){
       return;
     }
