@@ -44,10 +44,13 @@ export class Auth {
     }
 
     getUserLogged(){
-        return sessionStorage.getItem('userLogged');
+        if (sessionStorage.getItem('userLogged')){
+            return {username:sessionStorage.getItem('userLogged')!}
+        }
+        return {username:'unknown-user'};
     }
 
-    private verifyLoggedUser(){
+    private verifyLoggedUser(){ 
         this.isLoged.set(!!sessionStorage.getItem('userLogged'))
 
     }
