@@ -1,27 +1,52 @@
 import { Injectable } from '@angular/core';
 import { createClient } from '@supabase/supabase-js'
-import { SUPABASE_KEY } from '../../../environments/environment';
+import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment.dev';
 import { v4 as uuidv4 } from 'uuid';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class Storage {
 
-  supabaseUrl = 'https://aobwxdnbjmttbynbnguv.supabase.co'
-  supabase = createClient(this.supabaseUrl, SUPABASE_KEY)
+
+
+  supabaseUrl = SUPABASE_URL
+  supabaseKey = SUPABASE_KEY
+  supabase = createClient(this.supabaseUrl, this.supabaseKey)
 
   async uploadFile(imageFile: File, username: string) {
-    
-    const fileName = uuidv4();
-    const { data, error } = await this.supabase.storage
-      .from('instapic')
-      .upload(`${username}/${fileName}`, imageFile);
+    try {
+      // Check if user is authenticated
+      const { data: { user } } = await this.supabase.auth.getUser();
+      
+      if (!user) {
+        console.error('User not authenticated');
+        return { success: false, error: 'User not authenticated' };
+      }
 
-    console.log(data);
-    console.log(error);
+      const fileName = uuidv4();
+      const filePath = `${username}/${fileName}`;
+      
+      const { data, error } = await this.supabase.storage
+        .from('instapic')
+        .upload(filePath, imageFile, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) {
+        console.error('Upload error:', error);
+        return { success: false, error: error.message };
+      }
+
+      console.log('Upload successful:', data);
+      return { success: true, data };
+    } catch (error) {
+      console.error('Upload error:', error);
+      return { success: false, error: 'Upload failed' };
+    }
   }
 
 
 }
+

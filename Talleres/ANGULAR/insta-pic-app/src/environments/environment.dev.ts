@@ -1,1 +1,2 @@
-export const SUPABASE_KEY = 'clave para la conexion con supabase'
+export const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhYnB5bnBwaGx2ZHhza250b3NzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2MzE5MzYsImV4cCI6MjA3MzIwNzkzNn0.9zp8TP81qf5EWJqKi19XpmRS9oICWY2w7iIYpdCxtak'
+export const SUPABASE_URL = 'https://fabpynpphlvdxskntoss.supabase.co'

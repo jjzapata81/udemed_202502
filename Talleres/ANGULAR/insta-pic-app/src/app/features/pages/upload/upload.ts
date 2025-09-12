@@ -26,6 +26,7 @@ export class Upload {
     this.storageService.uploadFile(imageFile,username)
     console.log(event);
 
+    
   }
 
 }
