@@ -1,1 +1,0 @@
-export const SUPABASE_KEY = 'clave para la conexion con supabase'
