@@ -3,7 +3,7 @@
     <img src="/assets/batman_avatar.webp" />
     <span id="userName">{{username}}</span>
   </div>
-  <div (click)="onAddImage()">
+  <div >
     <span>
       {{galleryItems().length}}
     </span>
@@ -19,7 +19,7 @@
   </div>
 </section>
 <section id="gallery">
-  @for(image of galleryItems(); track image.id){
-    <img [src]="image.url" />
+  @for(image of galleryItems(); track image){
+    <img [src]="image" />
   }
 </section>
