@@ -3,4 +3,5 @@ export interface User{
     password:string;
     email?:string;
     rePassword?:string;
+    gallery?:string[];
 }

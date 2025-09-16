@@ -32,7 +32,7 @@ export class Auth {
     if (localStorage.getItem(user.username)) {
       return{ success:false, message:'Usuario ya existe' };
     }
-
+    user.gallery = [];
     localStorage.setItem(user.username, JSON.stringify(user));
     sessionStorage.setItem('userLogged', user.username);
     this.verifyUserLogged();
@@ -60,11 +60,6 @@ export class Auth {
     return {
       username:'Bienvenido'
     }
-  }
-
-
-  private getUser(username:string){
-
   }
 
 }
