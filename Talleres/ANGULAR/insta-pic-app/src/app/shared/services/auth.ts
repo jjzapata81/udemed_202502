@@ -3,68 +3,56 @@ import { User } from '../interfaces/user';
 import { LoginResponse, SignUpResponse } from '../interfaces/login-response';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class Auth {
-
   isLogged = signal(false);
 
-  constructor(){
+  constructor() {
     this.verifyUserLogged();
   }
 
   login(user: User): LoginResponse {
-
-    let userSrt = localStorage.getItem(user.username)
+    let userSrt = localStorage.getItem(user.username);
 
     if (userSrt && user.password === JSON.parse(userSrt)['password']) {
       sessionStorage.setItem('userLogged', user.username);
       this.verifyUserLogged();
-      return { success: true, redirectTo: "home" };
+      return { success: true, redirectTo: 'home' };
     }
 
     return { success: false };
-
   }
 
-  signUp(user:User):SignUpResponse {
-
+  signUp(user: User): SignUpResponse {
     if (localStorage.getItem(user.username)) {
-      return{ success:false, message:'Usuario ya existe' };
+      return { success: false, message: 'Usuario ya existe' };
     }
 
+    user.gallery = [];
     localStorage.setItem(user.username, JSON.stringify(user));
     sessionStorage.setItem('userLogged', user.username);
     this.verifyUserLogged();
-    return {success:true, redirectTo:'home'}
-
+    return { success: true, redirectTo: 'home' };
   }
 
-  private verifyUserLogged(){
-    this.isLogged.set(!!sessionStorage.getItem('userLogged'))
+  private verifyUserLogged() {
+    this.isLogged.set(!!sessionStorage.getItem('userLogged'));
   }
 
-
-  logout(){
+  logout() {
     sessionStorage.clear();
     this.verifyUserLogged();
   }
 
-  getUserLogged(){
-
-    if(!!sessionStorage.getItem('userLogged')){
+  getUserLogged() {
+    if (!!sessionStorage.getItem('userLogged')) {
       return {
-        username:sessionStorage.getItem('userLogged')!
-      }
+        username: sessionStorage.getItem('userLogged')!,
+      };
     }
     return {
-      username:'Bienvenido'
-    }
+      username: 'Bienvenido',
+    };
   }
-
-
-  private getUser(username:string){
-
-  }
-
 }
