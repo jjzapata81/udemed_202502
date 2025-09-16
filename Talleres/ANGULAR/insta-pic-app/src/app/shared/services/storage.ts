@@ -1,52 +1,41 @@
 import { Injectable } from '@angular/core';
-import { createClient } from '@supabase/supabase-js'
-import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment.dev';
+import { createClient } from '@supabase/supabase-js';
+import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class Storage {
-
-
-
-  supabaseUrl = SUPABASE_URL
-  supabaseKey = SUPABASE_KEY
-  supabase = createClient(this.supabaseUrl, this.supabaseKey)
+  supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   async uploadFile(imageFile: File, username: string) {
     try {
-      // Check if user is authenticated
-      const { data: { user } } = await this.supabase.auth.getUser();
-      
-      if (!user) {
-        console.error('User not authenticated');
-        return { success: false, error: 'User not authenticated' };
-      }
-
       const fileName = uuidv4();
-      const filePath = `${username}/${fileName}`;
-      
+      const fileExt = imageFile.name.split('.').pop();
+      const filePath = fileExt ? `${username}/${fileName}.${fileExt}` : `${username}/${fileName}`;
+
       const { data, error } = await this.supabase.storage
         .from('instapic')
         .upload(filePath, imageFile, {
           cacheControl: '3600',
-          upsert: false
+          upsert: false,
+          contentType: imageFile.type || undefined,
         });
 
       if (error) {
         console.error('Upload error:', error);
-        return { success: false, error: error.message };
+        return { data: null, error };
       }
 
-      console.log('Upload successful:', data);
-      return { success: true, data };
-    } catch (error) {
-      console.error('Upload error:', error);
-      return { success: false, error: 'Upload failed' };
+      return { data, error: null };
+    } catch (err: any) {
+      console.error('Upload error:', err);
+      return { data: null, error: err };
     }
   }
 
-
+  getImageUrl(path: string) {
+    return `${SUPABASE_URL}/storage/v1/object/public/instapic/${path}`;
+  }
 }
-
