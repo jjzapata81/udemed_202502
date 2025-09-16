@@ -33,6 +33,7 @@ export class Auth {
       return{ success:false, message:'Usuario ya existe' };
     }
 
+    user.gallery = [];
     localStorage.setItem(user.username, JSON.stringify(user));
     sessionStorage.setItem('userLogged', user.username);
     this.verifyUserLogged();
@@ -63,8 +64,6 @@ export class Auth {
   }
 
 
-  private getUser(username:string){
-
-  }
+  
 
 }
