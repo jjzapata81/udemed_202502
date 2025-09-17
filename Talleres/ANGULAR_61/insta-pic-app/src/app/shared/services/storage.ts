@@ -11,14 +11,25 @@ export class Storage {
 
   private supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-  async uploadFile(imageFile:File, username:string) {
-  
+  uploadFile(imageFile:File, username:string) {
     const fileName = uuidv4();
-    const { data, error } = await this.supabase.storage
+    console.log("2 - Llamando a supabase")
+    return this.supabase.storage
       .from('instapic')
-      .upload(`${username}/${fileName}`, imageFile);
-    console.log(data);
-    console.log(error);
+      .upload(`${username}/${fileName}`, imageFile)
+      .then(response=>{
+        console.log(response);
+        console.log("3 - Supabase responde");
+        if(response.data){
+          return response.data.fullPath;
+        }
+        throw response.error;
+      });
+    //console.log("4 - Servicio storage termina");
+  }
+
+  getUrl(fullPath:string){
+    return `${SUPABASE_URL}/storage/v1/object/public/${fullPath}`
   }
 
 }

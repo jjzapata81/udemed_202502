@@ -1,9 +1,9 @@
 <section id="profile">
   <div>
     <img src="/assets/batman_avatar.webp" />
-    <span id="userName">{{username}}</span>
+    <span id="userName">{{user.username}}</span>
   </div>
-  <div (click)="onUpload()">
+  <div>
     <span>
       {{galleryItems().length}}
     </span>
@@ -20,10 +20,13 @@
 </section>
 <section id="gallery">
 
+  @if(galleryItems().length>0){
 
-  @for(image of galleryItems(); track image.id){
-    <img [src]="image.url"/>
+    @for(image of galleryItems(); track image){
+      <img [src]="image.url"/>
+    } 
+  }@else{
+    <span>Aún no has cargado imágenes</span>
   }
-  
   
 </section>
