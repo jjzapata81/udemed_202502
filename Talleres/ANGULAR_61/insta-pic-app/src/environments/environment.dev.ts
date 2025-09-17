@@ -1,2 +1,2 @@
-export const SUPABASE_KEY = 'Obtener key desde supabase';
-export const SUPABASE_URL = 'Obtener url desde supabase';
+export const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxamFycXF5ZXZvcGxpcmV1amtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2MzI0ODEsImV4cCI6MjA3MzIwODQ4MX0.2ICB8PFVgbqcLkoibWGCdjBnMvrmStMOohnw_2vGz0c';
+export const SUPABASE_URL = 'https://supabase.com/dashboard/project/fqjarqqyevoplireujkj';
