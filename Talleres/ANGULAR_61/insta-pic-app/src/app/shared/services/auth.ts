@@ -44,10 +44,8 @@ export class Auth {
   }
 
   getUserLogged() {
-    if (sessionStorage.getItem('userLogged')) {
-      return { username: sessionStorage.getItem('userLogged') }
-    }
-    return sessionStorage.getItem('unknow-user');
+    const user = sessionStorage.getItem('userLogged');
+    return { username: user ?? null };
   }
 
   private verifyLoggedUser() {
