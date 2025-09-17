@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import {Storage} from '../../../shared/services/storage';
-import {Auth} from '../../../shared/services/auth'
+import {Auth} from '../../../shared/services/auth';
+import { UserService } from '../../../shared/services/user-service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -21,6 +23,19 @@ export class Upload {
     }
     const imageFile= inputElement.files[0];
     const username= this.authService.getUserLogged().username;
-    this.storageService.uploadFile(imageFile, username);
+    this.storageService.uploadFile(imageFile, username)
+    .then(fullPath=>{
+      const imageUrl = this.storageService.getUrl(fullPath);
+      this.UserService.saveImage()
+    })
+    .catch(error=>{
+      console.log(error);
+      Swal.fire({
+        text: 'Error al cargar la imágen',
+        icon:'Error'
+      })
+    });
+
+    this.router.navigate(['home'])
   }
 }

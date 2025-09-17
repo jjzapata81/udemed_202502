@@ -10,17 +10,25 @@ export class Storage {
 
   constructor() { }
 
-private supabaseUrl = SUPABASE_URL
-supabaseKey = SUPABASE_KEY
-supabase = createClient(this.supabaseUrl, this.supabaseKey)
+
+private supabase = createClient(SUPABASE_URL,SUPABASE_KEY)
   
 async uploadFile(imageFile:File, username:string) {
-    //const avatarFile = event.target.files[0]
     const fileName= uuidv4() ;
-    const { data, error } = await this.supabase.storage
-      .from('ejemplo')
-      .upload(`${username}/${fileName}.png`, imageFile)
-    console.log('data', data)
-    console.log('error', error)
+    return this.supabase.storage
+    .from('ejemplo')
+    .upload(`${username}/${fileName}`, imageFile)
+    .then(response=>{
+      console.log(response);
+      if(response.data){
+        return response.data.fullPath;
+      }
+      throw response.error;  
+      })
+
+  }
+
+  getUrl(fullPath:string){
+    return `${SUPABASE_URL}/storage/v1/object/public/${fullPath}`
   }
 }
