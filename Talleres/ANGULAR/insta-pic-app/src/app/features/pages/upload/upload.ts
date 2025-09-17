@@ -26,23 +26,45 @@ export class Upload {
 
     const imageFile = inputFile.files[0];
     const username = this.authService.getUserLogged().username;
-    //Swal.showLoading();
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      title: "Subiendo imagen...",
+      showConfirmButton: false,
+      allowOutsideClick: true,
+      willOpen: () => {Swal.showLoading()}
+    });
+
     this.storageService.uploadFile(imageFile, username)
     .then(response=>{
       if(response && response.data){
         const url = this.storageService.getimageUrl(response.data.fullPath);
         this.userService.saveImage(username,url);
         console.log(url);
-        
+        Swal.close();
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'success',
+          title: 'Carga exitosa'
+        });
       }
       else if(response){
       console.log(response.error);
-      Swal.fire('Error', response.error?.message, 'error');
+      Swal.close();      
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: response.error?.message
+      });
       }
     }); 
     this.router.navigate(['/home']);
     console.log(event);
 
   }
+
+
 
 }
