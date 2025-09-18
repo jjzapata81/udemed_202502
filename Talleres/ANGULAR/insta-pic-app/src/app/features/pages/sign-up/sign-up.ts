@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../../../shared/services/auth';
+import { User } from '../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,6 +13,10 @@ import { RouterLink } from '@angular/router';
 export class SignUp {
 
   fb = inject(FormBuilder);
+
+  router = inject(Router);
+
+  authService = inject(Auth);
 
   ruta = '';
 
@@ -31,17 +37,17 @@ export class SignUp {
       alert('Faltan campos por diligenciar');
       return;
     }
-    let user = this.signUpForm.value;
-    console.log(user);
+    let user = this.signUpForm.value as User;
 
-    if(localStorage.getItem(user.username!)){
-      alert('Usuario ya existe');
+    let signUpResponse = this.authService.signUp(user);
+
+
+    if(!!signUpResponse.success){
+      this.router.navigate([signUpResponse.redirectTo]);
       return;
     }
 
-    localStorage.setItem(user.username!, JSON.stringify(user));
-
-    //let user2 = JSON.parse(JSON.stringify(user))
+    alert(signUpResponse.message);
 
   }
 

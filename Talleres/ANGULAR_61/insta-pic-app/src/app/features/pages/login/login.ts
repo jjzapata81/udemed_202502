@@ -1,41 +1,51 @@
 import { Component, inject } from "@angular/core";
-import { RouterLink, Router } from "@angular/router";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
+import { Auth } from "../../../shared/services/auth";
+import { User } from "../../../shared/interfaces/user";
+import Swal from 'sweetalert2'
 
 @Component({
-    selector:'app-login',
-    imports:[RouterLink, ReactiveFormsModule],
-    templateUrl:'./login.html',
-    styleUrl:'./login.css'
+    selector: 'app-login',
+    imports: [RouterLink, ReactiveFormsModule],
+    templateUrl: './login.html',
+    styleUrl: './login.css'
 })
-export class Login{
+export class Login {
 
-    fb = new FormBuilder();
+
+    fb = inject(FormBuilder);
     router = inject(Router);
+    authService = inject(Auth);
 
     loginForm = this.fb.group({
-        username: ['', Validators.required],
-        password: ['', Validators.required]
-    });
+        username: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(4)]]
+    })
+
 
     onLogin() {
         if (!this.loginForm.valid) {
-            alert('Formulario no es válido');
+            Swal.fire({
+                title: "Ops!",
+                text: "El formulario no es valido",
+                icon: "error"
+            });
             return;
         }
-        const { username, password } = this.loginForm.value;
-        const userStr = localStorage.getItem(username!);
-        if (!userStr) {
-            alert('No se inició sesión');
+        let user = this.loginForm.value as User;
+
+        let response = this.authService.login(user);
+        if (response.success) {
+            this.router.navigate(['home'])
             return;
         }
-        const user = JSON.parse(userStr);
-        if (user.password === password) {
-            localStorage.setItem('currentUser', JSON.stringify({ username: username, isLoggedIn: true }));
-            alert('Sesión iniciada correctamente');
-            this.router.navigate(['/home']);
-        } else {
-            alert('No se inició sesión');
-        }
+        Swal.fire({
+            title: "Ops!",
+            text: response.message,
+            icon: "error"
+        });
+
     }
+
 }

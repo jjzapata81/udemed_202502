@@ -3,7 +3,7 @@
         <h2>{{title}}</h2>
         <form [formGroup]="signUpForm">
             <label>Nombre de usuario</label>
-            <input type="text" id="username" formControlName="username"/>
+            <input type="text" id="username" formControlName="username" />
             
             <label>Email</label>
             <input type="text" id="email" formControlName="email" />
@@ -14,7 +14,8 @@
             <label>Confirmar contraseña</label>
             <input type="password" id="rePassword" formControlName="rePassword" placeholder="Confirme contraseña" />
             
-            <div *ngIf="passwordMismatch" id="error-message">
+            <!-- Mensaje de error para contraseñas que no coinciden -->
+            <div *ngIf="passwordMismatch" class="error-message">
                 Las contraseñas no coinciden
             </div>
         </form>

@@ -1,66 +1,27 @@
-import { Component, inject } from "@angular/core";
-import { RouterLink, Router } from "@angular/router";
-import { CommonModule } from "@angular/common";
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { Auth } from '../../../shared/services/auth';
+import { UserService } from '../../../shared/services/user-service';
 
 @Component({
-    selector:'app-home',
-    imports:[RouterLink, CommonModule],
-    templateUrl:'./home.html',
-    styleUrl:'./home.css'
+  selector: 'app-home',
+  imports: [],
+  templateUrl: './home.html',
+  styleUrl: './home.css'
 })
-export class Home{
+export class Home implements OnInit{
+  
+  authService = inject(Auth);
+  userService = inject(UserService);
+  followers = 48;
+  requests = 37;
+  user = this.authService.getUserLogged();
+  galleryItems = signal<any[]|[{id:string, url:string, comments:string[]}]>([]);
+  
+  ngOnInit(): void {
 
-    title = 'Bienvenido a InstaPic';
-    router = inject(Router);
+    const gallery = this.userService.getGallery(this.user.username);
+    this.galleryItems.set(gallery);
     
-    user = {
-        username: '',
-        isLoggedIn: false
-    };
+  }
 
-    constructor() {
-        this.checkUserSession();
-        setTimeout(() => {
-            console.log('Estado final del usuario:', this.user);
-        }, 100);
-    }
-
-    checkUserSession() {
-        console.log('Verificando sesión de usuario...');    
-        const userData = localStorage.getItem('currentUser');
-        console.log('Datos del usuario:', userData);
-        
-        if (userData) {
-            try {
-                const parsedUser = JSON.parse(userData);
-                console.log('Usuario parseado:', parsedUser);
-                
-                this.user = {
-                    username: parsedUser.username || '',
-                    isLoggedIn: true
-                };
-                
-                console.log('Usuario actual:', this.user);
-            } catch (error) {
-                console.error('Error al parsear datos del usuario:', error);
-                this.user = {
-                    username: '',
-                    isLoggedIn: false
-                };
-            }
-        } else {
-            console.log('No hay datos de usuario en localStorage');
-            this.user = {
-                username: '',
-                isLoggedIn: false
-            };
-        }
-    }
-    testLogin() {
-        this.user = {
-            username: 'UsuarioTest',
-            isLoggedIn: true
-        };
-        console.log('Login de test activado:', this.user);
-    }
 }
