@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient } from '@supabase/supabase-js'
-import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment';
+import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment.dev';
 import { v4 as uuidv4 } from 'uuid';
 
 
