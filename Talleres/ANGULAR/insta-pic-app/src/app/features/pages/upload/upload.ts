@@ -17,25 +17,57 @@ export class Upload {
   router = inject(Router);
   userService = inject(UserService);
 
-  onUploadImage(event: Event) {
+  async onUploadImage(event: Event) {
     const { username } = this.authService.getUserLogged();
     const target = event.target as HTMLInputElement;
+
     if (!target.files || target.files.length <= 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sin archivo',
+        text: 'Por favor selecciona un archivo antes de subir.',
+      });
       return;
     }
+
     const imageFile = target.files[0];
-    console.log('1 - Llamar al servicio');
-    this.storageService.uploadFile(imageFile, username).then((response) => {
+
+    try {
+      console.log('1 - Llamar al servicio');
+      const response = await this.storageService.uploadFile(imageFile, username);
+
       if (response && response.data) {
         const path = response.data.path ?? response.data.fullPath ?? '';
         if (path) {
           const url = this.storageService.getImageUrl(path);
-          this.userService.saveImage(username, url);
+          await this.userService.saveImage(username, url);
+
+          await Swal.fire({
+            icon: 'success',
+            title: '¡Imagen subida!',
+            text: 'Tu imagen se ha cargado correctamente.',
+            timer: 2000,
+            showConfirmButton: false,
+          });
+
+          this.router.navigate(['home']);
+          return;
         }
-      } else if (response && response.error) {
-        Swal.fire('Error!');
       }
-      this.router.navigate(['home']);
-    });
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al subir',
+        text: 'No se pudo subir la imagen, intenta de nuevo.',
+      });
+
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error inesperado',
+        text: 'Ocurrió un problema durante la carga. Intenta más tarde.',
+      });
+    }
   }
 }
