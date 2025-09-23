@@ -1,0 +1,26 @@
+input[type="file"]{
+    display: none;
+}
+
+section{
+    display: flex;
+}
+
+.upload {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  width: 200px;
+}
+
+.primary {
+  background-color: #ffb703;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.primary:hover {
+  background-color: #d00000;
+}
