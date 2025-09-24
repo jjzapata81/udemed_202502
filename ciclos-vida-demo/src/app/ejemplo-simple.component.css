@@ -1,0 +1,17 @@
+div {
+  margin: 20px;
+  padding: 10px;
+}
+
+h1 {
+  color: #333;
+}
+
+h2 {
+  color: #666;
+  border-bottom: 1px solid #ccc;
+}
+
+p {
+  margin: 5px 0;
+}
