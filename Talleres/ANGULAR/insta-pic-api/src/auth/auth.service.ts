@@ -1,28 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import LoginDto from './dto/create-auth.dto';
+import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
 
-  users = [
-    {
-      username: "Tepho",
-      password: "1234"
-    },
-    {
-      username: "Nathy",
-      password: "1234"
-    },
-    {
-      username: "Meli",
-      password: "1234"
-    }
-  ];
+  constructor(private readonly userService: UserService) {}
 
   login(loginDto: LoginDto) {
     console.log(loginDto);
 
-    const user = this.users.find(user => user.username === loginDto.username);
+    const user = this.userService.findByUsername(loginDto.username);
+
+    console.log(user);
+    console.log(loginDto.password);
 
     if(user && user.password === loginDto.password) {
       return {
