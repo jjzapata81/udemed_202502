@@ -12,7 +12,7 @@ export class AuthController {
     console.log(loginDto);
     return this.authService.login(loginDto);
   }
-
+  
   // @Get()
   // findAll() {
   //   return this.authService.findAll();
