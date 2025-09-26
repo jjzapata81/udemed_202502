@@ -30,7 +30,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<UserResponseDto> {
+  async findbyiD(@Param('id') id: string): Promise<UserResponseDto> {
     return this.userService.findById(id);
   }
 
