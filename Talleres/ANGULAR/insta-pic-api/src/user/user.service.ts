@@ -1,51 +1,98 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class UserService {
+  private users: User[] = [];
 
-  users:User[] = [];
-
-  create(createUserDto: CreateUserDto) {
-
-    this.users.push({
+  createUser(createUserDto: CreateUserDto): User {
+    const user: User = {
+      id: uuid(),
       ...createUserDto,
-      id:uuidv4(),
-      createdAt:new Date(),
-      updatedAt:new Date(),
-      isActive:true
-    })
-    return {
-      success:true,
-      token:'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS'
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isActive: true,
     };
+
+    this.users.push(user);
+    console.log('Usuario creado:', user);
+    return user;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  getAllUsers(): User[] {
+    return this.users.filter(user => user.isActive);
   }
 
-  findOne(id: string) {
-    return this.users.find(user=>user.id===id);
+  getUserById(id: string): User {
+    const user = this.users.find((user) => user.id === id);
+    if (!user) {
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
+    }
+    if (!user.isActive) {
+      throw new NotFoundException(`Usuario con ID ${id} no está activo`);
+    }
+    return user;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    this.users.map(user=>{
-      if(user.id===id){
-        user.avatarUrl = updateUserDto.avatar||user.avatarUrl;
-        user.name = updateUserDto.name||user.name;
-        user.email = updateUserDto.email||user.email;
-      }
-    })
-    return {
-      success:true
+  getUserByUsername(username: string): User {
+    const user = this.users.find((user) => user.username === username);
+    if (!user) {
+      throw new NotFoundException(`Usuario con username ${username} no encontrado`);
+    }
+    if (!user.isActive) {
+      throw new NotFoundException(`Usuario con username ${username} no está activo`);
+    }
+    return user;
+  }
+
+  updateUser(id: string, updateUserDto: UpdateUserDto): User {
+    const userIndex = this.users.findIndex((user) => user.id === id);
+    
+    if (userIndex === -1) {
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
+    }
+
+    if (!this.users[userIndex].isActive) {
+      throw new NotFoundException(`Usuario con ID ${id} no está activo`);
+    }
+
+    const updatedUser: User = {
+      ...this.users[userIndex],
+      ...updateUserDto,
+      updatedAt: new Date(),
     };
+
+    this.users[userIndex] = updatedUser;
+    console.log('Usuario actualizado:', updatedUser);
+    return updatedUser;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} user`;
+  deleteUser(id: string): { message: string; user: User } {
+    const userIndex = this.users.findIndex((user) => user.id === id);
+    
+    if (userIndex === -1) {
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
+    }
+
+    if (!this.users[userIndex].isActive) {
+      throw new NotFoundException(`Usuario con ID ${id} ya está eliminado`);
+    }
+
+    const deletedUser: User = {
+      ...this.users[userIndex],
+      isActive: false,
+      updatedAt: new Date(),
+    };
+
+    this.users[userIndex] = deletedUser;
+    console.log('Usuario eliminado (soft delete):', deletedUser);
+    
+    return {
+      message: `Usuario con ID ${id} eliminado exitosamente`,
+      user: deletedUser
+    };
   }
 }
