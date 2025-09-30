@@ -1,35 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
 
+  constructor(@InjectRepository(User) private userRepository:Repository<User>){
+
+  }
+
   users:User[] = [];
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
 
-    this.users.push({
+    try{
+      const userEntity = this.userRepository.create(createUserDto);
+      await this.userRepository.save(userEntity);
+      return {
+      success:true,
+      token:'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS'
+    };
+    }catch(error){
+      console.log(error);
+      throw new BadRequestException('No se pudo crear el usuario');
+    }
+
+    /*this.users.push({
       ...createUserDto,
       id:uuidv4(),
       createdAt:new Date(),
       updatedAt:new Date(),
       isActive:true
-    })
-    return {
-      success:true,
-      token:'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS'
-    };
+    })*/
+    
   }
 
   findAll() {
-    return `This action returns all user`;
+    return this.userRepository.find();
   }
 
   findOne(id: string) {
-    return this.users.find(user=>user.id===id);
+    //Esto tiene el mismo efecto
+    //this.userRepository.findOneBy({id:id})
+    return this.userRepository.findOneBy({id})
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
