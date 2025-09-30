@@ -1,47 +1,66 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
-  users:User[] = [];
+  users: User[] = [];
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const userEntity = this.userRepository.create(createUserDto);
 
-    this.users.push({
-      ...createUserDto,
-      id:uuidv4(),
-      createdAt:new Date(),
-      updatedAt:new Date(),
-      isActive:true
-    })
-    return {
-      success:true,
-      token:'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS'
-    };
+      await this.userRepository.save(userEntity);
+      return {
+        success: true,
+        token: 'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS',
+      };
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException('Error no controlado');
+    }
+
+    // this.users.push({
+    //   ...createUserDto,
+    //   id: uuidv4(),
+    //   createdAt: new Date(),
+    //   updatedAt: new Date(),
+    //   isActive: true,
+    // });
   }
 
   findAll() {
-    return `This action returns all user`;
+    return this.userRepository.find();
   }
 
   findOne(id: string) {
-    return this.users.find(user=>user.id===id);
+    // Esto tiene el mismo efecto que lo que pusimos abajo
+    // this.userRepository.findOneBy({ id: id })
+    return this.userRepository.findOneBy({ id });
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    this.users.map(user=>{
-      if(user.id===id){
-        user.avatarUrl = updateUserDto.avatar||user.avatarUrl;
-        user.name = updateUserDto.name||user.name;
-        user.email = updateUserDto.email||user.email;
+    this.users.map((user) => {
+      if (user.id === id) {
+        user.avatarUrl = updateUserDto.avatar || user.avatarUrl;
+        user.name = updateUserDto.name || user.name;
+        user.email = updateUserDto.email || user.email;
       }
-    })
+    });
     return {
-      success:true
+      success: true,
     };
   }
 
