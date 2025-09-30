@@ -3,33 +3,35 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
-
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class UserService {
 
+  constructor( @InjectRepository(User) private readonly userRepository: Repository<User>) {}
+
   users:User[] = [];
 
-  create(createUserDto: CreateUserDto) {
-
-    this.users.push({
-      ...createUserDto,
-      id:uuidv4(),
-      createdAt:new Date(),
-      updatedAt:new Date(),
-      isActive:true
-    })
-    return {
-      success:true,
-      token:'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS'
-    };
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const user = this.userRepository.create(createUserDto);
+      await this.userRepository.save(user);
+      return {
+        success:true,
+        token:'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS'
+      };
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
   }
 
   findAll() {
-    return `This action returns all user`;
+    return this.userRepository.find();
   }
 
   findOne(id: string) {
-    return this.users.find(user=>user.id===id);
+    return this.userRepository.findOneBy({id});
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
