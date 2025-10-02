@@ -22,7 +22,7 @@ export class UserService {
       await this.userRepository.save(userEntity);
       return {
       success:true,
-      token:'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS'
+      token:'fbsj5guw3wgjffegjgyfhVDSFGKUFUGKS'
     };
     }catch(error){
       console.log(error);
