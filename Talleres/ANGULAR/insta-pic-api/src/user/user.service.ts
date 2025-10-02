@@ -1,39 +1,68 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
-  private users: User[] = [];
 
-  create(createUserDto: CreateUserDto): User {
-    const newUser: User = {
-      ...createUserDto,
-      id: uuid(),
+  constructor(@InjectRepository(User) private userRepository:Repository<User>){
+
+  }
+
+  users:User[] = [];
+
+  async create(createUserDto: CreateUserDto) {
+
+    try{
+      const userEntity = this.userRepository.create(createUserDto);
+      await this.userRepository.save(userEntity);
+      return {
+      success:true,
+      token:'fbsj4guw3wgjfwegjgyfhVJSFGKUFUGKS'
     };
-    this.users.push(newUser);
-    return newUser;
+    }catch(error){
+      console.log(error);
+      throw new BadRequestException('No se pudo crear el usuario');
+    }
+
+    /*this.users.push({
+      ...createUserDto,
+      id:uuidv4(),
+      createdAt:new Date(),
+      updatedAt:new Date(),
+      isActive:true
+    })*/
+    
   }
 
-  findAll(): User[] {
-    return this.users;
+  findAll() {
+    return this.userRepository.find();
   }
 
-  findOne(id: string): User | null {
-    const user = this.users.find(user => user.id === id);
-    return user ? user : null;
+  findOne(id: string) {
+    //Esto tiene el mismo efecto
+    //this.userRepository.findOneBy({id:id})
+    return this.userRepository.findOneBy({id})
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): User | null {
-    const user = this.findOne(id);
-    if (!user) return null;
-    Object.assign(user, updateUserDto);
-    return user;
+  update(id: string, updateUserDto: UpdateUserDto) {
+    this.users.map(user=>{
+      if(user.id===id){
+        user.avatarUrl = updateUserDto.avatar||user.avatarUrl;
+        user.name = updateUserDto.name||user.name;
+        user.email = updateUserDto.email||user.email;
+      }
+    })
+    return {
+      success:true
+    };
   }
 
-  remove(id: string): void {
-    this.users = this.users.filter(user => user.id !== id);
+  remove(id: string) {
+    return `This action removes a #${id} user`;
   }
 }

@@ -10,9 +10,8 @@ export class AuthService {
 
   constructor(private userService: UserService) {}
 
-
-  login(loginDto: LoginDto) {
-    const users = this.userService.findAll();
+  async login(loginDto: LoginDto) {
+    const users = await this.userService.findAll();
     const user = users.find(u => u.username === loginDto.username);
     if (user && user.password === loginDto.password) {
       return {
