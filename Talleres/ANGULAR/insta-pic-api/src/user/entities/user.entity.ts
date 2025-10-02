@@ -1,8 +1,12 @@
+import { Comment } from 'src/image/entities/comment.entity';
+import { Image } from 'src/image/entities/image.entity';
+
 import {
   BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -35,6 +39,12 @@ export class User {
 
   @Column({ name: 'is_active', default: true })
   isActive: boolean;
+
+  @OneToMany(() => Image, (image) => image.user)
+  gallery: Image[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 
   @BeforeInsert()
   preCreate() {
