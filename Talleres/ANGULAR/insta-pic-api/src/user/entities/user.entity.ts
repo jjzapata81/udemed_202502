@@ -5,7 +5,10 @@ import {
   BeforeInsert,
   CreateDateColumn,
   BeforeUpdate,
+  OneToMany,
 } from 'typeorm';
+import { Image } from 'src/image/entities/image.entity';
+import { Comment } from 'src/image/entities/comment.entity';
 
 @Entity('users')
 export class User {
@@ -28,6 +31,12 @@ export class User {
   updatedAt: string;
   @Column({ name: 'is_active', default: true, nullable: true })
   isActive: boolean;
+
+  @OneToMany(() => Image, (image) => image.user)
+  gallery: Image;
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment;
 
   @BeforeInsert()
   @BeforeUpdate()
