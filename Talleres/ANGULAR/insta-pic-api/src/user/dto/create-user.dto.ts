@@ -8,6 +8,5 @@ export class CreateUserDto {
     name?:string;
     avatarUrl?:string;
     createdAt?:string;
-    phhtotd?:[];
     isActive:boolean;
 }
