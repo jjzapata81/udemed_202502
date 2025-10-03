@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Comment } from "src/photo/entities/comment.entity";
+import { Photo } from "src/photo/entities/photo.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
 export class User {
@@ -30,4 +32,9 @@ export class User {
     @Column({type:'boolean', name:'is_active', default:true})
     isActive:boolean;
 
+    @OneToMany( ()=> Photo, (photos) => photos.user)
+    photos:Photo[];
+
+    @OneToMany( () => Comment, (comment) => comment.user)
+    comments:Comment[];
 }
