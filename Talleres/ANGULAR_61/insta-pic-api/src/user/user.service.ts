@@ -1,32 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
 
+  constructor(@InjectRepository(User) private userRepository:Repository<User>){
+
+  }
+
    users:User[]=[];
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
 
-    const user:User = {
-      ...createUserDto,
-      id: uuidv4(),
-      createdAt:new Date(),
-      updatedAt: new Date(),
-      isActive:true
-    };
-    this.users.push(user);
-    return {
-      success:true,
-      token:'weuywu7t7t7at7ta7igq33kqlkñq'
-    };
+    try{
+      let userEntity = this.userRepository.create(createUserDto)
+      await this.userRepository.save(userEntity);
+        return {
+          success:true,
+          token:'weuywu7t7t7at7ta7igq33kqlkñq'
+        };
+      }catch(error){
+        console.log(error);
+        throw new BadRequestException(error.detail||'Error al procesar la informacion');
+      }
   }
 
   findAll() {
-    return this.users;
+    return this.userRepository.find({where:{isActive:true}, select:['id', 'username', 'name']});
+   /* return this.userRepository.find({select:{
+      id:true,
+      username:true,
+      name:true,
+      email:true
+    }});*/
   }
 
   findOne(id: string) {
