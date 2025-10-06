@@ -1,25 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { LoginDto } from './dto/create-auth.dto';
+import { LoginDto } from './dto/login.dto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
+  constructor(private readonly usersService: UsersService) {}
 
-  users = [
-    {username: 'jjzapata' , password:"1234"},
-    {username: 'stevenudo' , password:"3126"}
-  ]
-  
-  login(LoginDto: LoginDto) {
-    console.log(LoginDto)
-    const  user = this.users.find(user=>user.username ===  LoginDto.username);
-    if(user && user.password === LoginDto.password){
-      return {
-        success:true,
-        token: 'akdjaskjedasdhasdjkashdnksd'
-
-      }
-    }
-    throw new NotFoundException('Usuario o contraseña incorrecta');
+  login(loginDto: LoginDto) {
+    // const users = this.usersService.findAll();
+    // const user = users.find((user) => user.username === loginDto.username);
+    // if (user && user.password === loginDto.password) {
+    //   return {
+    //     success: true,
+    //     token: 'asdasdasdasdadas',
+    //   };
+    // }
+    // throw new NotFoundException('Usuario o contraseña incorrectos');
   }
-
 }

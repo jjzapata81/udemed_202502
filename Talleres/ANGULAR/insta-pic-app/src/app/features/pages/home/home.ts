@@ -8,6 +8,7 @@ import { UserService } from '../../../shared/services/user-service';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
+export class Home implements OnInit{
 
 export class Home implements OnInit {
   authService = inject(Auth);
@@ -16,16 +17,15 @@ export class Home implements OnInit {
   followers = 48;
   requests = 37;
   username = this.authService.getUserLogged().username;
-  galleryItems = signal<string[]>([]);
+  user = this.userService.getUser(this.username);
+  galleryItems = signal([]);
 
- 
-  ngOnInit(): void {
-    const user = this.userService.getUser(this.username);
-    if (user) {
-      this.galleryItems.set(Array.isArray(user.gallery) ? user.gallery : []);
-    }
-
-
+    ngOnInit(): void {
+     /* const user = this.userService.getUser(this.username);
+      if(user){
+        this.galleryItems.set(user.gallery)
+      }*/
+  }
 
   }
 }

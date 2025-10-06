@@ -5,7 +5,7 @@
   </div>
   <div>
     <span>
-      {{ galleryItems().length }}
+      {{user()!.gallery!.length}}
     </span>
     <span>Publicaciones</span>
   </div>
@@ -19,7 +19,7 @@
   </div>
 </section>
 <section id="gallery">
-  @for(image of galleryItems(); track image){
-  <img [src]="image" />
+  @for(image of user()!.gallery!; track image){
+    <img [src]="image" />
   }
 </section>

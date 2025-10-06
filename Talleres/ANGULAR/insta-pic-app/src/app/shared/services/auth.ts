@@ -32,8 +32,7 @@ export class Auth {
       return{ success:false, message:'Usuario ya existe' };
       return { success: false, message: 'Usuario ya existe' };
     }
-
-    user.gallery = [];
+    user.gallery=[];
     localStorage.setItem(user.username, JSON.stringify(user));
     sessionStorage.setItem('userLogged', user.username);
     this.verifyUserLogged();
@@ -65,5 +64,8 @@ export class Auth {
       username: 'Bienvenido',
     };
   }
+
+
+  
 
 }
