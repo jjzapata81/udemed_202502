@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { UploadImageDto } from './dto/upload-image.dto';
 import { AddCommentDto } from './dto/add-comment.dto';
@@ -16,5 +16,19 @@ export class ImageController {
   @Post('add/comment')
   addComment(@Body() addCommentDto: AddCommentDto) {
     return this.imageService.addComment(addCommentDto);
+  }
+  
+  deleteImage(){
+
+  }
+
+  deleteComment(){
+
+  }
+  @Get("gallery/:id")
+  getGalleryByUserId(@Param("id") userId:string, @Query("page") page:string, @Query("pagesize") pagesize:number){
+    console.log(page, pagesize);
+    return this.imageService.getGalleryByUserId(userId, +page, +pagesize);
+
   }
 }

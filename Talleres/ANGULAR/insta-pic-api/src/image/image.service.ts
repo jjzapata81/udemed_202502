@@ -8,6 +8,45 @@ import { Comment } from './entities/comment.entity';
 
 @Injectable()
 export class ImageService {
+  getGalleryByUserId(userId: string, page: number=1, pagesize: number=100) {
+    //return this.imageRepository.findBy(
+      //{user: {id: userId}}
+   // )
+      let skip = (page - 1) * pagesize;
+
+    return this.imageRepository.find({
+     /* where: [
+        {id: {id: userId}},
+        {user: {isActive: true}}]
+      */
+      where: {
+        user: {id: userId, isActive: true}
+      },
+      relations: {
+        comments: true,
+        user: true,
+      },
+      select: {
+        id: true,
+        url: true,
+        createdAt: true,
+        comments: true,
+        user: {
+          id: true,
+          username: true
+        }
+      },
+      order: {
+        createdAt: 'DESC',
+        comments: {
+          createdAt: 'DESC'
+        }
+      },
+      skip: skip,
+      take: pagesize
+    })
+    
+  }
   constructor(
     @InjectRepository(Image)
     private imageRepository: Repository<Image>,
