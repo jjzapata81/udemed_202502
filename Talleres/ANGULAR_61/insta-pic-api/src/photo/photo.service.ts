@@ -40,17 +40,23 @@ export class PhotoService {
         return this.commentRepository.save(commentEntity);
     }
 
-    findByUserId(userId: string) {
+    findByUserId(userId: string, page:number, pageSize:number) {
       /*return this.photoRepository.findBy(
         {
             user:{ id: userId, isActive:true}
         }
       );*/
+
+      let skip = (page - 1) * pageSize;
       return this.photoRepository.find(
         {
             where:{
                 user:{id:userId, isActive:true}
             },
+            /*where:[
+                {user:{id:userId}},
+                {user:{isActive:true}}
+            ],*/
             relations:{
                 comments:true,
                 user:true
@@ -60,7 +66,13 @@ export class PhotoService {
                 url:true,
                 createdAt:true,
                 user:{ username:true, id:true }
-            }
+            },
+            order:{
+                createdAt:'DESC',
+                comments:{createdAt:'DESC'}
+            },
+            take:pageSize,
+            skip:skip
         }
       )
     }
