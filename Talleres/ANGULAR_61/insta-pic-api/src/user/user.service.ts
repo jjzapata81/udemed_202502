@@ -2,9 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { v4 as uuidv4 } from 'uuid';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import bcrypt from "bcrypt";
 
 @Injectable()
 export class UserService {
@@ -17,8 +17,14 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
 
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(createUserDto.password, salt);
+
     try{
-      let userEntity = this.userRepository.create(createUserDto)
+      let userEntity = this.userRepository.create({
+        ...createUserDto,
+        password:hash
+      })
       await this.userRepository.save(userEntity);
         return {
           success:true,
@@ -28,6 +34,13 @@ export class UserService {
         console.log(error);
         throw new BadRequestException(error.detail||'Error al procesar la informacion');
       }
+  }
+
+  async findByUsername(username:string){
+    return await this.userRepository.findOneBy({
+      username:username,
+      isActive:true
+    })
   }
 
   findAll() {

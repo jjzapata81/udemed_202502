@@ -1,0 +1,1 @@
+SELECT g.id, g.url, g.created_at, u.id, u.username

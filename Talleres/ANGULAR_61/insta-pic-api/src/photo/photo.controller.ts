@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PhotoService } from './photo.service';
 import { UploadPhotoDto } from './dto/upload-photo.dto';
 import { AddCommentDto } from './dto/add-comment.dto';
@@ -21,8 +21,8 @@ export class PhotoController {
   }
 
   @Get(':userId')
-  geByUser(@Param('userId') userId:string){
-    return this.photoService.findByUserId(userId);
+  geByUser(@Param('userId') userId:string, @Query('page') page:string, @Query('pageSize') pageSize:string){
+    return this.photoService.findByUserId(userId, +page||1, +pageSize||1000);
   }
 
 }
