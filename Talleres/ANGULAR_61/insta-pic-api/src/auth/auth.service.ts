@@ -2,22 +2,19 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { LoginDto } from './dto/login.dto';
-import { NotFoundError } from 'rxjs';
+import { UserService } from 'src/user/user.service';
+import bcrypt from "bcrypt";
 
 @Injectable()
 export class AuthService {
 
+  constructor(private userService: UserService){}
 
-  users = [
-    {username:'jjzapata', password:'1234'},
-    {username:'jjzapata2', password:'1234'},
-    {username:'jjzapata3', password:'1234'}
-  ]
+  async login(request: LoginDto) {
 
-  login(request: LoginDto) {
-
-    const user = this.users.find(user=>user.username===request.username);
-    if(user && user.password===request.password){
+    const user = await this.userService.findByUsername(request.username);
+    //const user = this.users.find(user=>user.username===request.username);
+    if(user && bcrypt.compareSync(request.password, user.password)){
       return {
         success:true,
         token:'uasegkus6q267q2rdf6ed5qdffud'

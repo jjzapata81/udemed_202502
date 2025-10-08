@@ -4,11 +4,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import { PhotoModule } from './photo/photo.module';
-import { Photo } from './photo/entities/photo.entity';
-import { Comment } from './photo/entities/comment.entity';
 
 @Module({
   imports: [
