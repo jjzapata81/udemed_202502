@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import bcrypt from 'node_modules/bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -18,11 +20,17 @@ export class UserService {
     // Injectamos un repositorio de user
   }
 
-  users: CreateUserDto[] = [];
+  users: User[] = [];
 
   async create(createUserDto: CreateUserDto) {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(createUserDto.password, salt);
+
     try {
-      const userEntity = this.userRepository.create(createUserDto);
+      const userEntity = this.userRepository.create({
+        ...createUserDto,
+        password: hash,
+      });
       await this.userRepository.save(userEntity);
       return {
         succes: true,
@@ -49,29 +57,39 @@ export class UserService {
   }
 
   findByUsername(username: string) {
-    const usersdb = this.users.find((user) => user.username === username);
-    console.log(this.users);
-    console.log(usersdb);
-    return usersdb;
+    const user = this.users.find((user) => user.username === username);
+    console.log(user);
+    if (!user || !user.isActive) {
+      throw new NotFoundException('El username no existe');
+    }
+    return user;
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    const user = this.users.find((user) => user.id === id && user.isActive);
-    if (user) {
-      Object.assign(user, updateUserDto);
-      user.updateAt = '22-12-2025';
-      return user;
+    const userIndex = this.users.findIndex((user) => user.id === id);
+
+    if (userIndex === -1) {
+      throw new NotFoundException('User ID does not exist');
     }
-    return null;
+
+    const currentUser = this.users[userIndex];
+    const updatedUser = {
+      ...currentUser,
+      ...updateUserDto,
+      updatedAt: new Date(),
+    };
+    // this.users[userIndex] = updatedUser;
+    return { status: true, message: 'User updated successfully' };
   }
 
   remove(id: string) {
-    const user = this.users.find((user) => user.id === id && user.isActive);
-    if (user) {
-      user.isActive = false;
-      user.updateAt = '22-12-2025';
-      return user;
+    const userIndex = this.users.findIndex((user) => user.id === id);
+
+    if (userIndex === -1) {
+      throw new NotFoundException('User ID does not exist');
     }
-    return null;
+
+    this.users[userIndex].isActive = false;
+    return { status: true, message: 'User deleted successfully' };
   }
 }

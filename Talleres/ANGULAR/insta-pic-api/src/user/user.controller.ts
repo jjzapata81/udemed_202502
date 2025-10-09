@@ -31,15 +31,9 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Get()
-  find(@Query('id') id?: string, @Query('username') username?: string) {
-    if (username) {
-      return this.userService.findByUsername(username);
-    } else if (id) {
-      return this.userService.findOne(id);
-    } else {
-      return this.userService.findAll();
-    }
+  @Get('username/:username')
+  findByUsername(@Param('username') username: string) {
+    return this.userService.findByUsername(username);
   }
 
   @Patch(':id')

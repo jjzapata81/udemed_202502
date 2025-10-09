@@ -1,0 +1,1 @@
+select * from gallery g inner join user u on u.id == g.userId

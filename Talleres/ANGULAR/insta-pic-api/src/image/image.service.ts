@@ -31,4 +31,39 @@ export class ImageService {
     });
     return this.commentRepository.save(commentEntity);
   }
+  getGalleryByUserId(userId: string, page: number = 1, pageSize: number = 100) {
+    // return this.imageRepository.findBy({ user: { id: userId } });
+
+    let skip = page - 1 * pageSize;
+
+    return this.imageRepository.find({
+      // where: [{ user: { id: userId } }, { user: { isActive: true } }], OR, UNO O EL OTRO
+      where: {
+        // AND
+        user: { id: userId, isActive: true },
+      },
+      relations: {
+        comments: true,
+        user: true,
+      },
+      select: {
+        id: true,
+        url: true,
+        createdAt: true,
+        comments: true,
+        user: {
+          id: true,
+          username: true,
+        },
+      },
+      order: {
+        createdAt: 'DESC',
+        comments: {
+          createdAt: 'DESC',
+        },
+      },
+      skip: skip,
+      take: pageSize,
+    });
+  }
 }

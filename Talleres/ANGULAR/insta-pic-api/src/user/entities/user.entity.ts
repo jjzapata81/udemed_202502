@@ -28,13 +28,13 @@ export class User {
   @Column({ type: 'varchar', nullable: false })
   email: string;
 
-  @Column({ name: 'avatar_url', type: 'varchar', nullable: false })
+  @Column({ name: 'avatar_url', type: 'varchar', nullable: true })
   avatarUrl?: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'created_at' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updateAt: Date;
 
   @Column({ name: 'is_active', default: true })
