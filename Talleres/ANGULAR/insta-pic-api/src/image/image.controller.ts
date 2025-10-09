@@ -1,13 +1,17 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { UploadImageDto } from './dto/upload-image.dto';
 import { AddComment } from './dto/add-comment.dto';
+import { AuthGuard } from 'src/security/auth/auth.guard';
+import { RoleGuard } from 'src/security/role/role.guard';
 
 @Controller('v1/image')
 export class ImageController {
 
   constructor(private readonly imageService: ImageService) {}
 
+
+  @UseGuards(RoleGuard)
   @Post()
   uploadImage(@Body() uploadImageDto:UploadImageDto){
     console.log(uploadImageDto)
@@ -27,6 +31,7 @@ export class ImageController {
 
   }
 
+  @UseGuards(AuthGuard)
   @Get("gallery/:id")
   getGalleryByUserId(@Param("id") userId: string, @Query("page") page:string, @Query("pageSize") pageSize:string){
     console.log({page, pageSize})

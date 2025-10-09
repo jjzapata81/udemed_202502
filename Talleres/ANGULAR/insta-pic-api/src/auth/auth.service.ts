@@ -3,11 +3,12 @@ import { LoginDto } from './dto/create-auth.dto';
 import bcrypt from "bcryptjs";
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserService } from 'src/user/user.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private userService: UserService){
+  constructor(private userService: UserService, private jwtService: JwtService){
   }
 
   users = [
@@ -28,9 +29,10 @@ export class AuthService {
     //if(user && user.password===loginDto.password){
 
     if(user &&  bcrypt.compareSync(loginDto.password, user.password)){  
+      const payload = {username: user.username, id:user.id, avatarUrl:user.avatarUrl};
       return {
         success:true,
-        token:'EWASDYJGDLWKHFLNEGLENGLNGELKNGÑ'
+        token: await this.jwtService.signAsync(payload)
       }
     }
     throw new NotFoundException('Usuario o contraseña incorrectos');
