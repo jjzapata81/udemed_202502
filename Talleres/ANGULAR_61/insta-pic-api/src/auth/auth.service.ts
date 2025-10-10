@@ -4,20 +4,25 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserService } from 'src/user/user.service';
 import bcrypt from "bcrypt";
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private userService: UserService){}
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService
+  ){}
 
   async login(request: LoginDto) {
 
     const user = await this.userService.findByUsername(request.username);
     //const user = this.users.find(user=>user.username===request.username);
     if(user && bcrypt.compareSync(request.password, user.password)){
+      const payload = {id:user.id, username:user.username, urlAvatar:user.avatarUrl}
       return {
         success:true,
-        token:'uasegkus6q267q2rdf6ed5qdffud'
+        token:await this.jwtService.signAsync(payload)
       }
     }
     throw new NotFoundException("Usuario o constraseña incorrectos");
