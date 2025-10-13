@@ -1,5 +1,5 @@
-export class AddComment {
-  message: string;
-  imageId: string;
-  userId: string;
+export class AddComment{
+    message:string;
+    imageId:string;
+    userId:string;
 }

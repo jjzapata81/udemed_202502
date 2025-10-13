@@ -1,28 +1,23 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Comment } from './comment.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Comment } from "./comment.entity";
+import { User } from "src/user/entities/user.entity";
 
 @Entity('gallery')
-export class Image {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Image{
 
-  @Column({ type: 'varchar' })
-  url: string;
+    @PrimaryGeneratedColumn('uuid')
+    id:string;
 
-  @ManyToOne(() => User, (user) => user.gallery)
-  user: User;
+    @Column({type:'varchar'})
+    url:string;
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+    @ManyToOne(()=>User, user=>user.gallery)
+    user:User;
+    
+    @CreateDateColumn({name:'created_at'})
+    createdAt: Date;
 
-  @OneToMany(() => Comment, (comment) => comment.image)
-  comments: Comment[];
+    @OneToMany(() => Comment, comment=> comment.image)
+    comments:Comment[];
+
 }

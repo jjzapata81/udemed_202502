@@ -6,7 +6,7 @@ import { Image } from './entities/image.entity';
 import { Comment } from './entities/comment.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Image, Comment])],
+  imports:[TypeOrmModule.forFeature([Image, Comment])],
   controllers: [ImageController],
   providers: [ImageService],
 })

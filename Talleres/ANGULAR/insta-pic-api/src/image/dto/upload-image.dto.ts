@@ -1,4 +1,4 @@
-export class UploadImageDto {
-  userId: string;
-  url: string;
+export class UploadImageDto{
+    userId:string;
+    url:string;
 }
