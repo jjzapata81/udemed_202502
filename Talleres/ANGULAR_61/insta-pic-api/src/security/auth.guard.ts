@@ -1,33 +1,17 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { BaseGuard } from './base.guard';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard extends BaseGuard implements CanActivate {
 
-  constructor(private jwtService:JwtService){}
+  constructor(jwtService: JwtService) {
+    super(jwtService);
+  }
   
   canActivate(context: ExecutionContext): boolean {
-
-    const request = context.switchToHttp().getRequest();
-    const authorization = request.header('authorization');
-    if(!authorization){
-      throw new ForbiddenException('Acceso no autorizado');
-    }
-    const token = this.getToken(authorization);
-    try{
-      this.jwtService.verify(token);
-    }catch(error){
-      console.log(error.message)
-      throw new ForbiddenException(error.message||'Token no valido')
-    }
+    const token = this.getAuthorizationToken(context);
+    this.verifyToken(token);
     return true;
-  }
-
-  private getToken(authorization:string){
-    let token = authorization.split(" ");
-    if(token.length>1){
-      return token[1];
-    }
-    return token[0];
   }
 }

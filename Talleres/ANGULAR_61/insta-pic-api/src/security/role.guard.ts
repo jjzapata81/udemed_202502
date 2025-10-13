@@ -1,41 +1,29 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { BaseGuard } from './base.guard';
 
 @Injectable()
-export class RoleGuard implements CanActivate {
+export class RoleGuard extends BaseGuard implements CanActivate {
   
-    constructor(private jwtService:JwtService){
+  constructor(jwtService: JwtService) {
+    super(jwtService);
+  }
   
-    }
-  
-    canActivate(context: ExecutionContext): boolean {
-  
-      const request = context.switchToHttp().getRequest();
-      const body = request.body;
-      const authorization = request.header('authorization');
-      if(!authorization){
-        throw new ForbiddenException('Acceso no autorizado');
-      }
-      const token = this.getToken(authorization);
-      try{
-        const payload = this.jwtService.verify(token);
-        console.log(payload);
-        if(payload['id']!==body['userId']){
-          throw new ForbiddenException('Acción no autorizada')
-        }
-      }catch(error){
-        console.log(error.message)
-        throw new ForbiddenException(error.message||'Token no valido')
-      }
-      return true;
-    }
-  
-    private getToken(authorization:string){
-      let token = authorization.split(" ");
-      if(token.length>1){
-        return token[1];
-      }
-      return token[0];
+  canActivate(context: ExecutionContext): boolean {
+    const token = this.getAuthorizationToken(context);
+    const payload = this.verifyToken(token);
+    const body = this.getRequestBody(context);
+    
+    this.validateUserAuthorization(payload, body);
+    return true;
+  }
+
+  private validateUserAuthorization(payload: any, body: any): void {
+    console.log('Token payload:', payload);
+    
+    if (payload['id'] !== body['userId']) {
+      throw new ForbiddenException('Acción no autorizada');
     }
   }
+}
   
