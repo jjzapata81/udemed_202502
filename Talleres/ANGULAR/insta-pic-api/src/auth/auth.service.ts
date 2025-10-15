@@ -1,23 +1,28 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { LoginDto } from './dto/create-auth.dto';
-
+import bcrypt from 'node_modules/bcryptjs';
+import { UserService } from 'src/user/user.service';
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
 
-  users = [
-    {username:"jjzapata", password:"1234"},
-    {username:"jjzapata1", password:"1234"},
-    {username:"jjzapata2", password:"1234"}
-  ]
+  constructor(private readonly userService: UserService, private readonly jwtService: JwtService){
+    this.userService = userService;
+    this.jwtService = jwtService;
+  }
+  users = []
 
-  login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto) {
     console.log(loginDto);
 
-    const user = this.users.find(user=>user.username===loginDto.username);
-    if(user && user.password===loginDto.password){
+    const user = await this.userService.findByUsername(loginDto.username);
+
+    if(user && bcrypt.compareSync(loginDto.password, user.password)){
+      const payload = {username:user.username, id:user.id, avatarUrl:user.avatarUrl}
+
       return {
         success:true,
-        token:'EWASDYJGDLWKHFLNEGLENGLNGELKNGÑ'
+        token: await this.jwtService.signAsync(payload)
       }
     }
     throw new NotFoundException('Usuario o contraseña incorrectos');

@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import bcrypt from 'node_modules/bcryptjs';
 @Injectable()
 export class UserService {
 
@@ -13,8 +14,12 @@ export class UserService {
   users:User[] = [];
 
   async create(createUserDto: CreateUserDto) {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(createUserDto.password, salt);
+
+
     try {
-      const user = this.userRepository.create(createUserDto);
+      const user = this.userRepository.create({...createUserDto, password:hash});
       await this.userRepository.save(user);
       return {
         success:true,
@@ -30,8 +35,8 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOne(id: string) {
-    return this.userRepository.findOneBy({id});
+  findByUsername(id: string) {
+    return this.userRepository.findOneBy({username:id});
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
