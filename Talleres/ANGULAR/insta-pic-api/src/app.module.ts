@@ -12,17 +12,20 @@ import { ImageModule } from './image/image.module';
     AuthModule, 
     UserModule,
     ImageModule,
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
+    ConfigModule.forRoot({
+              isGlobal: true, // Lo hace global
+            }),
+      TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT!,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
+      host:process.env.DBSB_HOST,
+      port: +process.env.DBSB_PORT!,
+      username: process.env.DBSB_USER,
+      password: process.env.DBSB_PASSWORD,
+      database: process.env.DBSB_DATABASE,
       autoLoadEntities:true,
       synchronize: true,
-    }),
+      ssl:false
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

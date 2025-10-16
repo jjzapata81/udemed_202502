@@ -3,6 +3,9 @@ import { Login } from './features/pages/login/login';
 import { SignUp } from './features/pages/sign-up/sign-up';
 import { Home } from './features/pages/home/home';
 import { Upload } from './features/pages/upload/upload';
+import { Profile } from './features/pages/profile/profile';
+import { Find } from './features/pages/find/find';
+import { authGuard } from './shared/guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -18,6 +21,23 @@ export const routes: Routes = [
      {
         path:"home",
         component:Home,
+        pathMatch:"full",
+        canActivate:[authGuard]
+    },
+     {
+        path:"home/:userId",
+        component:Home,
+        pathMatch:"full",
+        canActivate:[authGuard]
+    },
+    {
+        path:"profile",
+        component:Profile,
+        pathMatch:"full"
+    },
+    {
+        path:"find",
+        component:Find,
         pathMatch:"full"
     },
     {

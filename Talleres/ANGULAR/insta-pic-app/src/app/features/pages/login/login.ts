@@ -27,30 +27,39 @@ export class Login {
   validators = [Validators.required, Validators.minLength(4)];
 
   loginForm = this.fb.group({
-    username:['jjzapata', [Validators.required]],
-    password:['', this.validators]
+    username: ['jjzapata', [Validators.required]],
+    password: ['', this.validators]
   })
 
 
-  onLogin(){
-    if(!this.loginForm.valid){
+  onLogin() {
+    if (!this.loginForm.valid) {
       Swal.fire('Faltan campos por diligenciar');
       return;
     }
 
-  
+
     let user = this.loginForm.value as User;
-    let loginResponse = this.authService.login(user);
-     if(!!loginResponse.success){
-      Swal.fire('Ingreso exitoso');
-      this.router.navigate([loginResponse.redirectTo]);
-      return;
-    }
-    Swal.fire({
-  icon: "error",
-  title: "Oops...",
-  text: "Ingreso fallido!"
-});
+
+    this.authService.login(user).subscribe(response => {
+      console.log(response);
+      if (!!response.success) {
+        Swal.fire('Ingreso exitoso');
+        this.router.navigate([response.redirectTo]);
+        return;
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Ingreso fallido!"
+      });
+    })
+    /* let loginResponse = this.authService.login(user);
+      if(!!loginResponse.success){
+       Swal.fire('Ingreso exitoso');
+       this.router.navigate([loginResponse.redirectTo]);
+       return;
+     }*/
 
   }
 

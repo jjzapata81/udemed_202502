@@ -24,11 +24,18 @@ export class UserService {
     let userString = localStorage.getItem(username)
     if(userString){
       this.user.set(JSON.parse(userString) as User)
-      return this.user;
-    }else{
-      throw new Error('User not found');
     }
+    return this.user;
   
   }
+
+  /*getUser2(){
+    let token = sessionStorage.getItem('token')
+    if(userString){
+      this.user.set(JSON.parse(userString) as User)
+    }
+    return this.user;
+  
+  }*/
   
 }

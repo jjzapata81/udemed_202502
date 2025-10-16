@@ -6,3 +6,8 @@ export interface LoginResponse{
 export interface SignUpResponse extends LoginResponse{
     message?:string;
 };
+
+export interface LoginServiceResponse{
+    success:boolean;
+    token:string;
+}
