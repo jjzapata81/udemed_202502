@@ -35,16 +35,19 @@ export class Login {
         }
         let user = this.loginForm.value as User;
 
-        let response = this.authService.login(user);
-        if (response.success) {
-            this.router.navigate(['home'])
-            return;
-        }
-        Swal.fire({
-            title: "Ops!",
-            text: response.message,
-            icon: "error"
-        });
+        this.authService.login(user)
+            .subscribe(response=>{
+                if (response.success) {
+                    this.router.navigate(['home'])
+                    return;
+                }
+                Swal.fire({
+                    title: "Ops!",
+                    text: response.message,
+                    icon: "error"
+                });
+
+            });
 
     }
 

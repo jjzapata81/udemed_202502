@@ -12,16 +12,19 @@ import { PhotoModule } from './photo/photo.module';
     AuthModule, 
     UserModule,
     PhotoModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+              isGlobal: true, // Lo hace global
+            }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT!,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
+      host: 'localhost',
+      port: 5432,
+      username: 'admin',
+      password: 'admin123',
+      database: 'ejemplo_db',
       synchronize: true,
-      autoLoadEntities:true
+      autoLoadEntities:true,
+      ssl:false
     }),
   ],
   controllers: [AppController],
