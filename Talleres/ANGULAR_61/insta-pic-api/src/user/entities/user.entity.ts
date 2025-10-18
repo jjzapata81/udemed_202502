@@ -1,41 +1,41 @@
-import { Comment } from "src/photo/entities/comment.entity";
-import { Photo } from "src/photo/entities/photo.entity";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable prettier/prettier */
+import { Comment } from 'src/photo/entities/comment.entity';
+import { Photo } from 'src/photo/entities/photo.entity';
+//import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity('users')
+//@Entity('users')
 export class User {
+  //@PrimaryGeneratedColumn('uuid')
+  id?: string;
 
-    @PrimaryGeneratedColumn('uuid')
-    id:string;
+  //@Column({type:'varchar', unique:true})
+  username: string;
 
-    @Column({type:'varchar', unique:true})
-    username:string;
+  //@Column({type:'varchar'})
+  password: string;
 
-    @Column({type:'varchar'})
-    password:string;
-    
-    @Column({type:'varchar', nullable:true})
-    email?:string;
-    
-    @Column({type:'varchar', nullable:true})
-    name?:string;
-    
-    @Column({type:'varchar', name:'avatar_url', nullable:true})
-    avatarUrl?:string;
+  //@Column({type:'varchar', nullable:true})
+  email?: string;
 
-    @CreateDateColumn({name:'created_at'})
-    createdAt: Date;
+  //@Column({type:'varchar', nullable:true})
+  name?: string;
 
-    @UpdateDateColumn({name:'updated_at'})
-    updatedAt:Date;
+  //@Column({type:'varchar', name:'avatar_url', nullable:true})
+  avatarUrl?: string;
 
-    @Column({type:'boolean', name:'is_active', default:true})
-    isActive:boolean;
+  //@CreateDateColumn({name:'created_at'})
+  createdAt?: Date;
 
-    @OneToMany(()=>Photo, photo=>photo.user)
-    photos:Photo[];
+  //@UpdateDateColumn({name:'updated_at'})
+  updatedAt?: Date;
 
-    @OneToMany(()=>Comment, comment=>comment.user)
-    comments:Comment[];
+  //@Column({type:'boolean', name:'is_active', default:true})
+  isActive?: boolean;
 
+  //@OneToMany(()=>Photo, photo=>photo.user)
+  photos?: Photo[];
+
+  //@OneToMany(()=>Comment, comment=>comment.user)
+  comments?: Comment[];
 }

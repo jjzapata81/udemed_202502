@@ -1,69 +1,58 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable prettier/prettier */
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
+import { UserReposotoryService } from './repository/user-reposotory.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-
-  constructor(@InjectRepository(User) private userRepository:Repository<User>){
-
-  }
-
-   users:User[]=[];
+  constructor(
+    private userRep:UserReposotoryService, 
+    private jwtService: JwtService
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
+    const user = this.userRep.findBy(createUserDto.username);
+    if(user){
+      throw new BadRequestException('Usuario ya existe');
+    }
 
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(createUserDto.password, salt);
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(createUserDto.password, salt);
 
-    try{
-      let userEntity = this.userRepository.create({
+    try {
+      const userEntity = this.userRep.create({
         ...createUserDto,
-        password:hash
-      })
-      await this.userRepository.save(userEntity);
-        return {
-          success:true,
-          token:'weuywu7t7t7at7ta7igq33kqlkñq'
-        };
-      }catch(error){
-        console.log(error);
-        throw new BadRequestException(error.detail||'Error al procesar la informacion');
-      }
+        password: hash,
+      });
+      this.userRep.save(userEntity);
+      const payload = { id: userEntity.id, username: userEntity.username, urlAvatar: userEntity.avatarUrl };
+      return {
+        success: true,
+        token: await this.jwtService.signAsync(payload),
+      };
+    } catch (error) {
+      throw new BadRequestException(error['detail'] || 'Error al procesar la informacion');
+    }
   }
 
-  async findByUsername(username:string){
-    return await this.userRepository.findOneBy({
-      username:username,
-      isActive:true
-    })
+  findByUsername(username: string) {
+    return this.userRep.findBy(username);
   }
 
   findAll() {
-    return this.userRepository.find({where:{isActive:true}, select:['id', 'username', 'name']});
-   /* return this.userRepository.find({select:{
-      id:true,
-      username:true,
-      name:true,
-      email:true
-    }});*/
+    return this.userRep.findAll();
   }
 
   findOne(id: string) {
-    return this.users.find(user=>user.id===id);
+    return this.userRep.findOne(id);
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return this.userRep.update(id, updateUserDto);
   }
 
-  remove(id: string) {
-    let user = this.users.find(user=>user.id===id)
-    user!.isActive = false;
-    return `This action removes a #${id} user`;
-  }
 }

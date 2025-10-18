@@ -1,23 +1,23 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Comment } from "./comment.entity";
-import { User } from "src/user/entities/user.entity";
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable prettier/prettier */
+//import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Comment } from './comment.entity';
+import { User } from 'src/user/entities/user.entity';
 
-@Entity('gallery')
-export class Photo{
+//@Entity('gallery')
+export class Photo {
+  //@PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @PrimaryGeneratedColumn('uuid')
-    id:string;
+  //@ManyToOne(()=>User, user => user.photos)
+  user: User;
 
-    @ManyToOne(()=>User, user => user.photos)
-    user:User;
-    
-    @Column({type:'varchar'})
-    url:string;
+  //@Column({type:'varchar'})
+  url: string;
 
-    @CreateDateColumn({name:'created_at'})
-    createdAt:Date;
+  //@CreateDateColumn({name:'created_at'})
+  createdAt: Date;
 
-    @OneToMany(()=>Comment, comment=>comment.photo)
-    comments:Comment[];
-
+  //@OneToMany(()=>Comment, comment=>comment.photo)
+  comments: Comment[];
 }

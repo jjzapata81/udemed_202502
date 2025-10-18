@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -8,14 +10,14 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   controllers: [AuthController],
   providers: [AuthService],
-  imports:[
+  imports: [
     UserModule,
     ConfigModule.forRoot(),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '2m' },
-    })
-  ]
+      signOptions: { expiresIn: '2h' },
+    }),
+  ],
 })
 export class AuthModule {}

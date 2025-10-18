@@ -1,1 +1,11 @@
-<p>profile works!</p>
+<section id="login-box">
+  <h2>Editar usuario</h2>
+  <form [formGroup]="profileForm">
+    <label>Nombre</label>
+    <input type="text" id="name" formControlName="name" />
+    <label>Email</label>
+    <input type="text" id="email" formControlName="email" />
+  </form>
+  <a (click)="onUpdate()" class="primary">Actualizar</a>
+  <a [routerLink]="['home']" class="secondary">Cancelar</a>
+</section>

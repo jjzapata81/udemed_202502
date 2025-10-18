@@ -1,7 +1,7 @@
 export interface JwtPayload{
-  sub: string,
-  name: string,
-  admin: boolean,
+  id: string,
+  username: string,
+  url: string,
   iat: number;
   exp?:number;
 }

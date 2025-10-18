@@ -9,19 +9,19 @@ import { UserService } from '../../../shared/services/user-service';
   styleUrl: './home.css'
 })
 export class Home implements OnInit{
-  
+
   authService = inject(Auth);
   userService = inject(UserService);
   followers = 48;
   requests = 37;
   user = this.authService.getUserLogged();
   galleryItems = signal<any[]|[{id:string, url:string, comments:string[]}]>([]);
-  
+
   ngOnInit(): void {
 
-    const gallery = this.userService.getGallery(this.user.username);
+    const gallery = this.userService.getGallery(this.user.id);
     this.galleryItems.set(gallery);
-    
+
   }
 
 }

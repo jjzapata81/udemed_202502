@@ -3,16 +3,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
+//import { TypeOrmModule } from '@nestjs/typeorm';
+//import { ConfigModule } from '@nestjs/config';
 import { PhotoModule } from './photo/photo.module';
 
 @Module({
   imports: [
-    AuthModule, 
+    AuthModule,
     UserModule,
     PhotoModule,
-    ConfigModule.forRoot({
+    /* ConfigModule.forRoot({
               isGlobal: true, // Lo hace global
             }),
     TypeOrmModule.forRoot({
@@ -25,7 +25,7 @@ import { PhotoModule } from './photo/photo.module';
       synchronize: true,
       autoLoadEntities:true,
       ssl:false
-    }),
+    }),*/
   ],
   controllers: [AppController],
   providers: [AppService],

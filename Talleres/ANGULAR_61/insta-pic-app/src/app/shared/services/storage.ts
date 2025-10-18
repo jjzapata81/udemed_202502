@@ -13,19 +13,15 @@ export class Storage {
 
   uploadFile(imageFile:File, username:string) {
     const fileName = uuidv4();
-    console.log("2 - Llamando a supabase")
     return this.supabase.storage
       .from('instapic')
       .upload(`${username}/${fileName}`, imageFile)
       .then(response=>{
-        console.log(response);
-        console.log("3 - Supabase responde");
         if(response.data){
           return response.data.fullPath;
         }
         throw response.error;
       });
-    //console.log("4 - Servicio storage termina");
   }
 
   getUrl(fullPath:string){

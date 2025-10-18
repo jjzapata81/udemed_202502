@@ -6,35 +6,41 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class UserService {
 
-
-  saveImage(username:string, imageUrl:string){
+  saveImage(userId:string, url:string){
 
     const galleryItem = {
       id: uuidv4(),
-      url:imageUrl,
+      url:url,
       comments:[]
     }
 
-    let galleryStr = localStorage.getItem(`${username}_gallery`);
+    let galleryStr = localStorage.getItem(`${userId}_gallery`);
 
     if(galleryStr){
       let galleryItems = JSON.parse(galleryStr);
       galleryItems.push(galleryItem)
-      localStorage.setItem(`${username}_gallery`, JSON.stringify(galleryItems));
+      localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
       return;
     }
 
     const galleryItems = [galleryItem];
-    localStorage.setItem(`${username}_gallery`, JSON.stringify(galleryItems));
+    localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
   }
 
-  getGallery(username:string){
-    let galleryStr = localStorage.getItem(`${username}_gallery`);
+  getGallery(userId:string){
+    let galleryStr = localStorage.getItem(`${userId}_gallery`);
     if(galleryStr){
       return JSON.parse(galleryStr);
     }
     return [];
 
   }
-  
+
+  findAll() {
+    //throw new Error('Method not implemented.');
+  }
+
+  update(id: string, name: string | null | undefined, email: string | null | undefined) {
+
+  }
 }

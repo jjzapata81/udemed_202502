@@ -24,7 +24,7 @@ export class Upload {
       return;
     }
     const imageFile = inputTarget.files[0];
-    const username = this.authService.getUserLogged().username;
+    const user = this.authService.getUserLogged();
     /*Swal.fire({
       title: 'Cargando...',
       text: 'Por favor espera',
@@ -33,10 +33,10 @@ export class Upload {
         Swal.showLoading();
       }
     });*/
-    this.storageService.uploadFile(imageFile,username)
+    this.storageService.uploadFile(imageFile,user.username)
       .then(fullPath=>{
         const imageUrl = this.storageService.getUrl(fullPath);
-        this.userService.saveImage(username, imageUrl);
+        this.userService.saveImage(user.id!, imageUrl);
       })
       .catch(error=>{
         console.log(error);
