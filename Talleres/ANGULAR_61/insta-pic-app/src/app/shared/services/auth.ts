@@ -55,13 +55,15 @@ export class Auth {
     this.verifyLoggedUser();
   }
 
-  getUserLogged() {
+  getUserLogged():User {
     let user = this.jwtService.decodeToken();
-    if (!user) return { username: 'unknown-user', id:'1234' };
+    if (!user) return { username: 'unknown-user', id:'1', name:'no-user', url:'no-user', email:'no-user' };
     return {
       id: user.id,
       username: user.username,
-      url: user.url
+      url: user.url,
+      name:user.name,
+      email:user.email
     }
   }
 

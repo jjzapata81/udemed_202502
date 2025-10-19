@@ -12,18 +12,16 @@ export class Home implements OnInit{
 
   authService = inject(Auth);
   userService = inject(UserService);
-
   followers = 48;
   requests = 37;
-  username = this.authService.getUserLogged().username;
-  user = this.userService.getUser(this.username);
-  galleryItems = signal([]);
+  user = this.authService.getUserLogged();
+  galleryItems = signal<any[]|[{id:string, url:string, comments:string[]}]>([]);
 
-    ngOnInit(): void {
-     /* const user = this.userService.getUser(this.username);
-      if(user){
-        this.galleryItems.set(user.gallery)
-      }*/
+  ngOnInit(): void {
+
+    const gallery = this.userService.getGallery(this.user.id);
+    this.galleryItems.set(gallery);
+
   }
 
 }

@@ -3,5 +3,5 @@ export class CreateUserDto {
   password: string;
   email?: string;
   name?: string;
-  avatarUrl?: string;
+  url?: string;
 }

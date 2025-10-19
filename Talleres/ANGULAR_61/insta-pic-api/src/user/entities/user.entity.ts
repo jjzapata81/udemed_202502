@@ -22,7 +22,7 @@ export class User {
   name?: string;
 
   //@Column({type:'varchar', name:'avatar_url', nullable:true})
-  avatarUrl?: string;
+  url?: string;
 
   //@CreateDateColumn({name:'created_at'})
   createdAt?: Date;

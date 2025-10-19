@@ -29,7 +29,13 @@ export class UserService {
         password: hash,
       });
       this.userRep.save(userEntity);
-      const payload = { id: userEntity.id, username: userEntity.username, urlAvatar: userEntity.avatarUrl };
+      const payload = { 
+        id: userEntity.id, 
+        username: userEntity.username, 
+        url: userEntity.url,
+        email: userEntity.email,
+        name:userEntity.name
+      };
       return {
         success: true,
         token: await this.jwtService.signAsync(payload),

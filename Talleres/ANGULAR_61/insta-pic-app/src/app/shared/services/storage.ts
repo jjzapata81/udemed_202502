@@ -11,10 +11,18 @@ export class Storage {
 
   private supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-  uploadFile(imageFile:File, username:string) {
+  uploadPicture(imageFile:File, username:string) {
     const fileName = uuidv4();
+    return this.uploadFile(imageFile, username, 'instapic', fileName)
+  }
+
+  uploadAvatar(imageFile:File, username:string) {
+    return this.uploadFile(imageFile, username, 'avatar', username)
+  }
+
+  uploadFile(imageFile:File, username:string, bucket:string, fileName:string) {
     return this.supabase.storage
-      .from('instapic')
+      .from(bucket)
       .upload(`${username}/${fileName}`, imageFile)
       .then(response=>{
         if(response.data){

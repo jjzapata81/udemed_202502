@@ -1,11 +1,20 @@
-<section id="login-box">
-  <h2>Editar usuario</h2>
-  <form [formGroup]="profileForm">
-    <label>Nombre</label>
-    <input type="text" id="name" formControlName="name" />
-    <label>Email</label>
-    <input type="text" id="email" formControlName="email" />
-  </form>
-  <a (click)="onUpdate()" class="primary">Actualizar</a>
-  <a [routerLink]="['home']" class="secondary">Cancelar</a>
+<h2>Editar usuario</h2>
+<section id="edit-profile">
+  <div id="profile-photo">
+    <img src="assets/default-profile.jpg" alt="Foto de perfil" />
+    <label for="photo-upload" class="upload-btn">Cambiar foto</label>
+    <input type="file" id="photo-upload" accept="image/*" hidden />
+  </div>
+
+  <div >
+    <form [formGroup]="profileForm">
+      <label>Nombre</label>
+      <input type="text" id="name" formControlName="name" />
+
+      <label>Email</label>
+      <input type="text" id="email" formControlName="email" />
+    </form>
+    <a (click)="onUpdate()" class="primary">Actualizar</a>
+    <a [routerLink]="['home']" class="secondary">Cancelar</a>
+  </div>
 </section>

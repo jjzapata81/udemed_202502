@@ -1,8 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
-import { LoginResponse, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
+import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
+import { JwtService } from './jwt-service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,81 +11,68 @@ import { catchError, map, Observable } from 'rxjs';
 export class Auth {
 
   http = inject(HttpClient);
+  jwtService = inject(JwtService)
 
-  isLogged = signal(false);
+  isLoged = signal(false);
 
-  constructor(){
-    this.verifyUserLogged();
+  constructor() {
+    this.verifyLoggedUser();
   }
 
-  login(user: User): Observable<LoginResponse> {
-    let body = {
-      username:user.username,
-      password:user.password
-    }
-   // return this.http.post<LoginResponse>('http://localhost:3000/api/v1/auth/login', body);
-
-
-    return this.http.post<LoginServiceResponse>('http://localhost:3000/api/v1/auth/login', body)
-      .pipe(
-        map((response)=>{
-          sessionStorage.setItem('userLogged', user.username);
-          sessionStorage.setItem('token', response.token);
-          return { success: response.success, redirectTo: "home" };
-        }),
-        catchError(() => [
-          {success:false}
-        ])
-      );
-
-    /*let userSrt = localStorage.getItem(user.username)
-
-    if (userSrt && user.password === JSON.parse(userSrt)['password']) {
-      sessionStorage.setItem('userLogged', user.username);
-      this.verifyUserLogged();
-      return { success: true, redirectTo: "home" };
-    }
-
-    return { success: false };*/
+  login(user: User): Observable<LoginRespose> {
+    return this.http.post<LoginServiceResponse>('http://localhost:3000/api/v1/auth/login', user).pipe(
+      map(response => {
+        sessionStorage.setItem('token', response.token);
+        this.verifyLoggedUser();
+        return {
+          success: response.success
+        }
+      }),
+      catchError((error) => {
+        return [{ success: false, message: 'Usuario o contraseña incorrectos' }];
+      })
+    );
 
   }
 
-  signUp(user:User):SignUpResponse {
 
-    if (localStorage.getItem(user.username)) {
-      return{ success:false, message:'Usuario ya existe' };
+  signUp(user: User): SignUpResponse {
+
+    //this.http.post('http://localhost:3000/api/v1/user', user)
+
+    let userStr = localStorage.getItem(user.username!);
+    if (userStr) {
+      return { success: false, message: 'Ya existe el Usuario' };
     }
-    user.gallery=[];
-    localStorage.setItem(user.username, JSON.stringify(user));
+    localStorage.setItem(user.username!, JSON.stringify(user));
     sessionStorage.setItem('userLogged', user.username);
-    this.verifyUserLogged();
-    return {success:true, redirectTo:'home'}
-
+    this.verifyLoggedUser();
+    return { success: true, redirectTo: 'home' };
   }
 
-  private verifyUserLogged(){
-    this.isLogged.set(!!sessionStorage.getItem('userLogged'))
-  }
-
-
-  logout(){
+  logout() {
     sessionStorage.clear();
-    this.verifyUserLogged();
+    this.verifyLoggedUser();
   }
 
-  getUserLogged(){
-
-    if(!!sessionStorage.getItem('userLogged')){
-      return {
-        username:sessionStorage.getItem('userLogged')!
-      }
-    }
+  getUserLogged():User {
+    let user = this.jwtService.decodeToken();
+    if (!user) return { username: 'unknown-user', id:'1', name:'no-user', url:'no-user', email:'no-user' };
     return {
-      username:'Bienvenido'
+      id: user.id,
+      username: user.username,
+      url: user.url,
+      name:user.name,
+      email:user.email
     }
   }
 
+  isTokenExpired() {
+    return this.jwtService.isTokenExpired();
+  }
 
-  
+  private verifyLoggedUser() {
+    this.isLoged.set(!!sessionStorage.getItem('token'))
+  }
 
 }

@@ -1,7 +1,7 @@
-export interface User{
-    username:string;
-    password:string;
-    email?:string;
-    rePassword?:string;
-    gallery?:string[];
+export interface User {
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  url:string;
 }

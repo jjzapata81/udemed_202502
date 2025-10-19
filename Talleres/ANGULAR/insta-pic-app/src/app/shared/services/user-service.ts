@@ -1,41 +1,48 @@
 import { Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private user = signal<User | null>(null);
+  saveImage(userId:string, url:string){
 
-
-  saveImage(username: string, url:string){
-    let userString = localStorage.getItem(username)
-    if(userString){
-      let user = JSON.parse(userString);
-      user.gallery.push(url);
-      console.log(user)
-      localStorage.setItem(username, JSON.stringify(user));
+    const galleryItem = {
+      id: uuidv4(),
+      url:url,
+      comments:[]
     }
+
+    let galleryStr = localStorage.getItem(`${userId}_gallery`);
+
+    if(galleryStr){
+      let galleryItems = JSON.parse(galleryStr);
+      galleryItems.push(galleryItem)
+      localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
+      return;
+    }
+
+    const galleryItems = [galleryItem];
+    localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
+  }
+
+  getGallery(userId:string){
+    let galleryStr = localStorage.getItem(`${userId}_gallery`);
+    if(galleryStr){
+      return JSON.parse(galleryStr);
+    }
+    return [];
 
   }
 
-  getUser(username:string){
-    let userString = localStorage.getItem(username)
-    if(userString){
-      this.user.set(JSON.parse(userString) as User)
-    }
-    return this.user;
-  
+  findAll() {
+    //throw new Error('Method not implemented.');
   }
 
-  /*getUser2(){
-    let token = sessionStorage.getItem('token')
-    if(userString){
-      this.user.set(JSON.parse(userString) as User)
-    }
-    return this.user;
-  
-  }*/
+  update(userId:string, user:Partial<User>) {
+
+  }
   
 }

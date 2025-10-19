@@ -13,7 +13,7 @@ export class Header {
   private authService = inject(Auth);
   router = inject(Router);
 
-  isLogged = this.authService.isLogged;
+  isLogged = this.authService.isLoged;
 
   onLogout(){
     this.authService.logout();

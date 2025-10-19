@@ -6,6 +6,7 @@ import { Upload } from './features/pages/upload/upload';
 import { Profile } from './features/pages/profile/profile';
 import { Find } from './features/pages/find/find';
 import { authGuard } from './shared/guards/auth-guard';
+import { Chat } from './features/pages/chat/chat';
 
 export const routes: Routes = [
     {
@@ -44,6 +45,11 @@ export const routes: Routes = [
         path:"upload",
         component:Upload,
         pathMatch:"full"
+    },
+    {
+        path:"chat",
+        component:Chat,
+        canActivate:[authGuard]
     },
     {
         path:"**",

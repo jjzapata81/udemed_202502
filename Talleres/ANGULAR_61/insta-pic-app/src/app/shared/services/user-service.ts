@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class UserService {
     //throw new Error('Method not implemented.');
   }
 
-  update(id: string, name: string | null | undefined, email: string | null | undefined) {
+  update(userId:string, user:Partial<User>) {
 
   }
 }

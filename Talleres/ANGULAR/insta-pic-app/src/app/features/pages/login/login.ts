@@ -6,61 +6,49 @@ import { User } from '../../../shared/interfaces/user';
 import Swal from 'sweetalert2'
 
 @Component({
-  selector: 'app-login',
-  imports: [RouterLink, ReactiveFormsModule],
-  templateUrl: './login.html',
-  styleUrl: './login.css'
+    selector: 'app-login',
+    imports: [RouterLink, ReactiveFormsModule],
+    templateUrl: './login.html',
+    styleUrl: './login.css'
 })
 export class Login {
 
 
-  fb = inject(FormBuilder);
+    fb = inject(FormBuilder);
+    router = inject(Router);
+    authService = inject(Auth);
 
-  router = inject(Router);
-
-  authService = inject(Auth);
-
-  ruta = '';
-
-  title = 'Registro de usuario';
-
-  validators = [Validators.required, Validators.minLength(4)];
-
-  loginForm = this.fb.group({
-    username: ['jjzapata', [Validators.required]],
-    password: ['', this.validators]
-  })
-
-
-  onLogin() {
-    if (!this.loginForm.valid) {
-      Swal.fire('Faltan campos por diligenciar');
-      return;
-    }
-
-
-    let user = this.loginForm.value as User;
-
-    this.authService.login(user).subscribe(response => {
-      console.log(response);
-      if (!!response.success) {
-        Swal.fire('Ingreso exitoso');
-        this.router.navigate([response.redirectTo]);
-        return;
-      }
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Ingreso fallido!"
-      });
+    loginForm = this.fb.group({
+        username: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(4)]]
     })
-    /* let loginResponse = this.authService.login(user);
-      if(!!loginResponse.success){
-       Swal.fire('Ingreso exitoso');
-       this.router.navigate([loginResponse.redirectTo]);
-       return;
-     }*/
 
-  }
+
+    onLogin() {
+        if (!this.loginForm.valid) {
+            Swal.fire({
+                title: "Ops!",
+                text: "El formulario no es valido",
+                icon: "error"
+            });
+            return;
+        }
+        let user = this.loginForm.value as User;
+
+        this.authService.login(user)
+            .subscribe(response=>{
+                if (response.success) {
+                    this.router.navigate(['home'])
+                    return;
+                }
+                Swal.fire({
+                    title: "Ops!",
+                    text: response.message,
+                    icon: "error"
+                });
+
+            });
+
+    }
 
 }

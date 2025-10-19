@@ -1,11 +1,11 @@
 <section id="profile">
   <div>
     <img src="/assets/batman_avatar.webp" />
-    <span id="userName">{{username}}</span>
+    <span id="userName">{{user.username}}</span>
   </div>
   <div>
     <span>
-      {{user()!.gallery!.length}}
+      {{galleryItems().length}}
     </span>
     <span>Publicaciones</span>
   </div>
@@ -15,11 +15,18 @@
   </div>
   <div>
     <span>{{requests}}</span>
-    <span>Solicitudes</span>un cambio bob
+    <span>Solicitudes</span>
   </div>
 </section>
 <section id="gallery">
-  @for(image of user()!.gallery!; track image){
-    <img [src]="image" />
+
+  @if(galleryItems().length>0){
+
+    @for(image of galleryItems(); track image){
+      <img [src]="image.url"/>
+    } 
+  }@else{
+    <span>Aún no has cargado imágenes</span>
   }
+  
 </section>

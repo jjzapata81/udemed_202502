@@ -1,1 +1,32 @@
-<p>find works!</p>
+<section class="container">
+  <h2>Búsqueda de Usuarios</h2>
+
+  <input
+    type="text"
+    placeholder="Buscar por nombre, email o usuario..."
+    (keydown)="onFilter($event)"
+  />
+
+  <div class="user-list">
+    @for (item of usersFiltered(); track item) {
+    <div class="user-entry">
+      <div class="user-card">
+        <h3>{{ item.name }}</h3>
+        <p><strong>Email:</strong> {{ item.email }}</p>
+        <p><strong>Nombre de usuario:</strong> {{ item.username }}</p>
+      </div>
+
+      <div class="user-actions">
+        <a (click)="onFind(item.username)" title="Ver perfil">
+          <i class="fa-regular fa-user"></i>
+        </a>
+        <a (click)="onChat(item.id)" title="Chatear">
+          <i class="fa-regular fa-message"></i>
+        </a>
+      </div>
+    </div>
+    } @empty {
+      <span>Aún no hay resultados para mostrar</span>
+    }
+  </div>
+</section>

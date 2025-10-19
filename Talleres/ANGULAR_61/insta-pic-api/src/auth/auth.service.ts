@@ -16,7 +16,7 @@ export class AuthService {
   login(request: LoginDto) {
     const user = this.userService.findByUsername(request.username);
     if (user && bcrypt.compareSync(request.password, user.password)) {
-      const payload = { id: user.id, username: user.username, urlAvatar: user.avatarUrl };
+      const payload = { id: user.id, username: user.username, url: user.url, email:user.email, name:user.name };
       return {
         success: true,
         token: this.jwtService.sign(payload),

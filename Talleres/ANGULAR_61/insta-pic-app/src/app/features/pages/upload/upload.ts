@@ -33,7 +33,7 @@ export class Upload {
         Swal.showLoading();
       }
     });*/
-    this.storageService.uploadFile(imageFile,user.username)
+    this.storageService.uploadPicture(imageFile,user.username)
       .then(fullPath=>{
         const imageUrl = this.storageService.getUrl(fullPath);
         this.userService.saveImage(user.id!, imageUrl);
