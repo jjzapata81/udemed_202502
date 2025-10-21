@@ -9,14 +9,14 @@ Completar el código conectando los servicios disponibles, anteriormente expuest
 
 ## Registro de usuario
 
-- Modificar la lógica del servicio [Auth](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/auth.ts), para que el método `onSignUp` no persista la información en el `localStorage`, sino que consuma el api de creación de usuarios
+- Modificar la lógica del servicio [Auth](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR/insta-pic-app/src/app/shared/services/auth.ts), para que el método `onSignUp` no persista la información en el `localStorage`, sino que consuma el api de creación de usuarios
 - Realizar control de errores y redireccionamiento en caso de éxito
 - Guardar el `token` en el `sessionStorage`
 - Generar las interfaces que considere necesarias
 
 ## Subir foto
 
-- Modificar la lógica del servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), para que el método `saveImage` guarde la imagen consumiendo el api de subir foto
+- Modificar la lógica del servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR/insta-pic-app/src/app/shared/services/user-service.ts), para que el método `saveImage` guarde la imagen consumiendo el api de subir foto
 - Realizar control de errores y redireccionamiento en caso de éxito
 - Guardar el `token` en el `sessionStorage`
 - Generar las interfaces que considere necesarias
@@ -32,22 +32,22 @@ saveImage(userId:string, url:string){
 ```
 ## Consultar galería de un usuario
 
-- Modificar la lógica del servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), para que el método `getGallery` consuma el api de consultar galería
+- Modificar la lógica del servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR/insta-pic-app/src/app/shared/services/user-service.ts), para que el método `getGallery` consuma el api de consultar galería
 - Presentar las imágenes del usuario en el `home`
 - Realizar control de errores
 - Generar las interfaces que considere necesarias
 
 ## Buscar usuarios
 
-- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el api de consulta de usuarios
+- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el api de consulta de usuarios
 - Presentar los usuarios en el `find`
 - Realizar control de errores
 - Generar las interfaces que considere necesarias
 
 ## Editar el perfil del usuario
 
-- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el api de actualización de usuarios
-- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el servicio de carga de imagenes para el perfil del usuario
+- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el api de actualización de usuarios
+- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el servicio de carga de imagenes para el perfil del usuario
 - Redireccionar al home y visualizar los cambios realizados
 - Realizar control de errores
 - Generar las interfaces que considere necesarias
