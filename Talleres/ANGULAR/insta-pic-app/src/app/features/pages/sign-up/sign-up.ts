@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../shared/services/auth';
 import { User } from '../../../shared/interfaces/user';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sign-up',
@@ -33,22 +34,29 @@ export class SignUp {
 
 
   onSignUp(){
-    if(!this.signUpForm.valid){
-      alert('Faltan campos por diligenciar');
-      return;
-    }
-    let user = this.signUpForm.value as User;
+      if (!this.signUpForm.valid) {
+          Swal.fire({
+              title: "Ops!",
+              text: "Faltan campos por diligenciar",
+              icon: "error"
+          });
+          return;
+      }
+      let user = this.signUpForm.value as User;
 
-    let signUpResponse = this.authService.signUp(user);
+      this.authService.signUp(user)
+          .subscribe(response=>{
+              if (response.success) {
+                  this.router.navigate([response.redirectTo || 'home']);
+                  return;
+              }
+              Swal.fire({
+                  title: "Ops!",
+                  text: response.message,
+                  icon: "error"
+              });
 
-
-    if(!!signUpResponse.success){
-      this.router.navigate([signUpResponse.redirectTo]);
-      return;
-    }
-
-    alert(signUpResponse.message);
-
+          });
   }
 
 }

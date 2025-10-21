@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
-import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
+import { LoginResponse, LoginServiceResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 import { JwtService } from './jwt-service';
+import { SignUpResponse, SignUpServiceResponse } from '../interfaces/sign-up-response';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class Auth {
     this.verifyLoggedUser();
   }
 
-  login(user: User): Observable<LoginRespose> {
+  login(user: User): Observable<LoginResponse> {
     return this.http.post<LoginServiceResponse>('http://localhost:3000/api/v1/auth/login', user).pipe(
       map(response => {
         sessionStorage.setItem('token', response.token);
@@ -32,22 +33,23 @@ export class Auth {
         return [{ success: false, message: 'Usuario o contraseña incorrectos' }];
       })
     );
-
   }
 
 
-  signUp(user: User): SignUpResponse {
-
-    //this.http.post('http://localhost:3000/api/v1/user', user)
-
-    let userStr = localStorage.getItem(user.username!);
-    if (userStr) {
-      return { success: false, message: 'Ya existe el Usuario' };
-    }
-    localStorage.setItem(user.username!, JSON.stringify(user));
-    sessionStorage.setItem('userLogged', user.username);
-    this.verifyLoggedUser();
-    return { success: true, redirectTo: 'home' };
+  signUp(user: User): Observable<SignUpResponse> {
+    return this.http.post<SignUpServiceResponse>('http://localhost:3000/api/v1/auth/signUp', user).pipe(
+      map(response => {
+        sessionStorage.setItem('token', response.token);
+        this.verifyLoggedUser();
+        return {
+          success: response.success,
+          redirectTo: 'home'
+        }
+      }),
+      catchError((error) => {
+        return [{ success: false, message: 'No se pudo guardar tu usuario!' }];
+      })
+    );
   }
 
   logout() {

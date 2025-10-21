@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
+import { SignUpDto } from './dto/sign-up.dto';
 import { UserService } from 'src/user/user.service';
 import bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -25,4 +26,16 @@ export class AuthService {
     throw new NotFoundException('Usuario o constraseña incorrectos');
   }
 
+  async register(request: SignUpDto) {
+    const existingUser = this.userService.findByUsername(request.username);
+    if (existingUser) { throw new ConflictException('El nombre de usuario ya existe'); }
+
+    return await this.userService.create({
+      username: request.username,
+      password: request.password,
+      email: request.email,
+      name: request.name,
+      url: request.url,
+    });
+  }
 }

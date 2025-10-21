@@ -1,11 +1,11 @@
 import {Controller,Post,Body,BadRequestException} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+import { SignUpDto } from './dto/sign-up.dto';
 
 @Controller('v1/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
 
   @Post('login')
   login(@Body() request: LoginDto) {
@@ -14,4 +14,13 @@ export class AuthController {
     }
     throw new BadRequestException('username y password son obligatorios');
   }
+
+  @Post('signUp')
+  async signUp(@Body() request: SignUpDto) {
+    if (request.password && request.username) {
+      return this.authService.register(request);
+    }
+    throw new BadRequestException('username y password son obligatorios');
+  }
+
 }

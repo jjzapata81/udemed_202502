@@ -1,12 +1,6 @@
-export interface LoginRespose{
+export interface LoginResponse{
     success:boolean;
     message?:string;
-}
-
-export interface SignUpResponse extends LoginRespose{
-
-    redirectTo?:string;
-
 }
 
 export interface LoginServiceResponse{
