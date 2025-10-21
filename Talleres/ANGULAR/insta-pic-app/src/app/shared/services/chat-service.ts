@@ -1,21 +1,22 @@
 import { Injectable, signal } from '@angular/core';
 import { createClient } from '@supabase/supabase-js';
-import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment';
+import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment.dev';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 @Injectable({ providedIn: 'root' })
 export class ChatService {
-
   messages = signal<any[]>([]);
   private currentChannel: any = null;
 
   constructor() {
-   this.listenToMessages();
+    this.listenToMessages();
   }
 
   async sendMessage(senderId: string, receiverId: string, content: string) {
-    await supabase.from('messages').insert([{ sender_id: senderId, receiver_id: receiverId, content }]);
+    await supabase
+      .from('messages')
+      .insert([{ sender_id: senderId, receiver_id: receiverId, content }]);
   }
 
   listenToMessages() {
@@ -35,7 +36,9 @@ export class ChatService {
     const { data } = await supabase
       .from('messages')
       .select('*')
-      .or(`and(sender_id.eq.${senderId},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${senderId})`)
+      .or(
+        `and(sender_id.eq.${senderId},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${senderId})`
+      )
       .order('created_at', { ascending: true });
 
     this.messages.set(data || []);
@@ -44,7 +47,11 @@ export class ChatService {
   subscribeToMessages(userTo: string, callback: (payload: any) => void) {
     return supabase
       .channel(`messages-to-${userTo}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter:`receiver_id=eq.${userTo}` }, callback)
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'messages', filter: `receiver_id=eq.${userTo}` },
+        callback
+      );
   }
   /*subscribeToChat(receiverId: string, onNewMessage?: (payload: any) => void) {
     // Limpia canal anterior si existe
