@@ -18,14 +18,13 @@ Completar el código conectando los servicios disponibles, anteriormente expuest
 
 - Modificar la lógica del servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR/insta-pic-app/src/app/shared/services/user-service.ts), para que el método `saveImage` guarde la imagen consumiendo el api de subir foto
 - Realizar control de errores y redireccionamiento en caso de éxito
-- Guardar el `token` en el `sessionStorage`
 - Generar las interfaces que considere necesarias
 
 **Nota**: Para consumir este servicio es necesario enviar el token en los headers de la petición. A continuación un ejemplo de cómo se hace:
 ```js
 //Se debe recuperar el token del sessionStorage
 saveImage(userId:string, url:string){
-  const headers: new HttpHeaders({Authorization: `Bearer ${token}`});
+  const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
   this.http.post(`${url}`, { userId, url }, {headers})...
   ...
 }
