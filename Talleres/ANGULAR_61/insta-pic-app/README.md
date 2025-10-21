@@ -1,59 +1,54 @@
 # InstaPicApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+Completar el código conectando los servicios disponibles, anteriormente expuestos:
+ - Registrar usuario
+ - Subir foto
+ - Consultar gallería de un usuario
+ - Buscar usuarios
+ - Editar el perfil del usuario
 
-## Development server
+## Registro de usuario
 
-To start a local development server, run:
+- Modificar la lógica del servicio [Auth](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/auth.ts), para que el método `onSignUp` no persista la información en el `localStorage`, sino que consuma el api de creación de usuarios
+- Realizar control de errores y redireccionamiento en caso de éxito
+- Guardar el `token` en el `sessionStorage`
+- Generar las interfaces que considere necesarias
 
-```bash
-ng serve
+## Subir foto
+
+- Modificar la lógica del servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), para que el método `saveImage` guarde la imagen consumiendo el api de subir foto
+- Realizar control de errores y redireccionamiento en caso de éxito
+- Guardar el `token` en el `sessionStorage`
+- Generar las interfaces que considere necesarias
+
+**Nota**: Para consumir este servicio es necesario enviar el token en los headers de la petición. A continuación un ejemplo de cómo se hace:
+```js
+//Se debe recuperar el token del sessionStorage
+saveImage(userId:string, url:string){
+  const headers: new HttpHeaders({Authorization: `Bearer ${token}`});
+  this.http.post(`${url}`, { userId, url }, {headers})...
+  ...
+}
 ```
+## Consultar galería de un usuario
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Modificar la lógica del servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), para que el método `getGallery` consuma el api de consultar galería
+- Presentar las imágenes del usuario en el `home`
+- Realizar control de errores
+- Generar las interfaces que considere necesarias
 
-## Code scaffolding
+## Buscar usuarios
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el api de consulta de usuarios
+- Presentar los usuarios en el `find`
+- Realizar control de errores
+- Generar las interfaces que considere necesarias
 
-```bash
-ng generate component component-name
-```
+## Editar el perfil del usuario
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el api de actualización de usuarios
+- Agregar en el servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), un método que consuma el servicio de carga de imagenes para el perfil del usuario
+- Redireccionar al home y visualizar los cambios realizados
+- Realizar control de errores
+- Generar las interfaces que considere necesarias
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
