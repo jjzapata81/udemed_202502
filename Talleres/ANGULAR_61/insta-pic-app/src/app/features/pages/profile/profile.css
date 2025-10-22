@@ -1,0 +1,54 @@
+#edit-profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+/* Caja de foto de perfil */
+#profile-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
+}
+
+#profile-photo img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #219ebc;
+  margin-bottom: 15px;
+}
+
+.upload-btn {
+  background-color: #ffb703;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
+
+.upload-btn:hover {
+  background-color: #d00000;
+}
+
+a{
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  color: white;
+  display: block;
+  text-align: center;
+}
