@@ -5,3 +5,11 @@ export interface User {
   email: string;
   url:string;
 }
+
+export interface CreateUserDto {
+  username: string;
+  password: string;
+  name: string;
+  email: string;
+  avatar?: string;
+}

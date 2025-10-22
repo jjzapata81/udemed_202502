@@ -3,8 +3,10 @@
     <form [formGroup]="signUpForm">
         <label>Nombre de usuario</label>
         <input type="text" id="username" formControlName="username" />
+        <label>Nombre completo</label>
+        <input type="text" id="name" formControlName="name" />
         <label>Email</label>
-        <input type="text" id="email" formControlName="email" />
+        <input type="email" id="email" formControlName="email" />
         <label>Contraseña</label>
         <input type="password" id="password" placeholder="Ingrese contraseña" formControlName="password" />
         <label>Confirmar contraseña</label>

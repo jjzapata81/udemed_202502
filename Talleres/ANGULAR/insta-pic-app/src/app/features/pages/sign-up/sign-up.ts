@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../shared/services/auth';
-import { User } from '../../../shared/interfaces/user';
+import { User, CreateUserDto } from '../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-sign-up',
@@ -26,6 +26,7 @@ export class SignUp {
 
   signUpForm = this.fb.group({
     username:['jjzapata', [Validators.required]],
+    name:['', [Validators.required]],
     email:['', [Validators.required]],
     password:['', this.validators],
     rePassword:['',  this.validators],
@@ -37,18 +38,32 @@ export class SignUp {
       alert('Faltan campos por diligenciar');
       return;
     }
-    let user = this.signUpForm.value as User;
 
-    let signUpResponse = this.authService.signUp(user);
-
-
-    if(!!signUpResponse.success){
-      this.router.navigate([signUpResponse.redirectTo]);
+    if(this.signUpForm.value.password !== this.signUpForm.value.rePassword){
+      alert('Las contraseñas no coinciden');
       return;
     }
 
-    alert(signUpResponse.message);
+    let user: CreateUserDto = {
+      username: this.signUpForm.value.username!,
+      name: this.signUpForm.value.name!,
+      email: this.signUpForm.value.email!,
+      password: this.signUpForm.value.password!
+    };
 
+    this.authService.signUp(user).subscribe({
+      next: (response) => {
+        if(response.success){
+          this.router.navigate([response.redirectTo]);
+        } else {
+          alert(response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Error en el registro:', error);
+        alert('Error al crear el usuario');
+      }
+    });
   }
 
 }

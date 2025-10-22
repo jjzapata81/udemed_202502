@@ -13,3 +13,8 @@ export interface LoginServiceResponse{
     success:boolean;
     token:string;
 }
+
+export interface SignUpServiceResponse{
+    success:boolean;
+    token:string;
+}

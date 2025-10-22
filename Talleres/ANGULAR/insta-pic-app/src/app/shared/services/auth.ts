@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../interfaces/user';
-import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
+import { User, CreateUserDto } from '../interfaces/user';
+import { LoginRespose, LoginServiceResponse, SignUpResponse, SignUpServiceResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 import { JwtService } from './jwt-service';
@@ -36,18 +36,37 @@ export class Auth {
   }
 
 
-  signUp(user: User): SignUpResponse {
-
-    //this.http.post('http://localhost:3000/api/v1/user', user)
-
-    let userStr = localStorage.getItem(user.username!);
-    if (userStr) {
-      return { success: false, message: 'Ya existe el Usuario' };
-    }
-    localStorage.setItem(user.username!, JSON.stringify(user));
-    sessionStorage.setItem('userLogged', user.username);
-    this.verifyLoggedUser();
-    return { success: true, redirectTo: 'home' };
+  signUp(user: CreateUserDto): Observable<SignUpResponse> {
+    return this.http.post<SignUpServiceResponse>('http://localhost:3000/api/v1/user', user).pipe(
+      map(response => {
+        if (response.success) {
+          sessionStorage.setItem('token', response.token);
+          this.verifyLoggedUser();
+          return {
+            success: true,
+            redirectTo: 'home'
+          };
+        }
+        return {
+          success: false,
+          message: 'Error al crear el usuario'
+        };
+      }),
+      catchError((error) => {
+        console.error('Error en el registro:', error);
+        let errorMessage = 'Error al crear el usuario';
+        
+        if (error.status === 400) {
+          errorMessage = 'Los datos proporcionados no son válidos';
+        } else if (error.status === 409) {
+          errorMessage = 'El usuario ya existe';
+        } else if (error.status === 500) {
+          errorMessage = 'Error interno del servidor';
+        }
+        
+        return [{ success: false, message: errorMessage }];
+      })
+    );
   }
 
   logout() {
