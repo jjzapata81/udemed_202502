@@ -40,17 +40,31 @@ export class SignUp {
         }
         let user = this.signUpForm.value as User;
 
-        let response = this.authService.onSignUp(user);
-
-        if (!response.success) {
-            Swal.fire({
-                title: "Ops!",
-                text: response.message,
-                icon: "error"
-            });
-            return;
-        }
-        this.router.navigate([response.redirectTo]);
+        this.authService.onSignUp(user).subscribe({
+            next: (response) => {
+                if (response.success) {
+                    Swal.fire({
+                        title: "¡Éxito!",
+                        text: "Usuario registrado correctamente",
+                        icon: "success"
+                    });
+                    this.router.navigate([response.redirectTo]);
+                } else {
+                    Swal.fire({
+                        title: "Ops!",
+                        text: response.message,
+                        icon: "error"
+                    });
+                }
+            },
+            error: (error) => {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Ocurrió un error al registrar el usuario",
+                    icon: "error"
+                });
+            }
+        });
     }
 
 }

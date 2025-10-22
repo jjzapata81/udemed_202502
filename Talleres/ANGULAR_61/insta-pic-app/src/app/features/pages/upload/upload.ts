@@ -25,28 +25,56 @@ export class Upload {
     }
     const imageFile = inputTarget.files[0];
     const user = this.authService.getUserLogged();
-    /*Swal.fire({
+    
+    Swal.fire({
       title: 'Cargando...',
       text: 'Por favor espera',
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
       }
-    });*/
-    this.storageService.uploadPicture(imageFile,user.username)
-      .then(fullPath=>{
+    });
+    
+    this.storageService.uploadPicture(imageFile, user.username)
+      .then(fullPath => {
         const imageUrl = this.storageService.getUrl(fullPath);
-        this.userService.saveImage(user.id!, imageUrl);
+        
+        this.userService.saveImage(user.id!, imageUrl).subscribe({
+          next: (response) => {
+            Swal.close();
+            if (response.success) {
+              Swal.fire({
+                title: '¡Éxito!',
+                text: 'Foto subida correctamente',
+                icon: 'success'
+              });
+              this.router.navigate(['home']);
+            } else {
+              Swal.fire({
+                title: 'Error',
+                text: response.message,
+                icon: 'error'
+              });
+            }
+          },
+          error: (error) => {
+            Swal.close();
+            Swal.fire({
+              title: 'Error',
+              text: 'Error al guardar la imagen',
+              icon: 'error'
+            });
+          }
+        });
       })
-      .catch(error=>{
+      .catch(error => {
+        Swal.close();
         console.log(error);
         Swal.fire({
-          text:'Error al cargar la imagen',
-          icon:'error'
-        })
+          text: 'Error al cargar la imagen',
+          icon: 'error'
+        });
       });
-    this.router.navigate(['home'])
-    //Swal.close();
   }
 
 }

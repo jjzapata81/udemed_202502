@@ -1,31 +1,38 @@
-import { Injectable } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, map, Observable, of } from 'rxjs';
 import { User } from '../interfaces/user';
+import { UploadPhotoResponse } from '../interfaces/photo-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  saveImage(userId:string, url:string){
+  http = inject(HttpClient);
 
-    const galleryItem = {
-      id: uuidv4(),
-      url:url,
-      comments:[]
+  saveImage(userId: string, url: string): Observable<UploadPhotoResponse> {
+    const token = sessionStorage.getItem('token');
+    
+    if (!token) {
+      return of({ success: false, message: 'No hay sesión activa' });
     }
 
-    let galleryStr = localStorage.getItem(`${userId}_gallery`);
-
-    if(galleryStr){
-      let galleryItems = JSON.parse(galleryStr);
-      galleryItems.push(galleryItem)
-      localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
-      return;
-    }
-
-    const galleryItems = [galleryItem];
-    localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    
+    return this.http.post<UploadPhotoResponse>('http://localhost:3000/api/v1/gallery/add', 
+      { userId, url }, 
+      { headers }
+    ).pipe(
+      map(response => ({
+        success: true,
+        message: 'Foto subida correctamente'
+      })),
+      catchError((error) => {
+        const message = error.error?.message || 'Error al subir la foto';
+        return of({ success: false, message });
+      })
+    );
   }
 
   getGallery(userId:string){
