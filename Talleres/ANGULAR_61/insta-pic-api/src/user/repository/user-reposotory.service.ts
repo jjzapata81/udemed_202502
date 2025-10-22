@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 export class UserReposotoryService {
-  
   private repo: User[] = [];
 
   create(user: User): User {
@@ -30,11 +29,11 @@ export class UserReposotoryService {
   }
 
   findBy(username: string) {
-    return this.repo.find(user => user.username === username);
+    return this.repo.find((user) => user.username === username);
   }
 
   findOne(id: string) {
-    return this.repo.find(user => user.id === id)!;
+    return this.repo.find((user) => user.id === id)!;
   }
 
   update(id: string, partialUser: Partial<User>): User | undefined {
@@ -43,5 +42,4 @@ export class UserReposotoryService {
     this.repo[index] = { ...this.repo[index], ...partialUser };
     return this.repo[index];
   }
-
 }

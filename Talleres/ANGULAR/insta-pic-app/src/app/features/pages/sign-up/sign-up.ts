@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, resolveForwardRef } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../shared/services/auth';
@@ -8,10 +8,9 @@ import { User } from '../../../shared/interfaces/user';
   selector: 'app-sign-up',
   imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './sign-up.html',
-  styleUrl: './sign-up.css'
+  styleUrl: './sign-up.css',
 })
 export class SignUp {
-
   fb = inject(FormBuilder);
 
   router = inject(Router);
@@ -25,15 +24,14 @@ export class SignUp {
   validators = [Validators.required, Validators.minLength(4)];
 
   signUpForm = this.fb.group({
-    username:['jjzapata', [Validators.required]],
-    email:['', [Validators.required]],
-    password:['', this.validators],
-    rePassword:['',  this.validators],
-  })
+    username: ['jjzapata', [Validators.required]],
+    email: ['', [Validators.required]],
+    password: ['', this.validators],
+    rePassword: ['', this.validators],
+  });
 
-
-  onSignUp(){
-    if(!this.signUpForm.valid){
+  onSignUp() {
+    if (!this.signUpForm.valid) {
       alert('Faltan campos por diligenciar');
       return;
     }
@@ -41,14 +39,23 @@ export class SignUp {
 
     let signUpResponse = this.authService.signUp(user);
 
+    signUpResponse.subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.router.navigate([response.redirectTo]);
+          alert('Usuario creado con exito');
+        }
+      },
+      error: (err) => {
+        alert(err.message);
+      },
+    });
 
-    if(!!signUpResponse.success){
-      this.router.navigate([signUpResponse.redirectTo]);
-      return;
-    }
+    // if(!!signUpResponse.success){
+    //   this.router.navigate([signUpResponse.redirectTo]);
+    //   return;
+    // }
 
-    alert(signUpResponse.message);
-
+    // alert(signUpResponse.message);
   }
-
 }
