@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
-import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
+import { LoginRespose, LoginServiceResponse, SignUpResponse, SignUpRequest, SignUpServiceResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { JwtService } from './jwt-service';
 
 @Injectable({
@@ -36,18 +36,35 @@ export class Auth {
   }
 
 
-  onSignUp(user: User): SignUpResponse {
-
-    //this.http.post('http://localhost:3000/api/v1/user', user)
-
-    let userStr = localStorage.getItem(user.username!);
-    if (userStr) {
-      return { success: false, message: 'Ya existe el Usuario' };
-    }
-    localStorage.setItem(user.username!, JSON.stringify(user));
-    sessionStorage.setItem('userLogged', user.username);
-    this.verifyLoggedUser();
-    return { success: true, redirectTo: 'home' };
+  onSignUp(user: SignUpRequest): Observable<SignUpResponse> {
+    return this.http.post<SignUpServiceResponse>('http://localhost:3000/api/v1/user', user).pipe(
+      map(response => {
+        if (response.success && response.token) {
+          sessionStorage.setItem('token', response.token);
+          this.verifyLoggedUser();
+          return {
+            success: true,
+            redirectTo: 'home'
+          };
+        }
+        return {
+          success: false,
+          message: response.message || 'Error al crear el usuario'
+        };
+      }),
+      catchError((error) => {
+        let errorMessage = 'Error al crear el usuario';
+        if (error?.error?.message) {
+          errorMessage = error.error.message;
+        } else if (error?.message) {
+          errorMessage = error.message;
+        }
+        return of({
+          success: false,
+          message: errorMessage
+        });
+      })
+    );
   }
 
   logout() {

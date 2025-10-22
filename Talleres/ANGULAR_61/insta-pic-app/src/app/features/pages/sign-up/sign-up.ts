@@ -2,7 +2,7 @@ import { Component, inject } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { Auth } from "../../../shared/services/auth";
-import { User } from "../../../shared/interfaces/user";
+import { SignUpRequest } from "../../../shared/interfaces/login-response";
 import Swal from 'sweetalert2'
 
 @Component({
@@ -38,19 +38,39 @@ export class SignUp {
             });
             return;
         }
-        let user = this.signUpForm.value as User;
 
-        let response = this.authService.onSignUp(user);
+        const user: SignUpRequest = {
+            username: this.signUpForm.value.username!,
+            email: this.signUpForm.value.email!,
+            password: this.signUpForm.value.password!
+        };
 
-        if (!response.success) {
-            Swal.fire({
-                title: "Ops!",
-                text: response.message,
-                icon: "error"
-            });
-            return;
-        }
-        this.router.navigate([response.redirectTo]);
+        this.authService.onSignUp(user).subscribe({
+            next: (response) => {
+                if (response.success) {
+                    Swal.fire({
+                        title: "¡Éxito!",
+                        text: "Usuario registrado correctamente",
+                        icon: "success"
+                    }).then(() => {
+                        this.router.navigate([response.redirectTo || 'home']);
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Ops!",
+                        text: response.message || "Error al registrar el usuario",
+                        icon: "error"
+                    });
+                }
+            },
+            error: (error) => {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Error de conexión con el servidor",
+                    icon: "error"
+                });
+            }
+        });
     }
 
 }

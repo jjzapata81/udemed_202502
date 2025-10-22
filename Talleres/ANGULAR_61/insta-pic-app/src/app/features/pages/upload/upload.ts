@@ -25,28 +25,58 @@ export class Upload {
     }
     const imageFile = inputTarget.files[0];
     const user = this.authService.getUserLogged();
-    /*Swal.fire({
+
+    Swal.fire({
       title: 'Cargando...',
       text: 'Por favor espera',
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
       }
-    });*/
-    this.storageService.uploadPicture(imageFile,user.username)
-      .then(fullPath=>{
+    });
+
+    this.storageService.uploadPicture(imageFile, user.username)
+      .then(fullPath => {
         const imageUrl = this.storageService.getUrl(fullPath);
-        this.userService.saveImage(user.id!, imageUrl);
+
+        // Guardar la imagen usando el servicio que consume el API
+        this.userService.saveImage(user.id!, imageUrl).subscribe({
+          next: (response) => {
+            Swal.close();
+            if (response.success) {
+              Swal.fire({
+                title: '¡Éxito!',
+                text: response.message || 'Imagen subida correctamente',
+                icon: 'success'
+              }).then(() => {
+                this.router.navigate(['home']);
+              });
+            } else {
+              Swal.fire({
+                title: 'Error',
+                text: response.message || 'No se pudo guardar la imagen',
+                icon: 'error'
+              });
+            }
+          },
+          error: (error) => {
+            Swal.close();
+            Swal.fire({
+              title: 'Error',
+              text: 'Error de conexión con el servidor',
+              icon: 'error'
+            });
+          }
+        });
       })
-      .catch(error=>{
+      .catch(error => {
+        Swal.close();
         console.log(error);
         Swal.fire({
-          text:'Error al cargar la imagen',
-          icon:'error'
-        })
+          text: 'Error al cargar la imagen',
+          icon: 'error'
+        });
       });
-    this.router.navigate(['home'])
-    //Swal.close();
   }
 
 }
