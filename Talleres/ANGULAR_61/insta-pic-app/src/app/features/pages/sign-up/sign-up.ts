@@ -2,7 +2,7 @@ import { Component, inject } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { Auth } from "../../../shared/services/auth";
-import { User } from "../../../shared/interfaces/user";
+import { SignUpRequest } from "../../../shared/interfaces/sign-up-request";
 import Swal from 'sweetalert2'
 
 @Component({
@@ -38,19 +38,37 @@ export class SignUp {
             });
             return;
         }
-        let user = this.signUpForm.value as User;
+        const { username, email, password, rePassword } = this.signUpForm.value;
 
-        let response = this.authService.onSignUp(user);
-
-        if (!response.success) {
+        if (password !== rePassword) {
             Swal.fire({
                 title: "Ops!",
-                text: response.message,
+                text: "Las contraseñas no coinciden",
                 icon: "error"
             });
             return;
         }
-        this.router.navigate([response.redirectTo]);
+
+        const payload: SignUpRequest = {
+            username: username!,
+            email: email!,
+            password: password!,
+            name: username!
+        };
+
+        this.authService.onSignUp(payload)
+            .subscribe(response => {
+                if (!response.success) {
+                    Swal.fire({
+                        title: "Ops!",
+                        text: response.message,
+                        icon: "error"
+                    });
+                    return;
+                }
+                const redirect = response.redirectTo ?? 'home';
+                this.router.navigate([redirect]);
+            });
     }
 
 }

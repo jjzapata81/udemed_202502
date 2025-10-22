@@ -15,3 +15,11 @@ export interface Comment {
   userId: string;
   message: string;
 }
+
+export interface PhotoUploadResponse {
+  id: string;
+  url: string;
+  createdAt: string;
+  comments: Comment[];
+  user: User;
+}

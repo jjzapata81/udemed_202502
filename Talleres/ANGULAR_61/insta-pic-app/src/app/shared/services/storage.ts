@@ -16,10 +16,6 @@ export class Storage {
     return this.uploadFile(imageFile, username, 'instapic', fileName)
   }
 
-  uploadAvatar(imageFile:File, username:string) {
-    return this.uploadFile(imageFile, username, 'avatar', username)
-  }
-
   uploadFile(imageFile:File, username:string, bucket:string, fileName:string) {
     return this.supabase.storage
       .from(bucket)

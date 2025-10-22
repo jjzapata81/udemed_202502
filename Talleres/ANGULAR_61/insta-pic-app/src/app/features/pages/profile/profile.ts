@@ -3,8 +3,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../shared/services/user-service';
 import { Auth } from '../../../shared/services/auth';
-import Swal from 'sweetalert2';
-import { Storage } from '../../../shared/services/storage';
 import { User } from '../../../shared/interfaces/user';
 
 @Component({
@@ -19,7 +17,6 @@ export class Profile implements OnInit{
   fb = inject(FormBuilder);
   userService = inject(UserService);
   authService = inject(Auth);
-  storageService = inject(Storage);
 
   user!:User;
 
@@ -43,34 +40,5 @@ export class Profile implements OnInit{
     }
 
   }
-
-  onUploadFile(event:Event){
-      const inputTarget = event.target as HTMLInputElement;
-      if(!inputTarget.files || inputTarget.files.length <=0){
-        return;
-      }
-      const imageFile = inputTarget.files[0];
-      /*Swal.fire({
-        title: 'Cargando...',
-        text: 'Por favor espera',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        }
-      });*/
-      this.storageService.uploadAvatar(imageFile, this.user.username)
-        .then(fullPath=>{
-          const imageUrl = this.storageService.getUrl(fullPath);
-          this.userService.update(this.user.id, {url:imageUrl});
-        })
-        .catch(error=>{
-          console.log(error);
-          Swal.fire({
-            text:'Error al cargar la imagen',
-            icon:'error'
-          })
-        });
-      //Swal.close();
-    }
 
 }

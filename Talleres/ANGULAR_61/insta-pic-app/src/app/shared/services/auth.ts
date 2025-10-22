@@ -1,9 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
-import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
+import { LoginRespose, LoginServiceResponse, SignUpResponse, SignUpServiceResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { JwtService } from './jwt-service';
+import { API_BASE_URL } from '../../../environments/environment';
+import { SignUpRequest } from '../interfaces/sign-up-request';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class Auth {
   }
 
   login(user: User): Observable<LoginRespose> {
-    return this.http.post<LoginServiceResponse>('http://localhost:3000/api/v1/auth/login', user).pipe(
+    return this.http.post<LoginServiceResponse>(`${API_BASE_URL}/auth/login`, user).pipe(
       map(response => {
         sessionStorage.setItem('token', response.token);
         this.verifyLoggedUser();
@@ -29,25 +31,26 @@ export class Auth {
         }
       }),
       catchError((error) => {
-        return [{ success: false, message: 'Usuario o contraseña incorrectos' }];
+        const message = error?.error?.message || 'Usuario o contraseña incorrectos';
+        return of({ success: false, message });
       })
     );
 
   }
 
 
-  onSignUp(user: User): SignUpResponse {
-
-    //this.http.post('http://localhost:3000/api/v1/user', user)
-
-    let userStr = localStorage.getItem(user.username!);
-    if (userStr) {
-      return { success: false, message: 'Ya existe el Usuario' };
-    }
-    localStorage.setItem(user.username!, JSON.stringify(user));
-    sessionStorage.setItem('userLogged', user.username);
-    this.verifyLoggedUser();
-    return { success: true, redirectTo: 'home' };
+  onSignUp(user: SignUpRequest): Observable<SignUpResponse> {
+    return this.http.post<SignUpServiceResponse>(`${API_BASE_URL}/user`, user).pipe(
+      map(response => {
+        sessionStorage.setItem('token', response.token);
+        this.verifyLoggedUser();
+        return { success: response.success, redirectTo: 'home' };
+      }),
+      catchError(error => {
+        const message = error?.error?.message || 'No fue posible registrar el usuario';
+        return of({ success: false, message });
+      })
+    );
   }
 
   logout() {
