@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
-import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
+import { LoginRespose, LoginServiceResponse, SignUpResponse, SignUpServiceResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 import { JwtService } from './jwt-service';
@@ -36,19 +36,22 @@ export class Auth {
   }
 
 
-  onSignUp(user: User): SignUpResponse {
-
-    //this.http.post('http://localhost:3000/api/v1/user', user)
-
-    let userStr = localStorage.getItem(user.username!);
-    if (userStr) {
-      return { success: false, message: 'Ya existe el Usuario' };
-    }
-    localStorage.setItem(user.username!, JSON.stringify(user));
-    sessionStorage.setItem('userLogged', user.username);
-    this.verifyLoggedUser();
-    return { success: true, redirectTo: 'home' };
+  onSignUp(user: User): Observable<SignUpResponse> {
+    return this.http.post<SignUpServiceResponse>('http://localhost:3000/api/v1/user', user).pipe(
+      map(response => {
+        console.log(response)
+        sessionStorage.setItem('token', response.token);
+        return {
+          success: response.success,
+          redirectTo: 'home'
+        };
+      }),
+      catchError((error) => {
+        return [{ success: false, message: 'Datos ingresados incorrectos' }];
+      })
+    );
   }
+
 
   logout() {
     sessionStorage.clear();

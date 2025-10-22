@@ -40,17 +40,21 @@ export class SignUp {
         }
         let user = this.signUpForm.value as User;
 
-        let response = this.authService.onSignUp(user);
-
-        if (!response.success) {
+        this.authService.onSignUp(user).subscribe(response => {
+            if (response.success) {
+                this.router.navigate([response.redirectTo])
+                return;
+            }
+            else{
             Swal.fire({
                 title: "Ops!",
                 text: response.message,
                 icon: "error"
             });
-            return;
         }
-        this.router.navigate([response.redirectTo]);
+
+        });
+
     }
 
 }

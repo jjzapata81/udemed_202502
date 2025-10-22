@@ -46,6 +46,7 @@ export class Upload {
         })
       });
     this.router.navigate(['home'])
+    
     //Swal.close();
   }
 

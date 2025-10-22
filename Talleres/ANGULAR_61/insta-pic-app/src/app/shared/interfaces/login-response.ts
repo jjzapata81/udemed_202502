@@ -13,3 +13,7 @@ export interface LoginServiceResponse{
     success:boolean;
     token:string;
 }
+
+export interface SignUpServiceResponse extends LoginServiceResponse{
+    redirectTo?:string;
+}
