@@ -34,7 +34,7 @@ saveImage(userId:string, url:string){
 - Modificar la lógica del servicio [UserService](https://github.com/jjzapata81/udemed_202502/blob/main/Talleres/ANGULAR_61/insta-pic-app/src/app/shared/services/user-service.ts), para que el método `getGallery` consuma el api de consultar galería
 - Presentar las imágenes del usuario en el `home`
 - Realizar control de errores
-- Generar las interfaces que considere necesarias
+- Generar las interfaces que considere necesarias vvvv
 
 ## Buscar usuarios
 
