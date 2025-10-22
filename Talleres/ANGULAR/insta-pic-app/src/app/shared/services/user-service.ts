@@ -1,5 +1,8 @@
-import { Injectable, signal } from '@angular/core';
-import { User } from '../interfaces/user';
+import { Injectable, signal, inject } from '@angular/core';
+import { User, UploadImageDto } from '../interfaces/user';
+import { UploadImageResponse } from '../interfaces/user-response';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
@@ -7,25 +10,38 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class UserService {
 
-  saveImage(userId:string, url:string){
+  http = inject(HttpClient);
 
-    const galleryItem = {
-      id: uuidv4(),
-      url:url,
-      comments:[]
-    }
+  saveImage(userId: string, url: string): Observable<UploadImageResponse> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
 
-    let galleryStr = localStorage.getItem(`${userId}_gallery`);
+    const uploadData: UploadImageDto = {
+      userId: userId,
+      url: url
+    };
 
-    if(galleryStr){
-      let galleryItems = JSON.parse(galleryStr);
-      galleryItems.push(galleryItem)
-      localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
-      return;
-    }
-
-    const galleryItems = [galleryItem];
-    localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
+    return this.http.post<UploadImageResponse>('http://localhost:3000/api/v1/image', uploadData, { headers }).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Error al subir imagen:', error);
+        let errorMessage = 'Error al subir la imagen';
+        
+        if (error.status === 401) {
+          errorMessage = 'No autorizado. Inicia sesión nuevamente';
+        } else if (error.status === 400) {
+          errorMessage = 'Datos de imagen inválidos';
+        } else if (error.status === 500) {
+          errorMessage = 'Error interno del servidor';
+        }
+        
+        throw new Error(errorMessage);
+      })
+    );
   }
 
   getGallery(userId:string){

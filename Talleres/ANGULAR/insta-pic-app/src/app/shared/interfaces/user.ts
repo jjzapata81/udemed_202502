@@ -13,3 +13,8 @@ export interface CreateUserDto {
   email: string;
   avatar?: string;
 }
+
+export interface UploadImageDto {
+  userId: string;
+  url: string;
+}
