@@ -22,3 +22,20 @@ export interface UploadImageResponse {
   userId: string;
   createdAt: Date;
 }
+
+export interface GalleryImage {
+  id: string;
+  url: string;
+  createdAt: Date;
+  comments: GalleryComment[];
+  user: {
+    id: string;
+    username: string;
+  };
+}
+
+export interface GalleryComment {
+  id: string;
+  message: string;
+  createdAt: Date;
+}
