@@ -42,15 +42,15 @@ export class SignUp {
       next: (response) => {
         if (response.success) {
           this.router.navigate(['home']);
+          return;
         }
-      },
-      error: (err) => {
         Swal.fire({
           title: 'Ops!',
-          text: err.message,
+          text: response.message,
           icon: 'error',
         });
       },
+      error: (err) => {},
     });
   }
 }
