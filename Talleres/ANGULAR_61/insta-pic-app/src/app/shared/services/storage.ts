@@ -13,7 +13,7 @@ export class Storage {
 
   uploadPicture(imageFile:File, username:string) {
     const fileName = uuidv4();
-    return this.uploadFile(imageFile, username, 'instapic', fileName)
+    return this.uploadFile(imageFile, username, 'Example_bucket', fileName)
   }
 
   uploadAvatar(imageFile:File, username:string) {

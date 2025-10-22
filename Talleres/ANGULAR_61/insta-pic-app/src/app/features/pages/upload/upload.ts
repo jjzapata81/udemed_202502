@@ -36,7 +36,25 @@ export class Upload {
     this.storageService.uploadPicture(imageFile,user.username)
       .then(fullPath=>{
         const imageUrl = this.storageService.getUrl(fullPath);
-        this.userService.saveImage(user.id!, imageUrl);
+        this.userService.saveImage(user.id!, imageUrl).subscribe(response=>{
+          if(!response.success){
+            Swal.fire({
+              title: 'Ops!',
+              text: response.message,
+              icon: 'error'
+            });
+            return;
+          }
+          Swal.fire({
+            title: 'Listo',
+            text: 'Imagen subida correctamente',
+            icon: 'success',
+            timer: 1200,
+            showConfirmButton: false
+          }).then(()=>{
+            this.router.navigate(['home']);
+          });
+        });
       })
       .catch(error=>{
         console.log(error);
@@ -45,7 +63,6 @@ export class Upload {
           icon:'error'
         })
       });
-    this.router.navigate(['home'])
     //Swal.close();
   }
 
