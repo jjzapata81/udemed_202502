@@ -41,14 +41,17 @@ export class SignUp {
 
     let signUpResponse = this.authService.signUp(user);
 
-
-    if(!!signUpResponse.success){
-      this.router.navigate([signUpResponse.redirectTo]);
-      return;
-    }
-
-    alert(signUpResponse.message);
-
+    signUpResponse.subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.router.navigate([response.redirectTo]);
+          alert('Usuario creado con exito');
+        }
+      },
+      error: (err) => {
+        alert(err.message);
+      },
+    });
   }
 
 }
