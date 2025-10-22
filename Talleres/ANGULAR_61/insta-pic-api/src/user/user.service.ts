@@ -15,6 +15,10 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    if (!createUserDto || !createUserDto.username) {
+      throw new BadRequestException('Parámetros incompletos o payload vacío');
+    }
+
     const user = this.userRep.findBy(createUserDto.username);
     if(user){
       throw new BadRequestException('Usuario ya existe');

@@ -38,19 +38,41 @@ export class SignUp {
             });
             return;
         }
-        let user = this.signUpForm.value as User;
+        const form = this.signUpForm.value;
 
-        let response = this.authService.onSignUp(user);
-
-        if (!response.success) {
+        // validación adicional: contraseñas iguales
+        if (form.password !== (this.signUpForm.get('rePassword')?.value)) {
             Swal.fire({
                 title: "Ops!",
-                text: response.message,
+                text: "Las contraseñas no coinciden",
                 icon: "error"
             });
             return;
         }
-        this.router.navigate([response.redirectTo]);
+
+        // construir payload explícito (CreateUserDto)
+        const payload = {
+            username: form.username,
+            password: form.password,
+            email: form.email,
+            name: (form as any).name,
+            url: (form as any).url
+        };
+
+        // log para depuración: qué payload se envía
+        console.log('signUp payload:', payload);
+
+        this.authService.onSignUp(payload).subscribe((response) => {
+            if (!response.success) {
+                Swal.fire({
+                    title: "Ops!",
+                    text: response.message,
+                    icon: "error"
+                });
+                return;
+            }
+            this.router.navigate([response.redirectTo]);
+        });
     }
 
 }
