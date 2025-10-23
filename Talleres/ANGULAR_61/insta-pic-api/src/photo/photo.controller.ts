@@ -11,7 +11,7 @@ import { RoleGuard } from 'src/security/role.guard';
 export class PhotoController {
   constructor(private readonly photoService: PhotoService) {}
 
-  @UseGuards(RoleGuard)
+  //@UseGuards(RoleGuard)
   @Post('add')
   uploadPhoto(@Body() uploadPhotoDto: UploadPhotoDto) {
     return this.photoService.uploadPhoto(uploadPhotoDto);
@@ -22,7 +22,7 @@ export class PhotoController {
     return this.photoService.addComment(addCommentDto);
   }
 
-  @UseGuards(AuthGuard)
+  //@UseGuards(AuthGuard)
   @Get(':userId')
   geByUser(@Param('userId') userId: string) {
     return this.photoService.findByUserId(userId);

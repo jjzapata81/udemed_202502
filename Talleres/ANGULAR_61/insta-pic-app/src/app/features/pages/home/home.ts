@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Auth } from '../../../shared/services/auth';
 import { UserService } from '../../../shared/services/user-service';
+import { GalleryItem } from '../../../shared/interfaces/gallery-item';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +16,11 @@ export class Home implements OnInit{
   followers = 48;
   requests = 37;
   user = this.authService.getUserLogged();
-  galleryItems = signal<any[]|[{id:string, url:string, comments:string[]}]>([]);
+  galleryItems = signal<GalleryItem[]>([]);
 
   ngOnInit(): void {
 
-    const gallery = this.userService.getGallery(this.user.id);
-    this.galleryItems.set(gallery);
+    this.userService.getGallery(this.user.id).subscribe(this.galleryItems.set);
 
   }
 

@@ -1,47 +1,30 @@
-import { Injectable } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
+import { inject, Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
+import { HttpClient } from '@angular/common/http';
+import { getHeaders } from '../utils/utility';
+import { GalleryItem } from '../interfaces/gallery-item';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
+  http = inject(HttpClient)
+
   saveImage(userId:string, url:string){
-
-    const galleryItem = {
-      id: uuidv4(),
-      url:url,
-      comments:[]
-    }
-
-    let galleryStr = localStorage.getItem(`${userId}_gallery`);
-
-    if(galleryStr){
-      let galleryItems = JSON.parse(galleryStr);
-      galleryItems.push(galleryItem)
-      localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
-      return;
-    }
-
-    const galleryItems = [galleryItem];
-    localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
+    return this.http.post('http://localhost:3000/api/v1/gallery/add', {userId, url}, getHeaders);
   }
 
   getGallery(userId:string){
-    let galleryStr = localStorage.getItem(`${userId}_gallery`);
-    if(galleryStr){
-      return JSON.parse(galleryStr);
-    }
-    return [];
-
+    return this.http.get<GalleryItem[]>(`http://localhost:3000/api/v1/gallery/${userId}`, getHeaders);
   }
 
   findAll() {
-    //throw new Error('Method not implemented.');
+    return this.http.get<User[]>(`http://localhost:3000/api/v1/user`, getHeaders);
   }
 
   update(userId:string, user:Partial<User>) {
-
+    return this.http.patch<User>(`http://localhost:3000/api/v1/user/${userId}`, user, getHeaders);
   }
 }

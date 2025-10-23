@@ -36,8 +36,10 @@ export class Upload {
     this.storageService.uploadPicture(imageFile,user.username)
       .then(fullPath=>{
         const imageUrl = this.storageService.getUrl(fullPath);
-        this.userService.saveImage(user.id!, imageUrl);
-      })
+        this.userService.saveImage(user.id!, imageUrl).subscribe({
+          next: ()=> this.router.navigate(['home']),
+          error:error=>console.log(error)
+      })})
       .catch(error=>{
         console.log(error);
         Swal.fire({
@@ -45,7 +47,6 @@ export class Upload {
           icon:'error'
         })
       });
-    this.router.navigate(['home'])
     //Swal.close();
   }
 

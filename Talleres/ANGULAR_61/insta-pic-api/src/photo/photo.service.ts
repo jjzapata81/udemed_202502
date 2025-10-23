@@ -15,6 +15,7 @@ export class PhotoService {
 
   uploadPhoto(uploadPhotoDto: UploadPhotoDto) {
     const photoEntity = this.photoRep.create(uploadPhotoDto);
+    console.log(photoEntity);
     return this.photoRep.save(photoEntity);
   }
 

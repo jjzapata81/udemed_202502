@@ -30,6 +30,7 @@ export class PhotoRepositoryService {
   }
 
   findAll(userId:string) {
+    console.log(this.repo)
     return this.repo.filter(photo=>photo.user.id===userId);
   }
 
