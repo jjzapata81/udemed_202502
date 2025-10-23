@@ -18,3 +18,9 @@ export interface UploadImageDto {
   userId: string;
   url: string;
 }
+
+export interface UpdateUserDto {
+  name?: string;
+  email?: string;
+  avatar?: string;
+}

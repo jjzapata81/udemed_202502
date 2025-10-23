@@ -49,3 +49,8 @@ export interface SearchUser {
   isActive: boolean;
   createdAt: Date;
 }
+
+export interface UpdateUserResponse {
+  success: boolean;
+  message?: string;
+}

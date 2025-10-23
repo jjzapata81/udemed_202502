@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
-import { User, UploadImageDto } from '../interfaces/user';
-import { UploadImageResponse, GalleryImage, SearchUser } from '../interfaces/user-response';
+import { User, UploadImageDto, UpdateUserDto } from '../interfaces/user';
+import { UploadImageResponse, GalleryImage, SearchUser, UpdateUserResponse } from '../interfaces/user-response';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -102,8 +102,33 @@ export class UserService {
     );
   }
 
-  update(userId:string, user:Partial<User>) {
+  update(userId: string, updateData: UpdateUserDto): Observable<UpdateUserResponse> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
 
+    return this.http.patch<UpdateUserResponse>(`http://localhost:3000/api/v1/user/${userId}`, updateData, { headers }).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Error al actualizar usuario:', error);
+        let errorMessage = 'Error al actualizar el usuario';
+        
+        if (error.status === 401) {
+          errorMessage = 'No autorizado. Inicia sesión nuevamente';
+        } else if (error.status === 400) {
+          errorMessage = 'Datos de usuario inválidos';
+        } else if (error.status === 404) {
+          errorMessage = 'Usuario no encontrado';
+        } else if (error.status === 500) {
+          errorMessage = 'Error interno del servidor';
+        }
+        
+        throw new Error(errorMessage);
+      })
+    );
   }
   
 }

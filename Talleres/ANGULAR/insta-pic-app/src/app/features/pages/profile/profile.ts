@@ -5,7 +5,7 @@ import { UserService } from '../../../shared/services/user-service';
 import { Auth } from '../../../shared/services/auth';
 import Swal from 'sweetalert2';
 import { Storage } from '../../../shared/services/storage';
-import { User } from '../../../shared/interfaces/user';
+import { User, UpdateUserDto } from '../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-profile',
@@ -34,14 +34,43 @@ export class Profile implements OnInit{
   onUpdate(){
     if(this.profileForm.valid){
       const { name, email} = this.profileForm.value;
-      this.user.name = name || this.user.name;
-      this.user.email = email || this.user.email;
-      this.userService.update(this.user.id, {name:name!, email:email!})
-        /*.subscribe(response=>{
-          this.router.navigateByUrl('home');
-        });*/
-    }
+      
+      const updateData: UpdateUserDto = {
+        name: name || undefined,
+        email: email || undefined
+      };
 
+      this.userService.update(this.user.id, updateData).subscribe({
+        next: (response) => {
+          if(response.success) {
+            this.user.name = name || this.user.name;
+            this.user.email = email || this.user.email;
+            Swal.fire({
+              text: 'Perfil actualizado exitosamente',
+              icon: 'success'
+            });
+            this.router.navigateByUrl('home');
+          } else {
+            Swal.fire({
+              text: response.message || 'Error al actualizar el perfil',
+              icon: 'error'
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Error al actualizar perfil:', error);
+          Swal.fire({
+            text: error.message || 'Error al actualizar el perfil',
+            icon: 'error'
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        text: 'Por favor completa los campos correctamente',
+        icon: 'warning'
+      });
+    }
   }
 
   onUploadFile(event:Event){
@@ -50,27 +79,57 @@ export class Profile implements OnInit{
         return;
       }
       const imageFile = inputTarget.files[0];
-      /*Swal.fire({
+      
+      Swal.fire({
         title: 'Cargando...',
         text: 'Por favor espera',
         allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
         }
-      });*/
+      });
+      
       this.storageService.uploadAvatar(imageFile, this.user.username)
         .then(fullPath=>{
           const imageUrl = this.storageService.getUrl(fullPath);
-          this.userService.update(this.user.id, {url:imageUrl});
+          const updateData: UpdateUserDto = {
+            avatar: imageUrl
+          };
+          
+          this.userService.update(this.user.id, updateData).subscribe({
+            next: (response) => {
+              Swal.close();
+              if(response.success) {
+                this.user.url = imageUrl;
+                Swal.fire({
+                  text: 'Avatar actualizado exitosamente',
+                  icon: 'success'
+                });
+              } else {
+                Swal.fire({
+                  text: response.message || 'Error al actualizar el avatar',
+                  icon: 'error'
+                });
+              }
+            },
+            error: (error) => {
+              Swal.close();
+              console.error('Error al actualizar avatar:', error);
+              Swal.fire({
+                text: error.message || 'Error al actualizar el avatar',
+                icon: 'error'
+              });
+            }
+          });
         })
         .catch(error=>{
+          Swal.close();
           console.log(error);
           Swal.fire({
             text:'Error al cargar la imagen',
             icon:'error'
           })
         });
-      //Swal.close();
     }
 
 }
