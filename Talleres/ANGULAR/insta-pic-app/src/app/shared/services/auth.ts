@@ -2,8 +2,9 @@ import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
 import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { JwtService } from './jwt-service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class Auth {
 
   http = inject(HttpClient);
   jwtService = inject(JwtService)
+  router = inject(Router)
 
   isLoged = signal(false);
 
@@ -36,18 +38,18 @@ export class Auth {
   }
 
 
-  signUp(user: User): SignUpResponse {
+  onSignUp(user: User): Observable<SignUpResponse> {
 
-    //this.http.post('http://localhost:3000/api/v1/user', user)
-
-    let userStr = localStorage.getItem(user.username!);
-    if (userStr) {
-      return { success: false, message: 'Ya existe el Usuario' };
-    }
-    localStorage.setItem(user.username!, JSON.stringify(user));
-    sessionStorage.setItem('userLogged', user.username);
-    this.verifyLoggedUser();
-    return { success: true, redirectTo: 'home' };
+    return this.http.post<LoginServiceResponse>('http://localhost:3000/api/v1/user', user).pipe(
+      map(response => {
+        sessionStorage.setItem('token', response.token);
+        this.verifyLoggedUser();
+        return { success: response.success, redirectTo: 'home' };
+      }),
+      catchError((error) => {
+        return [{ success: false, message: 'Error al crear el usuario'}];
+      })
+    );
   }
 
   logout() {

@@ -1,54 +1,59 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { Auth } from '../../../shared/services/auth';
-import { User } from '../../../shared/interfaces/user';
+
+import { Component, inject } from "@angular/core";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
+import { Auth } from "../../../shared/services/auth";
+import { User } from "../../../shared/interfaces/user";
+import Swal from 'sweetalert2'
 
 @Component({
-  selector: 'app-sign-up',
-  imports: [RouterLink, ReactiveFormsModule],
-  templateUrl: './sign-up.html',
-  styleUrl: './sign-up.css'
+    selector: 'app-sign-up',
+    imports: [RouterLink, ReactiveFormsModule],
+    templateUrl: './sign-up.html',
+    styleUrl: './sign-up.css'
 })
 export class SignUp {
 
-  fb = inject(FormBuilder);
+    title = 'Registro de usuario';
 
-  router = inject(Router);
+    fb = inject(FormBuilder);
 
-  authService = inject(Auth);
+    router = inject(Router);
 
-  ruta = '';
+    authService = inject(Auth);
 
-  title = 'Registro de usuario';
-
-  validators = [Validators.required, Validators.minLength(4)];
-
-  signUpForm = this.fb.group({
-    username:['jjzapata', [Validators.required]],
-    email:['', [Validators.required]],
-    password:['', this.validators],
-    rePassword:['',  this.validators],
-  })
+    signUpForm = this.fb.group({
+        username: ['', [Validators.required]],
+        email: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(4)]],
+        rePassword: ['', [Validators.required, Validators.minLength(4)]]
+    })
 
 
-  onSignUp(){
-    if(!this.signUpForm.valid){
-      alert('Faltan campos por diligenciar');
-      return;
+    onSignUp() {
+        if (!this.signUpForm.valid) {
+            Swal.fire({
+                title: "Ops!",
+                text: "El formulario no es valido",
+                icon: "error"
+            });
+            return;
+        }
+        let user = this.signUpForm.value as User;
+
+        this.authService.onSignUp(user).subscribe((response) => {
+            if (!response.success) {
+                Swal.fire({
+                    title: "Ops!",
+                    text: response.message,
+                    icon: "error"
+                });
+                return;
+            }
+            if (response.redirectTo) {
+                this.router.navigate([response.redirectTo]);
+            }
+        });
     }
-    let user = this.signUpForm.value as User;
-
-    let signUpResponse = this.authService.signUp(user);
-
-
-    if(!!signUpResponse.success){
-      this.router.navigate([signUpResponse.redirectTo]);
-      return;
-    }
-
-    alert(signUpResponse.message);
-
-  }
 
 }
