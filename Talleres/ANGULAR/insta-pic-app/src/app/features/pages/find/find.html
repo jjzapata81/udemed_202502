@@ -1,10 +1,10 @@
 <section class="container">
   <h2>Búsqueda de Usuarios</h2>
-
+  <!-- En el input se cambio a que detectara cualquier tecla, solamente el enter!! -->
   <input
     type="text"
     placeholder="Buscar por nombre, email o usuario..."
-    (keydown)="onFilter($event)"
+    (keydown.enter)="onFilter($event)"
   />
 
   <div class="user-list">

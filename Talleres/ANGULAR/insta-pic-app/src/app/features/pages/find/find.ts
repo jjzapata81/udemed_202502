@@ -19,8 +19,10 @@ export class Find implements OnInit{
   usersFiltered = signal<UserResponse[]>([]);
 
   ngOnInit(): void {
+    this.usersFiltered.set([]);
+    /*
     this.userService.findAll()
-      /*.subscribe(response => {
+      .subscribe(response => {
         this.users = response;
         this.usersFiltered.set(response);
       })*/
@@ -36,15 +38,23 @@ export class Find implements OnInit{
 
   onFilter(event: Event) {
     let input = event.target as HTMLInputElement;
-    if (input.value) {
-      const term = input.value.toLowerCase();
-      this.usersFiltered.set(this.users.filter(user =>
-        user.name.toLowerCase().includes(term) ||
-        user.email.toLowerCase().includes(term) ||
-        user.username.toLowerCase().includes(term)
-      ));
-    }else{
-      this.usersFiltered.set(this.users);
+    const searchTerm = input.value.trim();
+    
+    if (searchTerm) {
+      console.log(searchTerm)
+      this.userService.findByUsername(searchTerm)
+        .subscribe({
+          next: (users) => {
+            console.log(users)
+            this.usersFiltered.set(users);
+          },
+          error: (error) => { // Este error no se esta ejecutando!
+            console.error('Error finding user:', error);
+            this.usersFiltered.set([]);
+          }
+        });
+    } else {
+      this.usersFiltered.set([]);
     }
   }
 

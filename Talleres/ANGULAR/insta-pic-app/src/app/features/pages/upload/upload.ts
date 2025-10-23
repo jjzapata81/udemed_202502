@@ -25,28 +25,41 @@ export class Upload {
     }
     const imageFile = inputTarget.files[0];
     const user = this.authService.getUserLogged();
-    /*Swal.fire({
+
+    Swal.fire({
       title: 'Cargando...',
       text: 'Por favor espera',
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
       }
-    });*/
+    });
+
     this.storageService.uploadPicture(imageFile, user.username)
       .then(fullPath => {
         const imageUrl = this.storageService.getUrl(fullPath);
-        this.userService.saveImage(user.id!, imageUrl);
+        
+        this.userService.saveImage(user.id!, imageUrl).subscribe({
+          next: () => {
+            Swal.close();
+            this.router.navigate(['home']);
+          },
+          error: (error) => {
+            Swal.close();
+            Swal.fire({
+              text: error.message || 'Error al guardar la imagen',
+              icon: 'error'
+            });
+          }
+        });
       })
       .catch(error => {
-        console.log(error);
+        Swal.close();
         Swal.fire({
           text: 'Error al cargar la imagen',
           icon: 'error'
-        })
+        });
       });
-    this.router.navigate(['home'])
-    //Swal.close();
   }
 
 }

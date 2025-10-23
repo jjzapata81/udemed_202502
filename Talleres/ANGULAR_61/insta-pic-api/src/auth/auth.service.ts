@@ -27,9 +27,6 @@ export class AuthService {
   }
 
   async register(request: SignUpDto) {
-    const existingUser = this.userService.findByUsername(request.username);
-    if (existingUser) { throw new ConflictException('El nombre de usuario ya existe'); }
-
     return await this.userService.create({
       username: request.username,
       password: request.password,

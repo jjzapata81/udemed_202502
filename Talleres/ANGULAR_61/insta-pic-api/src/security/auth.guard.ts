@@ -12,6 +12,7 @@ export class AuthGuard implements CanActivate {
       throw new ForbiddenException('Acceso no autorizado');
     }
     const token = this.getToken(authorization);
+    console.log(token)
     try {
       this.jwtService.verify(token);
     } catch (error) {

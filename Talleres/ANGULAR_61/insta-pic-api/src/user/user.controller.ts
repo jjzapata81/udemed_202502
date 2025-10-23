@@ -29,4 +29,9 @@ export class UserController {
     return this.userService.update(id, updateUserDto);
   }
 
+  @Get('username/:username')
+  async findByUsername(@Param('username') username: string) {
+    return this.userService.findByUsername(username);
+  }
+
 }
