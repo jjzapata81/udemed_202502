@@ -39,3 +39,13 @@ export interface GalleryComment {
   message: string;
   createdAt: Date;
 }
+
+export interface SearchUser {
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  isActive: boolean;
+  createdAt: Date;
+}

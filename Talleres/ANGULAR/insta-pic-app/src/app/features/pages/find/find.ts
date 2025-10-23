@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserService } from '../../../shared/services/user-service';
 import { Router } from '@angular/router';
-import { UserResponse } from '../../../shared/interfaces/user-response';
+import { SearchUser } from '../../../shared/interfaces/user-response';
 
 @Component({
   selector: 'app-find',
@@ -14,16 +14,22 @@ export class Find implements OnInit{
   userService = inject(UserService);
   router = inject(Router);
 
-  users: UserResponse[] = [];
+  users: SearchUser[] = [];
 
-  usersFiltered = signal<UserResponse[]>([]);
+  usersFiltered = signal<SearchUser[]>([]);
 
   ngOnInit(): void {
-    this.userService.findAll()
-      /*.subscribe(response => {
+    this.userService.findAll().subscribe({
+      next: (response) => {
         this.users = response;
         this.usersFiltered.set(response);
-      })*/
+      },
+      error: (error) => {
+        console.error('Error al cargar usuarios:', error);
+        this.users = [];
+        this.usersFiltered.set([]);
+      }
+    });
   }
 
   onFind(username: string) {

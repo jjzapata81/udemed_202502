@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { User, UploadImageDto } from '../interfaces/user';
-import { UploadImageResponse, GalleryImage } from '../interfaces/user-response';
+import { UploadImageResponse, GalleryImage, SearchUser } from '../interfaces/user-response';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -77,8 +77,29 @@ export class UserService {
     );
   }
 
-  findAll() {
-    //throw new Error('Method not implemented.');
+  findAll(): Observable<SearchUser[]> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<SearchUser[]>('http://localhost:3000/api/v1/user', { headers }).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Error al obtener usuarios:', error);
+        let errorMessage = 'Error al obtener usuarios';
+        
+        if (error.status === 401) {
+          errorMessage = 'No autorizado. Inicia sesión nuevamente';
+        } else if (error.status === 500) {
+          errorMessage = 'Error interno del servidor';
+        }
+        
+        throw new Error(errorMessage);
+      })
+    );
   }
 
   update(userId:string, user:Partial<User>) {
