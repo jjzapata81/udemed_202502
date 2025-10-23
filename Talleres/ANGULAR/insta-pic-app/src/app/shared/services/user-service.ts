@@ -1,48 +1,56 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
 import { v4 as uuidv4 } from 'uuid';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, Observable, of } from 'rxjs';
+import { GalleryResponse } from '../interfaces/gallery';
+import { UserResponse } from '../interfaces/user-response';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
-  saveImage(userId:string, url:string){
-
-    const galleryItem = {
-      id: uuidv4(),
-      url:url,
-      comments:[]
-    }
-
-    let galleryStr = localStorage.getItem(`${userId}_gallery`);
-
-    if(galleryStr){
-      let galleryItems = JSON.parse(galleryStr);
-      galleryItems.push(galleryItem)
-      localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
-      return;
-    }
-
-    const galleryItems = [galleryItem];
-    localStorage.setItem(`${userId}_gallery`, JSON.stringify(galleryItems));
+  http = inject(HttpClient);
+  saveImage(userId: string, url: string) {
+    const token = sessionStorage.getItem('token');
+    console.log('Token:', token);
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    console.log('Headers:', headers);
+    return this.http
+      .post('http://localhost:3000/api/v1/gallery/add', { userId, url }, { headers })
+      .pipe(
+        map((response) => {
+          console.log('Imagen guardada en la galería:', response);
+        })
+      );
   }
 
-  getGallery(userId:string){
-    let galleryStr = localStorage.getItem(`${userId}_gallery`);
-    if(galleryStr){
-      return JSON.parse(galleryStr);
-    }
-    return [];
+  getGallery(userId: string): Observable<GalleryResponse[]> {
+    // let galleryStr = localStorage.getItem(`${userId}_gallery`);
+    // if (galleryStr) {
+    //   return JSON.parse(galleryStr);
+    // }
+    // return [];
 
+    const headers = new HttpHeaders({ Authorization: `Bearer ${sessionStorage.getItem('token')}` });
+
+    return this.http
+      .get<GalleryResponse[]>(`http://localhost:3000/api/v1/gallery/${userId}`, { headers })
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
   }
 
   findAll() {
-    //throw new Error('Method not implemented.');
+    return this.http.get<UserResponse[]>('http://localhost:3000/api/v1/user').pipe(
+      map((response) => {
+        console.log('Usuarios encontrados:', response);
+        return response;
+      })
+    );
   }
 
-  update(userId:string, user:Partial<User>) {
-
-  }
-  
+  update(userId: string, user: Partial<User>) {}
 }

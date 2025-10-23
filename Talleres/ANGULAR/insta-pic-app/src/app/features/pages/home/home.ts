@@ -1,27 +1,26 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Auth } from '../../../shared/services/auth';
 import { UserService } from '../../../shared/services/user-service';
+import { GalleryResponse } from '../../../shared/interfaces/gallery';
 
 @Component({
   selector: 'app-home',
   imports: [],
   templateUrl: './home.html',
-  styleUrl: './home.css'
+  styleUrl: './home.css',
 })
-export class Home implements OnInit{
-
+export class Home implements OnInit {
   authService = inject(Auth);
   userService = inject(UserService);
   followers = 48;
   requests = 37;
   user = this.authService.getUserLogged();
-  galleryItems = signal<any[]|[{id:string, url:string, comments:string[]}]>([]);
+  galleryItems = signal<GalleryResponse[]>([]);
 
   ngOnInit(): void {
-
-    const gallery = this.userService.getGallery(this.user.id);
-    this.galleryItems.set(gallery);
-
+    this.userService
+      .getGallery(this.user.id)
+      .subscribe((response) => this.galleryItems.set(response));
+    // this.galleryItems.set(gallery);
   }
-
 }

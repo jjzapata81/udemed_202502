@@ -42,7 +42,7 @@ export class Auth {
       }),
       catchError((error) => {
         console.error('Error al crear el usuario', error);
-        return of({ success: false, message: 'Error al crear el usuario' } as SignUpResponse);
+        return of({ success: false, message: 'El usuario ya existe' } as SignUpResponse);
       })
     );
   }

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Storage } from '../../../shared/services/storage';
 import { Auth } from '../../../shared/services/auth';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { UserService } from '../../../shared/services/user-service';
 
@@ -9,10 +9,9 @@ import { UserService } from '../../../shared/services/user-service';
   selector: 'app-upload',
   imports: [],
   templateUrl: './upload.html',
-  styleUrl: './upload.css'
+  styleUrl: './upload.css',
 })
 export class Upload {
-
   storageService = inject(Storage);
   authService = inject(Auth);
   userService = inject(UserService);
@@ -33,20 +32,22 @@ export class Upload {
         Swal.showLoading();
       }
     });*/
-    this.storageService.uploadPicture(imageFile, user.username)
-      .then(fullPath => {
+    this.storageService
+      .uploadPicture(imageFile, user.username)
+      .then((fullPath) => {
         const imageUrl = this.storageService.getUrl(fullPath);
-        this.userService.saveImage(user.id!, imageUrl);
+        this.userService.saveImage(user.id!, imageUrl).subscribe(() => {
+          this.router.navigate(['home']);
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         Swal.fire({
           text: 'Error al cargar la imagen',
-          icon: 'error'
-        })
+          icon: 'error',
+        });
       });
-    this.router.navigate(['home'])
+    this.router.navigate(['home']);
     //Swal.close();
   }
-
 }

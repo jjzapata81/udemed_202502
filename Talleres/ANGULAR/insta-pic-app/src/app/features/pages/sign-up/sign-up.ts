@@ -44,11 +44,13 @@ export class SignUp {
         if (response.success) {
           this.router.navigate([response.redirectTo]);
           alert('Usuario creado con exito');
+        } else if (response.success === false) {
+          alert(response.message);
         }
       },
-      error: (err) => {
-        alert(err.message);
-      },
+      // error: (err) => {
+      //   alert(err.message);
+      // },
     });
 
     // if(!!signUpResponse.success){
