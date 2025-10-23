@@ -1,16 +1,19 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { Auth } from '../../../shared/services/auth';
-import { User } from '../../../shared/interfaces/user';
+import { Component, inject } from "@angular/core";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
+import { Auth } from "../../../shared/services/auth";
+import { User } from "../../../shared/interfaces/user";
+import Swal from 'sweetalert2'
 
 @Component({
-  selector: 'app-sign-up',
-  imports: [RouterLink, ReactiveFormsModule],
-  templateUrl: './sign-up.html',
-  styleUrl: './sign-up.css'
+    selector: 'app-sign-up',
+    imports: [RouterLink, ReactiveFormsModule],
+    templateUrl: './sign-up.html',
+    styleUrl: './sign-up.css'
 })
 export class SignUp {
+
+  title = 'Registro de usuario';
 
   fb = inject(FormBuilder);
 
@@ -18,19 +21,12 @@ export class SignUp {
 
   authService = inject(Auth);
 
-  ruta = '';
-
-  title = 'Registro de usuario';
-
-  validators = [Validators.required, Validators.minLength(4)];
-
   signUpForm = this.fb.group({
-    username:['jjzapata', [Validators.required]],
-    email:['', [Validators.required]],
-    password:['', this.validators],
-    rePassword:['',  this.validators],
+    username: ['', [Validators.required]],
+    email: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(4)]],
+    rePassword: ['', [Validators.required, Validators.minLength(4)]]
   })
-
 
   onSignUp(){
     if(!this.signUpForm.valid){
@@ -41,14 +37,16 @@ export class SignUp {
 
     let signUpResponse = this.authService.signUp(user);
 
-
-    if(!!signUpResponse.success){
-      this.router.navigate([signUpResponse.redirectTo]);
-      return;
-    }
-
-    alert(signUpResponse.message);
-
+    signUpResponse.subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.router.navigate([response.redirectTo]);
+          Swal.fire('Usuario creado con exito');
+        } else {
+          Swal.fire(response.message || 'Error al crear el usuario');
+        }
+      }
+  });
   }
 
 }

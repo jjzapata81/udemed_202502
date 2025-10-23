@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
-import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
+import { LoginRespose, LoginServiceResponse, SignUpResponse, SignUpServiceResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { JwtService } from './jwt-service';
 
 @Injectable({
@@ -32,11 +32,22 @@ export class Auth {
         return [{ success: false, message: 'Usuario o contraseña incorrectos' }];
       })
     );
-
   }
 
+  signUp(user: User): Observable<SignUpResponse> {
+    return this.http.post<SignUpServiceResponse>('http://localhost:3000/api/v1/user', user).pipe(
+      map(() => {
+        return { success: true, redirectTo: 'home' } as SignUpResponse;
+      }),
+      catchError((error) => {
+        console.error('Error al crear el usuario:', error);
+        return of({ success: false, message: 'Error al crear el usuario' } as SignUpResponse);
+      })
+    );
+  }
 
-  signUp(user: User): SignUpResponse {
+  
+  /*signUp(user: User): SignUpResponse {
 
     //this.http.post('http://localhost:3000/api/v1/user', user)
 
@@ -48,7 +59,7 @@ export class Auth {
     sessionStorage.setItem('userLogged', user.username);
     this.verifyLoggedUser();
     return { success: true, redirectTo: 'home' };
-  }
+  }*/
 
   logout() {
     sessionStorage.clear();

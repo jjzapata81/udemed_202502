@@ -14,4 +14,5 @@ export class AuthController {
     }
     throw new BadRequestException('username y password son obligatorios');
   }
+  
 }
