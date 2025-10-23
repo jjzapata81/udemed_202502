@@ -44,10 +44,9 @@ export class SignUp {
         if (response.success) {
           this.router.navigate([response.redirectTo]);
           alert('Usuario creado con exito');
+        } else {
+          alert(response.message);
         }
-      },
-      error: (err) => {
-        alert(err.message);
       },
     });
 

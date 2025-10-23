@@ -37,7 +37,9 @@ export class Auth {
 
   signUp(user: User): Observable<SignUpResponse> {
     return this.http.post<any>('http://localhost:3000/api/v1/user', user).pipe(
-      map(() => {
+      map((response) => {
+        sessionStorage.setItem('token', response.token);
+        this.verifyLoggedUser();
         return { success: true, redirectTo: 'home' } as SignUpResponse;
       }),
       catchError((error) => {
