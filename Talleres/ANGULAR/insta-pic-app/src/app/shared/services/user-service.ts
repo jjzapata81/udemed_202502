@@ -3,6 +3,7 @@ import { User } from '../interfaces/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtService } from './jwt-service';
 import { catchError, map } from 'rxjs';
+import { GalleryApiResponse, GalleryItem } from '../interfaces/gallery-response';
 
 @Injectable({
   providedIn: 'root',
@@ -27,11 +28,28 @@ export class UserService {
   }
 
   getGallery(userId: string) {
-    let galleryStr = localStorage.getItem(`${userId}_gallery`);
-    if (galleryStr) {
-      return JSON.parse(galleryStr);
-    }
-    return [];
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.jwtService.getToken()}` });
+    return this.http
+      .get<GalleryApiResponse[]>(`http://localhost:3000/api/v1/gallery/${userId}`, { headers })
+      .pipe(
+        map((images) => {
+          return images.map((image): GalleryItem => {
+            return {
+              id: image.id,
+              url: image.url,
+              comments: image.comments,
+            };
+          });
+        }),
+        catchError((error) => {
+          throw new Error(error.message);
+        })
+      );
+    // let galleryStr = localStorage.getItem(`${userId}_gallery`);
+    // if (galleryStr) {
+    //   return JSON.parse(galleryStr);
+    // }
+    // return [];
   }
 
   findAll() {
