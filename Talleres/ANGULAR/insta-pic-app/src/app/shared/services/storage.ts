@@ -4,7 +4,6 @@ import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment';
 import { v4 as uuidv4 } from 'uuid';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -36,6 +35,5 @@ export class Storage {
   getUrl(fullPath:string){
     return `${SUPABASE_URL}/storage/v1/object/public/${fullPath}`
   }
-
 
 }

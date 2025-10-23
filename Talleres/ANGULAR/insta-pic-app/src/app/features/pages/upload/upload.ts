@@ -23,8 +23,23 @@ export class Upload {
     if (!inputTarget.files || inputTarget.files.length <= 0) {
       return;
     }
-    const imageFile = inputTarget.files[0];
-    const user = this.authService.getUserLogged();
+    let imageFile = inputTarget.files[0];
+    let user = this.authService.getUserLogged();
+    this.storageService.uploadPicture(imageFile, JSON.stringify(user));
+      subscribe(response=>{
+        if (response.success) {
+            this.storageService.uploadPicture(imageFile, user.username)
+            const imageUrl = this.storageService.getUrl(response);
+            this.userService.saveImage(user.id!, imageUrl);
+            this.router.navigate(['home'])
+            return;
+        }
+        Swal.fire({
+            text: 'Error al cargar la imagen',
+            icon: 'error'
+        });
+
+      });
     /*Swal.fire({
       title: 'Cargando...',
       text: 'Por favor espera',
@@ -32,7 +47,7 @@ export class Upload {
       didOpen: () => {
         Swal.showLoading();
       }
-    });*/
+    });
     this.storageService.uploadPicture(imageFile, user.username)
       .then(fullPath => {
         const imageUrl = this.storageService.getUrl(fullPath);
@@ -46,7 +61,12 @@ export class Upload {
         })
       });
     this.router.navigate(['home'])
-    //Swal.close();
+    Swal.close();*/
   }
+  
 
 }
+function subscribe(arg0: (response: any) => void) {
+  throw new Error('Function not implemented.');
+}
+

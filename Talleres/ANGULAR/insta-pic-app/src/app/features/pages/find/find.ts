@@ -19,7 +19,7 @@ export class Find implements OnInit{
   usersFiltered = signal<UserResponse[]>([]);
 
   ngOnInit(): void {
-    this.userService.findAll()
+    this.userService.findAll();
       /*.subscribe(response => {
         this.users = response;
         this.usersFiltered.set(response);

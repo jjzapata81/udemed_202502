@@ -46,3 +46,7 @@ export class UserService {
   }
   
 }
+function subscribe(arg0: (response: any) => void) {
+  throw new Error('Function not implemented.');
+}
+
