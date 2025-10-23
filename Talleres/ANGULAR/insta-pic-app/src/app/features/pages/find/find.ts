@@ -7,10 +7,9 @@ import { UserResponse } from '../../../shared/interfaces/user-response';
   selector: 'app-find',
   imports: [],
   templateUrl: './find.html',
-  styleUrl: './find.css'
+  styleUrl: './find.css',
 })
-export class Find implements OnInit{
-
+export class Find implements OnInit {
   userService = inject(UserService);
   router = inject(Router);
 
@@ -19,8 +18,11 @@ export class Find implements OnInit{
   usersFiltered = signal<UserResponse[]>([]);
 
   ngOnInit(): void {
-    this.userService.findAll()
-      /*.subscribe(response => {
+    this.userService.findAll().subscribe((response) => {
+      this.users = response;
+      // this.usersFiltered.set(response);
+    });
+    /*.subscribe(response => {
         this.users = response;
         this.usersFiltered.set(response);
       })*/
@@ -38,14 +40,16 @@ export class Find implements OnInit{
     let input = event.target as HTMLInputElement;
     if (input.value) {
       const term = input.value.toLowerCase();
-      this.usersFiltered.set(this.users.filter(user =>
-        user.name.toLowerCase().includes(term) ||
-        user.email.toLowerCase().includes(term) ||
-        user.username.toLowerCase().includes(term)
-      ));
-    }else{
+      this.usersFiltered.set(
+        this.users.filter(
+          (user) =>
+            user.name.toLowerCase().includes(term) ||
+            user.email.toLowerCase().includes(term) ||
+            user.username.toLowerCase().includes(term)
+        )
+      );
+    } else {
       this.usersFiltered.set(this.users);
     }
   }
-
 }

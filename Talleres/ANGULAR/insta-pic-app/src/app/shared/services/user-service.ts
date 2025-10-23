@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../interfaces/user';
+import { User, UserApiResponse } from '../interfaces/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtService } from './jwt-service';
-import { catchError, map } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 import { GalleryApiResponse, GalleryItem } from '../interfaces/gallery-response';
 
 @Injectable({
@@ -52,8 +52,21 @@ export class UserService {
     // return [];
   }
 
-  findAll() {
+  findAll(): Observable<User[]> {
     //throw new Error('Method not implemented.');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.jwtService.getToken()}` });
+    return this.http.get<UserApiResponse[]>('localhost:3000/api/v1/user', { headers }).pipe(
+      map((users) => {
+        return users.map((user) => {
+          return {
+            id: user.id,
+            username: user.username,
+            name: user.username,
+            email: user.email,
+          };
+        });
+      })
+    );
   }
 
   update(userId: string, user: Partial<User>) {}
