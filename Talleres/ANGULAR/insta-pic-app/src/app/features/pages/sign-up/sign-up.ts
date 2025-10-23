@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../shared/services/auth';
 import { User } from '../../../shared/interfaces/user';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sign-up',
@@ -25,7 +26,7 @@ export class SignUp {
   validators = [Validators.required, Validators.minLength(4)];
 
   signUpForm = this.fb.group({
-    username:['jjzapata', [Validators.required]],
+    username:['', [Validators.required]],
     email:['', [Validators.required]],
     password:['', this.validators],
     rePassword:['',  this.validators],
@@ -44,9 +45,22 @@ export class SignUp {
     signUpResponse.subscribe({
       next: (response) => {
         if (response.success) {
+          swal.fire({
+            title: 'Éxito',
+            text: 'Usuario creado con éxito',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          });
           this.router.navigate([response.redirectTo]);
-          alert('Usuario creado con exito');
         }
+        else {{
+          swal.fire({
+            title: 'Error',
+            text: 'Usuario ya existe, intente con otro',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          });
+        }}
       },
       error: (err) => {
         alert(err.message);
