@@ -20,7 +20,7 @@ export class Home implements OnInit{
   ngOnInit(): void {
 
     const gallery = this.userService.getGallery(this.user.id);
-    this.galleryItems.set(gallery);
+    console.log('deberia imprimir',gallery)
 
   }
 

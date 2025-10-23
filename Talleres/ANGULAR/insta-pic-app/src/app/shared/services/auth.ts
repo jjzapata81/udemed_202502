@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
 import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { JwtService } from './jwt-service';
 
 @Injectable({
@@ -35,20 +35,28 @@ export class Auth {
 
   }
 
+signUp(user: User): Observable<any> {
+  return this.http.post<any>('http://localhost:3000/api/v1/user', user).pipe(
+    map(response => {
+      sessionStorage.setItem('token', response.token);
+      return { success: response.success, redirectTo: '/login' };
+    }),
+    catchError((error) => {
+      throw new Error(error.error.message || 'Error al registrar el usuario');
+    })
+  );
+}
 
-  signUp(user: User): SignUpResponse {
 
-    //this.http.post('http://localhost:3000/api/v1/user', user)
-
-    let userStr = localStorage.getItem(user.username!);
+    /*let userStr = localStorage.getItem(user.username!);
     if (userStr) {
       return { success: false, message: 'Ya existe el Usuario' };
     }
     localStorage.setItem(user.username!, JSON.stringify(user));
     sessionStorage.setItem('userLogged', user.username);
     this.verifyLoggedUser();
-    return { success: true, redirectTo: 'home' };
-  }
+    return { success: true, redirectTo: 'home' };*/
+  
 
   logout() {
     sessionStorage.clear();

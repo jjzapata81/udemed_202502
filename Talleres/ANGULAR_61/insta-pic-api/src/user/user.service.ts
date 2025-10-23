@@ -60,5 +60,7 @@ export class UserService {
   update(id: string, updateUserDto: UpdateUserDto) {
     return this.userRep.update(id, updateUserDto);
   }
+  
+ 
 
 }

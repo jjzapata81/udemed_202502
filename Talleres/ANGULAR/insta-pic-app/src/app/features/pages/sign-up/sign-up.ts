@@ -39,16 +39,17 @@ export class SignUp {
     }
     let user = this.signUpForm.value as User;
 
-    let signUpResponse = this.authService.signUp(user);
-
-
-    if(!!signUpResponse.success){
-      this.router.navigate([signUpResponse.redirectTo]);
-      return;
-    }
-
-    alert(signUpResponse.message);
-
-  }
+    this.authService.signUp(user).subscribe({
+      next: (response) =>{
+      if(response.success){
+        this.router.navigate([response.redirectTo]);
+        return;}
+      },
+      error: (error) => {
+        alert(error.message);
+      }
+    })
+  ;
+}
 
 }

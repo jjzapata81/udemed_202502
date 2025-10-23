@@ -1,11 +1,15 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
 import { v4 as uuidv4 } from 'uuid';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  http = inject(HttpClient);
 
   saveImage(userId:string, url:string){
 
@@ -29,11 +33,16 @@ export class UserService {
   }
 
   getGallery(userId:string){
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
+    return this.http.get<any>(`http://localhost:3000/api/v1/gallery/${userId}`,{headers}).pipe(
+    );
+    /*
     let galleryStr = localStorage.getItem(`${userId}_gallery`);
     if(galleryStr){
       return JSON.parse(galleryStr);
     }
-    return [];
+    return [];*/
 
   }
 
@@ -44,5 +53,19 @@ export class UserService {
   update(userId:string, user:Partial<User>) {
 
   }
-  
+
+  uploadImage( userId:string , url: string){
+    const token = sessionStorage.getItem('token');
+    console.log(token)
+    const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
+    return this.http.post(`http://localhost:3000/api/v1/gallery/add`, { userId, url },{headers}).pipe(
+      map(response => {
+      console.log(response)
+      return response
+    }),
+    catchError(error=>{
+      throw new Error('Se lanza un error')
+    }
+    ));
+  }
 }
