@@ -16,34 +16,38 @@ export class Auth {
   isLoged = signal(false);
 
   constructor() {
-    this.verifyLoggedUser();
+    this.verifyLoggedUser();  // Verifica el estado de autenticación al crear la instancia
   }
 
-  login(user: User): Observable<LoginRespose> {
-    return this.http.post<LoginServiceResponse>('http://localhost:3000/api/v1/auth/login', user).pipe(
-      map((response) => {
-        sessionStorage.setItem('token', response.token);
-        this.verifyLoggedUser();
+  login(user: User): Observable<LoginRespose> { //espera un observable de LoginRespose
+    return this.http.post<LoginServiceResponse>('http://localhost:3000/api/v1/auth/login', user).pipe( // Realiza la petición POST al endpoint de login
+      map((response) => { // Mapea la respuesta del servidor
+        sessionStorage.setItem('token', response.token); // Guarda el token en sessionStorage si la respuesta es OK
+        this.verifyLoggedUser();  // Actualiza el estado de autenticación
         return {
-          success: response.success
+          success: response.success // Retorna un objeto LoginRespose indicando éxito
         };
       }),
-      catchError((error) => {
-        return [{ success: false, message: 'Usuario o contraseña incorrectos' }];
+      catchError((error) => { // Maneja errores en la petición
+        return of({ success: false, message: 'Usuario o contraseña incorrectos' }); // Retorna un objeto LoginRespose indicando fallo
       })
     );
 
   }
 
 
-  signUp(user: User): Observable<SignUpResponse> {
-    return this.http.post<any>('http://localhost:3000/api/v1/user', user).pipe(
-      map(() => {
-        return { success: true, redirectTo: 'home' } as SignUpResponse;
+  signUp(user: User): Observable<SignUpResponse> { // Espera un observable de SignUpResponse
+    return this.http.post<any>('http://localhost:3000/api/v1/user', user).pipe( // Realiza la petición POST al endpoint de creación de usuario
+      map((response) => { // Mapea la respuesta del servidor
+        if (response.token) {  // Si hay un token en la respuesta
+          sessionStorage.setItem('token', response.token); // Guarda el token en sessionStorage
+          this.verifyLoggedUser(); // Actualiza el estado de autenticación
+        }
+        return { success: response.success, redirectTo: response.success ? 'home' : undefined } as SignUpResponse; // Retorna un objeto SignUpResponse
       }),
-      catchError((error) => {
-        console.error('Error al crear el usuario:', error);
-        return of({ success: false, message: 'Error al crear el usuario' } as SignUpResponse);
+      catchError((error) => { // Maneja errores en la petición
+        console.error('Error al crear el usuario:', error); // Loguea el error para depuración
+        return of({ success: false, message: 'Error al crear el usuario' } as SignUpResponse); // Retorna un objeto SignUpResponse indicando fallo
       })
     );
   }

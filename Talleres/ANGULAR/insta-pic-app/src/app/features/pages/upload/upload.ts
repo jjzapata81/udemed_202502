@@ -36,7 +36,20 @@ export class Upload {
     this.storageService.uploadPicture(imageFile, user.username)
       .then(fullPath => {
         const imageUrl = this.storageService.getUrl(fullPath);
-        this.userService.saveImage(user.id!, imageUrl);
+        // ahora saveImage devuelve Observable
+        this.userService.saveImage(String(user.id), imageUrl).subscribe({
+          next: (res) => {
+            if (res.success) {
+              Swal.fire({ text: 'Imagen subida correctamente', icon: 'success' });
+              this.router.navigate(['home']);
+            } else {
+              Swal.fire({ text: res.message ?? 'Error al guardar la imagen', icon: 'error' });
+            }
+          },
+          error: () => {
+            Swal.fire({ text: 'Error al guardar la imagen', icon: 'error' });
+          }
+        });
       })
       .catch(error => {
         console.log(error);
@@ -45,7 +58,6 @@ export class Upload {
           icon: 'error'
         })
       });
-    this.router.navigate(['home'])
     //Swal.close();
   }
 

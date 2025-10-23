@@ -33,24 +33,24 @@ export class SignUp {
 
 
   onSignUp(){
-    if(!this.signUpForm.valid){
+    if(!this.signUpForm.valid){ // Verifica si el formulario es válido
       alert('Faltan campos por diligenciar');
       return;
     }
-    let user = this.signUpForm.value as User;
+    let user = this.signUpForm.value as User; // Convierte el valor del formulario en un objeto User
 
-    let signUpResponse = this.authService.signUp(user);
-
-    signUpResponse.subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.router.navigate([response.redirectTo]);
-          alert('Usuario creado con exito');
+    this.authService.signUp(user).subscribe({ // Suscribe al observable devuelto por el servicio de autenticación
+      next: (response) => { // Maneja la respuesta exitosa
+        if (response.success) { // Si la respuesta es exitosa
+          this.router.navigate([response.redirectTo || 'home']); // Navega a la ruta indicada o a 'home' por defecto
+        } else {
+          alert(response.message || 'No se pudo crear el usuario'); // Muestra un mensaje de error si la creación del usuario falla
         }
       },
-      error: (err) => {
-        alert(err.message);
-      },
+      error: (err) => { // Maneja errores en la petición
+        console.error('Error en signUp:', err); // Loguea el error para depuración
+        alert(err?.message || 'Error inesperado al crear el usuario'); // Muestra un mensaje de error genérico
+      }
     });
   }
 
