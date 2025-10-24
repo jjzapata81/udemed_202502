@@ -25,7 +25,7 @@ export class Profile implements OnInit{
 
   profileForm = this.fb.group({
     name: ['', [Validators.minLength(6)]],
-    email: ['', [Validators.email]]
+    email: ['', []]
   })
 
   ngOnInit(): void {
@@ -37,9 +37,9 @@ export class Profile implements OnInit{
       this.user.name = name || this.user.name;
       this.user.email = email || this.user.email;
       this.userService.update(this.user.id, {name:name!, email:email!})
-        /*.subscribe(response=>{
+        .subscribe(response=>{
           this.router.navigateByUrl('home');
-        });*/
+        });
     }
 
   }
@@ -58,10 +58,15 @@ export class Profile implements OnInit{
           Swal.showLoading();
         }
       });*/
+      console.log('Subiendo')
       this.storageService.uploadAvatar(imageFile, this.user.username)
         .then(fullPath=>{
           const imageUrl = this.storageService.getUrl(fullPath);
-          this.userService.update(this.user.id, {url:imageUrl});
+          this.userService.update(this.user.id, {url:imageUrl}).subscribe(
+            response=>{
+              this.router.navigateByUrl('home');
+            }
+          );
         })
         .catch(error=>{
           console.log(error);

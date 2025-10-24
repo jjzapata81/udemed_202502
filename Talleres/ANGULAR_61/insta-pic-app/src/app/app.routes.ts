@@ -23,6 +23,11 @@ export const routes: Routes = [
         canActivate:[authGuard]
     },
     {
+        path:"home/:username",
+        component:Home,
+        canActivate:[authGuard]
+    },
+    {
         path:"upload",
         component:Upload,
         canActivate:[authGuard]
@@ -30,6 +35,11 @@ export const routes: Routes = [
     {
         path:"find",
         component:Find,
+        canActivate:[authGuard]
+    },
+    {
+        path:"chat/:id",
+        component:Chat,
         canActivate:[authGuard]
     },
     {

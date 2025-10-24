@@ -3,7 +3,7 @@
   <div id="profile-photo">
     <img src="assets/default-profile.jpg" alt="Foto de perfil" />
     <label for="photo-upload" class="upload-btn">Cambiar foto</label>
-    <input type="file" id="photo-upload" accept="image/*" hidden />
+    <input type="file" id="photo-upload"  (change)="onUploadFile($event)" hidden />
   </div>
 
   <div >

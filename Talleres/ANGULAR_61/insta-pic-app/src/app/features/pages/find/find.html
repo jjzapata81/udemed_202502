@@ -4,7 +4,7 @@
   <input
     type="text"
     placeholder="Buscar por nombre, email o usuario..."
-    (keydown)="onFilter($event)"
+    (keyup)="onFilter($event)"
   />
 
   <div class="user-list">
@@ -17,7 +17,7 @@
       </div>
 
       <div class="user-actions">
-        <a (click)="onFind(item.username)" title="Ver perfil">
+        <a (click)="onFind(item.id)" title="Ver perfil">
           <i class="fa-regular fa-user"></i>
         </a>
         <a (click)="onChat(item.id)" title="Chatear">
