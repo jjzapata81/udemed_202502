@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../interfaces/user';
-import { LoginRespose, LoginServiceResponse, SignUpResponse } from '../interfaces/login-response';
+import { User, CreateUserRequest } from '../interfaces/user';
+import { LoginRespose, LoginServiceResponse, SignUpResponse, CreateUserResponse } from '../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -46,16 +46,43 @@ export class Auth {
     }
 
 
-    onSignUp(user: User): SignUpResponse {
+    onSignUp(user: User): Observable<SignUpResponse> {
+        const createUserRequest: CreateUserRequest = {
+            username: user.username,
+            password: user.password,
+            email: user.email,
+            name: user.name
+        };
 
-        let userStr = localStorage.getItem(user.username!);
-        if (userStr) {
-            return { success: false, message: 'Ya existe el Usuario' };
-        }
-        localStorage.setItem(user.username!, JSON.stringify(user));
-        sessionStorage.setItem('userLogged', user.username);
-        this.verifyLoggedUser();
-        return { success: true, redirectTo: 'home' };
+        return this.http.post<CreateUserResponse>('http://localhost:3000/api/v1/user', createUserRequest)
+            .pipe(
+                map((response) => {
+                    if (response.success && response.token) {
+                        // Save token in sessionStorage
+                        sessionStorage.setItem('token', response.token);
+                        sessionStorage.setItem('userLogged', user.username);
+                        this.verifyLoggedUser();
+                        return { success: true, redirectTo: 'home' };
+                    }
+                    return { success: false, message: response.message || 'Error al crear el usuario' };
+                }),
+                catchError((error) => {
+                    console.error('Error creating user:', error);
+                    let errorMessage = 'Error al crear el usuario';
+                    
+                    if (error.error?.message) {
+                        errorMessage = error.error.message;
+                    } else if (error.status === 400) {
+                        errorMessage = 'Datos de usuario inválidos';
+                    } else if (error.status === 409) {
+                        errorMessage = 'El usuario ya existe';
+                    } else if (error.status === 500) {
+                        errorMessage = 'Error interno del servidor';
+                    }
+                    
+                    return of({ success: false, message: errorMessage });
+                })
+            );
     }
 
     logout() {

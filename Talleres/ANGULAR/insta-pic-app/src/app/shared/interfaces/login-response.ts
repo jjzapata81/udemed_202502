@@ -10,4 +10,11 @@ export interface SignUpResponse extends LoginResponse{
 export interface LoginServiceResponse{
     success:boolean;
     token:string;
+    userId?:string;
+}
+
+export interface CreateUserResponse{
+    success:boolean;
+    token?:string;
+    message?:string;
 }

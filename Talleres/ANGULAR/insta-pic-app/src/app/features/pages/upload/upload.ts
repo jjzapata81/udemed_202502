@@ -27,20 +27,70 @@ export class Upload {
     }
 
     const imageFile = inputFile.files[0];
-    const username = this.authService.getUserLogged().username;
+    const userLogged = this.authService.getUserLogged();
+    const username = userLogged.username;
+    const userId = userLogged.userId;
+
+    if (!userId) {
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo obtener el ID del usuario',
+        icon: 'error'
+      });
+      return;
+    }
+
+    // Show loading
+    Swal.fire({
+      title: 'Subiendo imagen...',
+      text: 'Por favor espera',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     this.storageService.uploadFile(imageFile, username)
       .then(response => {
         if (response && response.data) {
           const url = this.storageService.getImageUrl(response.data.fullPath);
-          this.userService.saveImage(username, url);
-        } else if (response) {
-          Swal.fire('Error!!')
+          
+          // Call the API to save the image
+          this.userService.saveImage(userId, url).subscribe({
+            next: (apiResponse) => {
+              Swal.fire({
+                title: '¡Éxito!',
+                text: 'Imagen subida correctamente',
+                icon: 'success'
+              }).then(() => {
+                this.router.navigate(['home']);
+              });
+            },
+            error: (error) => {
+              console.error('Error saving image to API:', error);
+              Swal.fire({
+                title: 'Error',
+                text: error.message || 'Error al guardar la imagen en el servidor',
+                icon: 'error'
+              });
+            }
+          });
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Error al subir la imagen al almacenamiento',
+            icon: 'error'
+          });
         }
-      }
-      );
-    this.router.navigate(['home'])
-
-
+      })
+      .catch(error => {
+        console.error('Error uploading file:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'Error al subir la imagen',
+          icon: 'error'
+        });
+      });
   }
 
 }

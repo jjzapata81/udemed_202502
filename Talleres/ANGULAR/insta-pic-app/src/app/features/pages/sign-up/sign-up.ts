@@ -39,16 +39,19 @@ export class SignUp {
     }
     let user = this.signUpForm.value as User;
 
-    let signUpResponse = this.authService.signUp(user);
-
-
-    if(!!signUpResponse.success){
-      this.router.navigate([signUpResponse.redirectTo]);
-      return;
-    }
-
-    alert(signUpResponse.message);
-
+    this.authService.signUp(user).subscribe({
+      next: (signUpResponse) => {
+        if(!!signUpResponse.success){
+          this.router.navigate([signUpResponse.redirectTo!]);
+          return;
+        }
+        alert(signUpResponse.message);
+      },
+      error: (error) => {
+        console.error('Error in sign up:', error);
+        alert('Error al procesar el registro. Inténtalo de nuevo.');
+      }
+    });
   }
 
 }

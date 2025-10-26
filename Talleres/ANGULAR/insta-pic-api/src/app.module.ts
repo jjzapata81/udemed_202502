@@ -9,23 +9,23 @@ import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
-    AuthModule, 
+    AuthModule,
     UserModule,
     ImageModule,
     ConfigModule.forRoot({
-              isGlobal: true, // Lo hace global
-            }),
-      TypeOrmModule.forRoot({
+      isGlobal: true, // Hace que las variables de entorno estén disponibles en todo el proyecto
+    }),
+    TypeOrmModule.forRoot({
       type: 'postgres',
-      host:process.env.DBSB_HOST,
-      port: +process.env.DBSB_PORT!,
-      username: process.env.DBSB_USER,
-      password: process.env.DBSB_PASSWORD,
-      database: process.env.DBSB_DATABASE,
-      autoLoadEntities:true,
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT!,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      autoLoadEntities: true,
       synchronize: true,
-      ssl:false
-    })
+      ssl: false,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

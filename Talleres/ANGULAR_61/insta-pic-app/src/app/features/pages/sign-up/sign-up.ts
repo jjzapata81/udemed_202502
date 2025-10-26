@@ -40,17 +40,27 @@ export class SignUp {
         }
         let user = this.signUpForm.value as User;
 
-        let response = this.authService.onSignUp(user);
-
-        if (!response.success) {
-            Swal.fire({
-                title: "Ops!",
-                text: response.message,
-                icon: "error"
-            });
-            return;
-        }
-        this.router.navigate([response.redirectTo]);
+        this.authService.onSignUp(user).subscribe({
+            next: (response) => {
+                if (!response.success) {
+                    Swal.fire({
+                        title: "Ops!",
+                        text: response.message,
+                        icon: "error"
+                    });
+                    return;
+                }
+                this.router.navigate([response.redirectTo!]);
+            },
+            error: (error) => {
+                console.error('Error in sign up:', error);
+                Swal.fire({
+                    title: "Error!",
+                    text: "Error al procesar el registro. Inténtalo de nuevo.",
+                    icon: "error"
+                });
+            }
+        });
     }
 
 }
