@@ -1,7 +1,7 @@
 <section id="profile">
   <div>
-    <img src="/assets/batman_avatar.webp" />
-    <span id="userName">{{user.username}}</span>
+    <img [src]="user.url" />
+    <span id="userName">{{user.name||user.username}}</span>
   </div>
   <div>
     <span>
@@ -23,7 +23,7 @@
   @if(galleryItems().length>0){
 
     @for(image of galleryItems(); track image){
-      <img [src]="image.url"/>
+      <app-image [gallery-item]="image" (addComment)="onSendComment($event)"/>
     } 
   }@else{
     <span>Aún no has cargado imágenes</span>

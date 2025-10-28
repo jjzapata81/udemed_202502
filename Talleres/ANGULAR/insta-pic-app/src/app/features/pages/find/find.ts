@@ -20,10 +20,10 @@ export class Find implements OnInit{
 
   ngOnInit(): void {
     this.userService.findAll()
-      /*.subscribe(response => {
+      .subscribe(response => {
         this.users = response;
         this.usersFiltered.set(response);
-      })*/
+      })
   }
 
   onFind(username: string) {
@@ -39,13 +39,18 @@ export class Find implements OnInit{
     if (input.value) {
       const term = input.value.toLowerCase();
       this.usersFiltered.set(this.users.filter(user =>
-        user.name.toLowerCase().includes(term) ||
-        user.email.toLowerCase().includes(term) ||
-        user.username.toLowerCase().includes(term)
+        this.validateTerm(user.name, term) ||
+        this.validateTerm(user.email, term) ||
+        this.validateTerm(user.username, term)
       ));
     }else{
       this.usersFiltered.set(this.users);
     }
+  }
+
+  private validateTerm(value:string, term:string){
+    if(!value) return false;
+    return value.toLowerCase().includes(term)
   }
 
 }

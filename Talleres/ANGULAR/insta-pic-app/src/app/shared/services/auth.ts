@@ -36,18 +36,20 @@ export class Auth {
   }
 
 
-  signUp(user: User): SignUpResponse {
-
-    //this.http.post('http://localhost:3000/api/v1/user', user)
-
-    let userStr = localStorage.getItem(user.username!);
-    if (userStr) {
-      return { success: false, message: 'Ya existe el Usuario' };
-    }
-    localStorage.setItem(user.username!, JSON.stringify(user));
-    sessionStorage.setItem('userLogged', user.username);
-    this.verifyLoggedUser();
-    return { success: true, redirectTo: 'home' };
+  signUp(user: User): Observable<SignUpResponse> {
+     return this.http.post<LoginServiceResponse>('http://localhost:3000/api/v1/user', user).pipe(
+      map(response => {
+        sessionStorage.setItem('token', response.token);
+        this.verifyLoggedUser();
+        return {
+          success: response.success,
+          redirectTo: 'home'
+        }
+      }),
+      catchError(() => {
+        return [{ success: false, message: 'Ya existe el Usuario' }];
+      })
+     );
   }
 
   logout() {

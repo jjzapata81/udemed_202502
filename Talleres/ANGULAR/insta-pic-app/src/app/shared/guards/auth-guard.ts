@@ -13,6 +13,5 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
   const user = authService.getUserLogged();
-  console.log(user);
   return true;
 };

@@ -37,9 +37,9 @@ export class Profile implements OnInit{
       this.user.name = name || this.user.name;
       this.user.email = email || this.user.email;
       this.userService.update(this.user.id, {name:name!, email:email!})
-        /*.subscribe(response=>{
+        .subscribe(response=>{
           this.router.navigateByUrl('home');
-        });*/
+        });
     }
 
   }
@@ -50,27 +50,31 @@ export class Profile implements OnInit{
         return;
       }
       const imageFile = inputTarget.files[0];
-      /*Swal.fire({
+      Swal.fire({
         title: 'Cargando...',
         text: 'Por favor espera',
         allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
         }
-      });*/
+      });
       this.storageService.uploadAvatar(imageFile, this.user.username)
         .then(fullPath=>{
           const imageUrl = this.storageService.getUrl(fullPath);
-          this.userService.update(this.user.id, {url:imageUrl});
+          this.userService.update(this.user.id, {url:imageUrl}).subscribe(()=>{
+            Swal.close();
+            this.router.navigateByUrl('home');
+          });
         })
         .catch(error=>{
+          Swal.close();
           console.log(error);
           Swal.fire({
             text:'Error al cargar la imagen',
             icon:'error'
           })
         });
-      //Swal.close();
+      
     }
 
 }
