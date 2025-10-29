@@ -4,7 +4,8 @@ import { UserService } from '../../../shared/services/user-service';
 import { JwtService } from '../../../shared/services/jwt-service';
 import { ChatService } from '../../../shared/services/chat-service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { JwtPayload } from '../../../shared/interfaces/jwt-payload';
+import { Auth } from '../../../shared/services/auth';
+import { UserResponse } from '../../../shared/interfaces/user-response';
 
 @Component({
   selector: 'app-chat',
@@ -14,10 +15,11 @@ import { JwtPayload } from '../../../shared/interfaces/jwt-payload';
 })
 export class Chat implements OnInit{
 
-   chatService = inject(ChatService);
+  chatService = inject(ChatService);
   jwtService = inject(JwtService);
   activatedRoute = inject(ActivatedRoute);
   userService = inject(UserService);
+  authService = inject(Auth);
 
   router = inject(Router);
 
@@ -28,23 +30,23 @@ export class Chat implements OnInit{
   })
 
 
-  user: JwtPayload | null = null;
-  userTo!:any;
-  //userTo!: UserResponse;
+  user = this.authService.getUserLogged();
+  userTo!: UserResponse;
 
   ngOnInit(): void {
-   /* this.user = this.tokenService.decodeToken();
+
+
     this.activatedRoute.paramMap.subscribe(param=>{
-      const userId = param.get('userId');
-      if(userId && this.user){
+      const userId = param.get('id');
+      if(userId){
         this.userService.findById(userId).subscribe(response=>{
           this.userTo = response;
-          this.chatService.fetchMessages(this.user!.id, this.userTo.id);
+          this.chatService.fetchMessages(this.user.id, this.userTo.id);
         })
       }else{
         this.router.navigateByUrl('');
       }
-    })*/
+    })
   }
 
 

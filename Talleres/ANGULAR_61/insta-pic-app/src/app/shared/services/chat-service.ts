@@ -11,22 +11,22 @@ export class ChatService {
   private currentChannel: any = null;
 
   constructor() {
-   this.listenToMessages();
+   this.listenToMessages((payload) => {
+    this.messages.update((prev) => [...prev, payload.new]);
+  });
   }
 
   async sendMessage(senderId: string, receiverId: string, content: string) {
     await supabase.from('messages').insert([{ sender_id: senderId, receiver_id: receiverId, content }]);
   }
 
-  listenToMessages() {
+  listenToMessages(callback: (payload: any) => void) {
     supabase
       .channel('messages')
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'messages' },
-        (payload) => {
-          this.messages.update((prev) => [...prev, payload.new]);
-        }
+        callback
       )
       .subscribe();
   }
@@ -73,4 +73,5 @@ export class ChatService {
         }
       });
   }*/
+
 }
