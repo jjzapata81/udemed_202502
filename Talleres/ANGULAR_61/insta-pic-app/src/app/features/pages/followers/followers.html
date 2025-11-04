@@ -1,0 +1,33 @@
+<section class="container">
+  <h2>Seguidores</h2>
+
+  <input
+    type="text"
+    placeholder="Buscar por nombre, email o usuario..."
+    (keyup)="onFilter($event)"
+  />
+
+  <div class="user-list">
+    @for (item of followersFiltered(); track item) {
+    <div class="user-entry">
+      <div class="user-avatar"><img [src]="item.url"/></div>
+      <div class="user-card">
+        <h3>{{ item.name }}</h3>
+        <p><strong>Email:</strong> {{ item.email }}</p>
+        <p><strong>Nombre de usuario:</strong> {{ item.username }}</p>
+      </div>
+
+      <div class="user-actions">
+        <a (click)="onFind(item.id)" title="Ver perfil">
+          <i class="fa-regular fa-user"></i>
+        </a>
+        <a (click)="onChat(item.id)" title="Chatear">
+          <i class="fa-regular fa-message"></i>
+        </a>
+      </div>
+    </div>
+    } @empty {
+      <span id="no-followers">Aún no tienes seguidores</span>
+    }
+  </div>
+</section>

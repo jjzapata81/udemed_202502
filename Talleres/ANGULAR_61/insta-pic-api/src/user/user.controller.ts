@@ -29,4 +29,9 @@ export class UserController {
     return this.userService.update(id, updateUserDto);
   }
 
+  @Get('find/followers')
+  getFollowers(){
+    return this.userService.getFollowers();
+  }
+
 }

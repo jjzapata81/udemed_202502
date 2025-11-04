@@ -11,7 +11,7 @@
   </div>
   <div>
     <span>{{followers}}</span>
-    <span>Seguidores</span>
+    <span class="followers" (click)="onGetFollowers()">Seguidores</span>
   </div>
   <div>
     <span>{{requests}}</span>
@@ -24,9 +24,9 @@
 
     @for(image of galleryItems(); track image){
       <img [src]="image.url"/>
-    } 
+    }
   }@else{
     <span>Aún no has cargado imágenes</span>
   }
-  
+
 </section>

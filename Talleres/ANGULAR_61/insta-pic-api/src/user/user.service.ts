@@ -61,4 +61,8 @@ export class UserService {
     return this.userRep.update(id, updateUserDto);
   }
 
+  getFollowers(){
+    return  this.userRep.getFollowers();
+  }
+
 }

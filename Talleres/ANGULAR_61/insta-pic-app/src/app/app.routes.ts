@@ -7,6 +7,7 @@ import { authGuard } from './shared/guards/auth-guard';
 import { Find } from './features/pages/find/find';
 import { Profile } from './features/pages/profile/profile';
 import { Chat } from './features/pages/chat/chat';
+import { Followers } from './features/pages/followers/followers';
 
 export const routes: Routes = [
     {
@@ -40,6 +41,11 @@ export const routes: Routes = [
     {
         path:"chat/:id",
         component:Chat,
+        canActivate:[authGuard]
+    },
+    {
+        path:"followers",
+        component:Followers,
         canActivate:[authGuard]
     },
     {

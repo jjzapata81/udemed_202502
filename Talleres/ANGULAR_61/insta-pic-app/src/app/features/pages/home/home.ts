@@ -29,7 +29,6 @@ export class Home implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.paramMap
       .subscribe(response => {
-        console.log(response)
         const username = response.get('username');
         const userSearch = username || this.authService.getUserLogged().id
         this.userService.findById(userSearch).subscribe(response => {
@@ -64,6 +63,10 @@ export class Home implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  onGetFollowers(){
+    this.router.navigate(['/followers']);
   }
 
   ngOnDestroy() {

@@ -4,6 +4,7 @@
 import { Injectable } from "@nestjs/common";
 import { User } from "../entities/user.entity";
 import { v4 as uuidv4 } from "uuid";
+import { FOLLOWERS } from "./user-data";
 
 @Injectable()
 export class UserReposotoryService {
@@ -42,6 +43,10 @@ export class UserReposotoryService {
     if (index === -1) return undefined;
     this.repo[index] = { ...this.repo[index], ...partialUser };
     return this.repo[index];
+  }
+
+  getFollowers(){
+    return FOLLOWERS;
   }
 
 }

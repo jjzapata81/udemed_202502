@@ -32,4 +32,8 @@ export class UserService {
   update(userId:string, user:Partial<User>) {
     return this.http.patch<User>(`http://localhost:3000/api/v1/user/${userId}`, user, getHeaders);
   }
+
+  getFollowers(userId:string){
+    return this.http.get<User[]>(`http://localhost:3000/api/v1/user/find/followers`, getHeaders);
+  }
 }
